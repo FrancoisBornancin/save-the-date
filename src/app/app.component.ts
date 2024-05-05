@@ -11,7 +11,7 @@ export class AppComponent {
   private owner = 'FrancoisBornancin'; // Remplacez par le propriétaire du référentiel
   private repo = 'save-the-date'; // Remplacez par le nom du référentiel
   private branch = 'own-develop'; // Remplacez par le nom de la branche
-  private accessToken = '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'
+  private accessToken = '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'
   private filePath: string = 'test.txt';
 
   constructor(private http: HttpClient){
