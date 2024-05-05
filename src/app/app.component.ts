@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'save-the-date';
+  title: string = 'save-the-date'
+  i: number = 0;
+
+  iList: number[] = [];
+
+  doStuff(i: number){
+    this.i += 1;
+    this.iList.push(i);
+    console.log("");
+  }
 }
