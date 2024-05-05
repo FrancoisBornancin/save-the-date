@@ -7,13 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title: string = 'save-the-date'
-  i: number = 0;
+  i!: number;
 
   iList: number[] = [];
 
   doStuff(i: number){
-    this.i += 1;
+    console.log("++++++++++++++++++++++++++")
+    this.i++;
     this.iList.push(i);
-    console.log("");
+    console.log("---------------------")
   }
 }
