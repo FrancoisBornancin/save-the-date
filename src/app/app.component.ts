@@ -11,7 +11,6 @@ export class AppComponent {
   private owner = 'FrancoisBornancin'; // Remplacez par le propriétaire du référentiel
   private repo = 'save-the-date'; // Remplacez par le nom du référentiel
   private branch = 'own-develop'; // Remplacez par le nom de la branche
-  private accessToken = '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'
   private filePath: string = 'test.txt';
 
   constructor(private http: HttpClient){
@@ -20,9 +19,11 @@ export class AppComponent {
 
   pushToGit() {
     const apiUrl = `${this.apiUrl}/repos/${this.owner}/${this.repo}/contents/${this.filePath}?ref=${this.branch}`;
-  
+
+
+    // !!!! Le token est supprimé après chaque Push !!!!
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.accessToken,
+      // 'Authorization': 'Bearer ' + environment.accessToken,
       'Content-Type': 'application/json',
     });
 
