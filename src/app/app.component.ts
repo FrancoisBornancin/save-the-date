@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent {
 
     // !!!! Le token est supprimé après chaque Push !!!!
     const headers = new HttpHeaders({
-      // 'Authorization': 'Bearer ' + environment.accessToken,
+      'Authorization': 'Bearer ' + environment.accessToken,
       'Content-Type': 'application/json',
     });
 
