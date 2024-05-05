@@ -25,6 +25,9 @@ export class AppComponent {
       'Authorization': 'Bearer ' + this.accessToken,
       'Content-Type': 'application/json',
     });
+
+    console.log("apiUrl: ", apiUrl)
+    console.log("headers: ", headers)
   
     // Récupérer le contenu et le SHA actuels du fichier
     this.http.get(apiUrl, { headers }).subscribe({
