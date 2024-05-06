@@ -38,14 +38,14 @@ export class GitManagerService {
     });
   }
 
-  push(filePath: string): Observable<any>{
-    this.finalApiUrl = this.getApiUrl(filePath);
-    const apiUrl: string = this.finalApiUrl;
-
-    this.finalHeaders = this.getHeaders();
-    const headers: HttpHeaders = this.finalHeaders;
-    
+  get(filePath: string): Observable<any>{
+    this.setRequiredData(filePath);
     return this.getData();
+  }
+
+  setRequiredData(filePath: string){
+    this.finalApiUrl = this.getApiUrl(filePath);
+    this.finalHeaders = this.getHeaders();
   }
 
   getApiUrl(filePath: string): string{

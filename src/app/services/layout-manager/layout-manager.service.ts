@@ -8,19 +8,33 @@ import { GitBody } from '../../model/git-body';
 })
 export class LayoutManagerService {
   filePath: string = 'layout.json';
-  color!: string;
+  color: string = 'blue';
 
   constructor(
     private gitManager: GitManagerService
   ) { }
 
-  setColor(color: string){
-    this.gitManager.push(this.filePath)
+  setColor(color: string): void{
+    this.gitManager.get(this.filePath)
       .subscribe({
         next: (response: any) => {
           const layoutData: LayoutData = this.gitManager.getResponseContent(response);
           layoutData.backgroundColor = color;
           this.gitManager.putData(this.gitManager.getGitBody(this.filePath, JSON.stringify(layoutData), response));
+        },
+        error: e => {
+          console.log(e);
+        },
+      });
+  }
+
+  getColor(){
+    console.log("");
+    this.gitManager.get(this.filePath)
+      .subscribe({
+        next: (response: any) => {
+          const layoutData: LayoutData = this.gitManager.getResponseContent(response);
+          this.color = layoutData.backgroundColor
         },
         error: e => {
           console.log(e);
