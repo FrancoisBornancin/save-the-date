@@ -1,0 +1,79 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { LayoutData } from '../../model/layout-data';
+import { GitBody } from '../../model/git-body';
+import { TokenManagerService } from '../token-manager/token-manager.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GitManagerService {
+  private apiUrl = 'https://api.github.com';
+  private owner = 'FrancoisBornancin'; // Remplacez par le propriétaire du référentiel
+  private repo = 'save-the-date'; // Remplacez par le nom du référentiel
+  branch = 'own-develop'; // Remplacez par le nom de la branche
+
+  private finalApiUrl!: string;
+  private finalHeaders!: HttpHeaders;
+
+  data: any;
+
+  constructor(
+    private http: HttpClient,
+    private tokenManager: TokenManagerService,
+  ){
+
+  }
+
+  putData(body: GitBody): void{
+    const headers: HttpHeaders = this.finalHeaders; 
+    this.http.put(this.finalApiUrl, body, { headers }).subscribe({
+      next: e => {
+        console.log(e);
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
+  }
+
+  push(filePath: string): Observable<any>{
+    this.finalApiUrl = this.getApiUrl(filePath);
+    const apiUrl: string = this.finalApiUrl;
+
+    this.finalHeaders = this.getHeaders();
+    const headers: HttpHeaders = this.finalHeaders;
+    
+    return this.getData();
+  }
+
+  getApiUrl(filePath: string): string{
+    return `${this.apiUrl}/repos/${this.owner}/${this.repo}/contents/${filePath}?ref=${this.branch}`;
+  }
+
+  getHeaders(): HttpHeaders{
+    return new HttpHeaders({
+      'Authorization': 'Bearer ' + this.tokenManager.decryptToken(),
+      'Content-Type': 'application/json',
+    });
+  }
+
+  getData(): Observable<any>{
+    const headers: HttpHeaders = this.finalHeaders;
+    return this.http.get(this.finalApiUrl, { headers }); 
+  }
+
+  getResponseContent(response: any): any{
+    return JSON.parse(atob(response.content)); 
+  }
+
+  getGitBody(filePath: string, stringData: string, response: any): GitBody{
+    return{
+      message: 'update ' + filePath,
+      content: btoa(stringData),
+      branch: this.branch,
+      sha: response.sha 
+    }
+  }
+}
