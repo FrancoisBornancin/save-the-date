@@ -70,12 +70,12 @@ export class GitManagerService {
     return JSON.parse(atob(response.content)); 
   }
 
-  getGitBody(filePath: string, stringData: string, response: any): GitBody{
+  getGitBody(filePath: string, stringData: string, stringSha: string): GitBody{
     return{
       message: 'update ' + filePath,
       content: btoa(stringData),
       branch: this.branch,
-      sha: response.sha 
+      sha: stringSha
     }
   }
 }

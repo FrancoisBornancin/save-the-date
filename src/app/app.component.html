@@ -1,5 +1,7 @@
-    <button (click)="pushToGit()">Cliquez sur ce bouton</button>
-
-
-
-<router-outlet />
+    <!-- <div style="background-color: blue; height: 100%;" > -->
+    <div  [style]="getStyle()" >
+        <button (click)="this.setColor('red')">Set Color Red</button>
+        <button (click)="this.setColor('green')">Set Color Green</button>
+        <button (click)="this.save()">Save</button>
+        <router-outlet />
+    </div>

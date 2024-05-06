@@ -14,28 +14,40 @@ export class AppComponent implements OnInit{
   testColor: string = 'green';
 
   constructor(
-    private layoutManager: LayoutManagerService
+    private layoutManager: LayoutManagerService,
+    private gitManager: GitManagerService,
   ){
 
   }
 
   ngOnInit(): void {
-    // this.layoutManager.getColor();
-    // this.testColor = this.layoutManager.color;
+    this.layoutManager.loadData()
+    .subscribe({
+      next: (response: any) => {
+        this.gitManager.sha = response.sha;
+        this.layoutManager.layoutData = this.gitManager.getResponseContent(response);
+        this.color = this.layoutManager.layoutData.backgroundColor;
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
     console.log("");
   }
 
   getStyle(): string{
-    return 'background-color: ' + this.testColor + '; height: 100%;'
+    let realColor: string;
+    if(this.color == undefined) realColor = 'blue';
+    else realColor = this.color
+    return 'background-color: ' + realColor + '; height: 100%;'
   }
 
-  getColorFromGit() {
-    this.layoutManager.getColor();
-    console.log("");
+  setColor(color: string){
+    this.color = color
+    this.layoutManager.layoutData.backgroundColor = color;
   }
 
-  pushToGitNewColor(newColor: string) {
-    this.layoutManager.setColor(newColor);
-    console.log("");
+  save(){
+    this.layoutManager.saveData();
   }
 }
