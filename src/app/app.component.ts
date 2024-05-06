@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { TokenManagerService } from './token-manager/token-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,10 @@ export class AppComponent {
   private branch = 'own-develop'; // Remplacez par le nom de la branche
   private filePath: string = 'test.txt';
 
-  constructor(private http: HttpClient){
+  constructor(
+    private http: HttpClient,
+    private tokenManager: TokenManagerService
+  ){
 
   }
 
@@ -22,10 +26,11 @@ export class AppComponent {
   ) {
     const apiUrl = `${this.apiUrl}/repos/${this.owner}/${this.repo}/contents/${this.filePath}?ref=${this.branch}`;
 
-    const realToken = fakeToken.split('Z')[0]
+    // const realToken = fakeToken.split('Z')[0]
     // !!!! Le token est supprimé après chaque Push !!!!
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + realToken,
+      // 'Authorization': 'Bearer ' + realToken,
+      'Authorization': 'Bearer ' + this.tokenManager.decryptToken(),
       'Content-Type': 'application/json',
     });
 
@@ -37,9 +42,10 @@ export class AppComponent {
       next: (response: any) => {
         const sha = response.sha;
         const content: string = atob(response.content); // Décode le contenu de base64
-        const newContent: string = 'TOTO'; // Nouveau contenu du fichier
+        const newContent: string = 'Chaton'; // Nouveau contenu du fichier
   
         const commitMessage = 'update ' + this.filePath;
+        const finalContent: string = (content + " " + newContent);
         const body = {
           message: commitMessage,
           content: btoa(content + ' ' + newContent), // Encode content to base64
