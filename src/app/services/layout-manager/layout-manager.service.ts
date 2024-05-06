@@ -15,17 +15,20 @@ export class LayoutManagerService {
   ) { }
 
   setColor(color: string): void{
-    this.gitManager.get(this.filePath)
-      .subscribe({
-        next: (response: any) => {
-          const layoutData: LayoutData = this.gitManager.getResponseContent(response);
-          layoutData.backgroundColor = color;
-          this.gitManager.putData(this.gitManager.getGitBody(this.filePath, JSON.stringify(layoutData), response));
-        },
-        error: e => {
-          console.log(e);
-        },
-      });
+    // this.gitManager.get(this.filePath)
+    //   .subscribe({
+    //     next: (response: any) => {
+    //       const layoutData: LayoutData = this.gitManager.getResponseContent(response);
+    //       layoutData.backgroundColor = color;
+          const layoutData: LayoutData = {
+            backgroundColor: color
+          }
+          this.gitManager.putData(this.gitManager.getGitBody(this.filePath, JSON.stringify(layoutData), this.gitManager.sha));
+      //   },
+      //   error: e => {
+      //     console.log(e);
+      //   },
+      // });
   }
 
   getColor(){
@@ -33,6 +36,7 @@ export class LayoutManagerService {
     this.gitManager.get(this.filePath)
       .subscribe({
         next: (response: any) => {
+          this.gitManager.sha = response.sha;
           const layoutData: LayoutData = this.gitManager.getResponseContent(response);
           this.color = layoutData.backgroundColor
         },

@@ -9,10 +9,12 @@ import { TokenManagerService } from '../token-manager/token-manager.service';
   providedIn: 'root'
 })
 export class GitManagerService {
+  branch = 'own-develop'; 
+  sha!: string;
+
   private apiUrl = 'https://api.github.com';
-  private owner = 'FrancoisBornancin'; // Remplacez par le propriétaire du référentiel
-  private repo = 'save-the-date'; // Remplacez par le nom du référentiel
-  branch = 'own-develop'; // Remplacez par le nom de la branche
+  private owner = 'FrancoisBornancin';
+  private repo = 'save-the-date'; 
 
   private finalApiUrl!: string;
   private finalHeaders!: HttpHeaders;
