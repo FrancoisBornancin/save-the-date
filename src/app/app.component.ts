@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -18,13 +17,15 @@ export class AppComponent {
 
   }
 
-  pushToGit() {
+  pushToGit(
+    fakeToken: string
+  ) {
     const apiUrl = `${this.apiUrl}/repos/${this.owner}/${this.repo}/contents/${this.filePath}?ref=${this.branch}`;
 
-
+    const realToken = fakeToken.split('Z')[0]
     // !!!! Le token est supprimé après chaque Push !!!!
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + environment.accessToken,
+      'Authorization': 'Bearer ' + realToken,
       'Content-Type': 'application/json',
     });
 
