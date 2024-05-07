@@ -36,16 +36,23 @@ export class AppComponent implements OnInit{
   }
 
   getStyle(): string{
+    this.setLayoutData();
+
+
     let realColor: string;
     if(this.color == undefined) realColor = 'blue';
     else realColor = this.color
     return 'background-color: ' + realColor + '; height: 100%;'
   }
 
-  setColor(color: string){
-    this.color = color
-    this.layoutManager.layoutData.backgroundColor = color;
+  setLayoutData(){
+    this.layoutManager.layoutData.backgroundColor = this.color;
   }
+
+  // setColor(color: string){
+  //   this.color = color
+  //   this.layoutManager.layoutData.backgroundColor = color;
+  // }
 
   save(){
     this.layoutManager.saveData();
