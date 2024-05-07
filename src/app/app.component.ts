@@ -13,6 +13,7 @@ export class AppComponent implements OnInit{
   color!: string;
   testColor: string = 'green';
   dropdownTab!: number[];
+  selectedIndex!: number;
 
   constructor(
     private layoutManager: LayoutManagerService,
@@ -26,7 +27,8 @@ export class AppComponent implements OnInit{
     .subscribe({
       next: (response: any) => {
         this.gitManager.sha = response.sha;
-        this.layoutManager.layoutDataTab = this.gitManager.getResponseContent(response);
+        this.layoutManager.layoutDataTabFromDb = this.gitManager.getResponseContent(response);
+        this.layoutManager.layoutDataTabCurrent = this.gitManager.getResponseContent(response);
         this.loadLayoutData(1);
         this.setDropdown();
       },
@@ -38,7 +40,7 @@ export class AppComponent implements OnInit{
 
   setDropdown(){
     this.dropdownTab = 
-     this.layoutManager.layoutDataTab
+     this.layoutManager.layoutDataTabFromDb
       .map(element => element.key)
       ;
     console.log("");
@@ -59,12 +61,20 @@ export class AppComponent implements OnInit{
   }
 
   loadLayoutDataDropdown(event: any){
+    this.layoutManager.layoutDataTabCurrent =
+      this.layoutManager.layoutDataTabCurrent
+        .filter(element => element.key != this.layoutManager.layoutData.key)
+        ;
+
+    this.layoutManager.layoutDataTabCurrent.push(this.layoutManager.layoutData);
+
+    this.selectedIndex = event.value;
     this.loadLayoutData(event.value)
   }
 
   loadLayoutData(index: number){
     this.layoutManager.layoutData =
-      this.layoutManager.layoutDataTab
+      this.layoutManager.layoutDataTabCurrent
         .filter(layoutData => layoutData.key == index)
         [0]
         ;
@@ -72,6 +82,6 @@ export class AppComponent implements OnInit{
   }
 
   save(){
-    this.layoutManager.saveData();
+    this.layoutManager.saveData(this.selectedIndex);
   }
 }

@@ -11,7 +11,8 @@ export class LayoutManagerService {
   filePath: string = 'layout.json';
   color: string = 'blue';
   layoutData!: LayoutData;
-  layoutDataTab!: LayoutData[];
+  layoutDataTabFromDb!: LayoutData[];
+  layoutDataTabCurrent!: LayoutData[];
 
   constructor(
     private gitManager: GitManagerService
@@ -21,15 +22,27 @@ export class LayoutManagerService {
     this.layoutData.backgroundColor = color;
   }
 
-  saveData(){
+  saveData(index: number){
+    this.updateLayoutTab(index);
     this.gitManager.putData(
       this.gitManager.getGitBody(
         this.filePath, 
-        JSON.stringify(this.layoutData), 
+        JSON.stringify(this.layoutDataTabFromDb), 
         this.gitManager.sha.toString()
       )
     );
   }
+
+  updateLayoutTab(index: number){
+    this.layoutDataTabFromDb = 
+      this.layoutDataTabFromDb  
+        .filter(element => element.key != index)
+        ;
+
+    this.layoutDataTabFromDb.push(this.layoutData);
+    console.log("");
+  }
+
 
   loadData(): Observable<any>{
     return this.gitManager.get(this.filePath)
