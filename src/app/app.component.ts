@@ -12,6 +12,7 @@ import { LayoutManagerService } from './services/layout-manager/layout-manager.s
 export class AppComponent implements OnInit{
   color!: string;
   testColor: string = 'green';
+  dropdownTab!: number[];
 
   constructor(
     private layoutManager: LayoutManagerService,
@@ -26,16 +27,21 @@ export class AppComponent implements OnInit{
       next: (response: any) => {
         this.gitManager.sha = response.sha;
         this.layoutManager.layoutDataTab = this.gitManager.getResponseContent(response);
-        this.layoutManager.layoutData = 
-          this.layoutManager.layoutDataTab
-            .filter(layoutData => layoutData.key == 1)
-            [0];
-        this.color = this.layoutManager.layoutData.backgroundColor;
+        this.loadLayoutData(1);
+        this.setDropdown();
       },
       error: e => {
         console.log(e);
       },
     });
+  }
+
+  setDropdown(){
+    this.dropdownTab = 
+     this.layoutManager.layoutDataTab
+      .map(element => element.key)
+      ;
+    console.log("");
   }
 
   getStyle(): string{
@@ -52,6 +58,10 @@ export class AppComponent implements OnInit{
     this.layoutManager.layoutData.backgroundColor = this.color;
   }
 
+  loadLayoutDataDropdown(event: any){
+    this.loadLayoutData(event.value)
+  }
+
   loadLayoutData(index: number){
     this.layoutManager.layoutData =
       this.layoutManager.layoutDataTab
@@ -59,13 +69,7 @@ export class AppComponent implements OnInit{
         [0]
         ;
     this.color = this.layoutManager.layoutData.backgroundColor;
-    console.log("");
   }
-
-  // setColor(color: string){
-  //   this.color = color
-  //   this.layoutManager.layoutData.backgroundColor = color;
-  // }
 
   save(){
     this.layoutManager.saveData();

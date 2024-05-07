@@ -2,6 +2,7 @@
     <div  [style]="getStyle()" >
         <p-button (click)="this.save()">Save</p-button>
         <p-button (click)="this.loadLayoutData(2)">Load</p-button>
+        <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
         <p-colorPicker [(ngModel)]="color">Choose Color</p-colorPicker>
         <router-outlet />
     </div>
