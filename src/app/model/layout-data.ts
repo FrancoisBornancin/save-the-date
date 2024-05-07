@@ -1,3 +1,4 @@
 export interface LayoutData {
- backgroundColor: string;
+    key: number;
+    backgroundColor: string;
 }

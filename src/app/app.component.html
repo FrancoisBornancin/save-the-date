@@ -1,8 +1,7 @@
     <!-- <div style="background-color: blue; height: 100%;" > -->
     <div  [style]="getStyle()" >
-        <!-- <p-button (click)="this.setColor('red')">Set Color Red</p-button>
-        <p-button (click)="this.setColor('green')">Set Color Green</p-button> -->
         <p-button (click)="this.save()">Save</p-button>
+        <p-button (click)="this.loadLayoutData(2)">Load</p-button>
         <p-colorPicker [(ngModel)]="color">Choose Color</p-colorPicker>
         <router-outlet />
     </div>

@@ -11,6 +11,7 @@ export class LayoutManagerService {
   filePath: string = 'layout.json';
   color: string = 'blue';
   layoutData!: LayoutData;
+  layoutDataTab!: LayoutData[];
 
   constructor(
     private gitManager: GitManagerService

@@ -25,14 +25,17 @@ export class AppComponent implements OnInit{
     .subscribe({
       next: (response: any) => {
         this.gitManager.sha = response.sha;
-        this.layoutManager.layoutData = this.gitManager.getResponseContent(response);
+        this.layoutManager.layoutDataTab = this.gitManager.getResponseContent(response);
+        this.layoutManager.layoutData = 
+          this.layoutManager.layoutDataTab
+            .filter(layoutData => layoutData.key == 1)
+            [0];
         this.color = this.layoutManager.layoutData.backgroundColor;
       },
       error: e => {
         console.log(e);
       },
     });
-    console.log("");
   }
 
   getStyle(): string{
@@ -47,6 +50,16 @@ export class AppComponent implements OnInit{
 
   setLayoutData(){
     this.layoutManager.layoutData.backgroundColor = this.color;
+  }
+
+  loadLayoutData(index: number){
+    this.layoutManager.layoutData =
+      this.layoutManager.layoutDataTab
+        .filter(layoutData => layoutData.key == index)
+        [0]
+        ;
+    this.color = this.layoutManager.layoutData.backgroundColor;
+    console.log("");
   }
 
   // setColor(color: string){
