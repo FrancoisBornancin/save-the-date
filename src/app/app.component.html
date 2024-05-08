@@ -4,9 +4,12 @@
             <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
             <div>Main Background Color<p-colorPicker [(ngModel)]="mainBackgroundColor"></p-colorPicker></div>
             <div>Image Background Color<p-colorPicker [(ngModel)]="imageBackgroundColor"></p-colorPicker></div>
+            <input type="text" pInputText [(ngModel)]="this.layoutManager.layoutData.imageText" />
             <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
         </div>
 
-        <div [style]="getImageBackgroundStyle()"></div>
+        <div [style]="getImageBackgroundStyle()" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+            {{ this.layoutManager.layoutData.imageText }}
+        </div>
         <router-outlet />
     </div>

@@ -9,6 +9,7 @@ import { ColorPickerModule } from 'primeng/colorpicker';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { DropdownModule } from 'primeng/dropdown';
     ButtonModule,
     ColorPickerModule,
     DropdownModule,
+    InputTextModule,
     FormsModule,
     BrowserAnimationsModule,
     BrowserModule,
