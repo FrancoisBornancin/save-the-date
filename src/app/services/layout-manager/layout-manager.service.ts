@@ -14,6 +14,8 @@ export class LayoutManagerService {
   layoutDataTabFromDb!: LayoutData[];
   layoutDataTabCurrent!: LayoutData[];
 
+  endSaveMessage!: string;
+
   constructor(
     private gitManager: GitManagerService
   ) { }
@@ -30,7 +32,17 @@ export class LayoutManagerService {
         JSON.stringify(this.layoutDataTabFromDb), 
         this.gitManager.sha.toString()
       )
-    );
+    )
+    .subscribe({
+      next: e => {
+        this.endSaveMessage = 'Save has succeed';
+        console.log("");
+      },
+      error: e => {
+        this.endSaveMessage = 'Save has failed';
+        console.log("");
+      },
+    });
   }
 
   updateLayoutTab(index: number){

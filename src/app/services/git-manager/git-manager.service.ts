@@ -28,16 +28,9 @@ export class GitManagerService {
 
   }
 
-  putData(body: GitBody): void{
+  putData(body: GitBody): Observable<any>{
     const headers: HttpHeaders = this.finalHeaders; 
-    this.http.put(this.finalApiUrl, body, { headers }).subscribe({
-      next: e => {
-        console.log(e);
-      },
-      error: e => {
-        console.log(e);
-      },
-    });
+    return this.http.put(this.finalApiUrl, body, { headers })
   }
 
   get(filePath: string): Observable<any>{

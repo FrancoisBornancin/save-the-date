@@ -16,7 +16,7 @@ export class AppComponent implements OnInit{
   selectedIndex!: number;
 
   constructor(
-    private layoutManager: LayoutManagerService,
+    public layoutManager: LayoutManagerService,
     private gitManager: GitManagerService,
   ){
 
