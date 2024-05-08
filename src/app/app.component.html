@@ -1,8 +1,12 @@
-    <!-- <div style="background-color: blue; height: 100%;" > -->
-    <div  [style]="getStyle()" >
-        <p-button (click)="this.save()">Save</p-button>
-        <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
-        <p-colorPicker [(ngModel)]="color">Choose Color</p-colorPicker>
-        <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
+    <div  [style]="getMainBackgroundStyle()" style="display: flex; flex-direction: column; height: 100%;">
+        <div>
+            <p-button (click)="this.save()">Save</p-button>
+            <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
+            <div>Main Background Color<p-colorPicker [(ngModel)]="mainBackgroundColor"></p-colorPicker></div>
+            <div>Image Background Color<p-colorPicker [(ngModel)]="imageBackgroundColor"></p-colorPicker></div>
+            <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
+        </div>
+
+        <div [style]="getImageBackgroundStyle()"></div>
         <router-outlet />
     </div>

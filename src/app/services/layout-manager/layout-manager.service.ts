@@ -20,10 +20,6 @@ export class LayoutManagerService {
     private gitManager: GitManagerService
   ) { }
 
-  setColor(color: string): void{
-    this.layoutData.backgroundColor = color;
-  }
-
   saveData(index: number){
     this.updateLayoutTab(index);
     this.loadData()
@@ -46,27 +42,6 @@ export class LayoutManagerService {
         this.layoutData.hasBeenSaved = 'Retrieve data has failed';
       },
     });
-
-
-
-
-    // this.gitManager.putData(
-    //   this.gitManager.getGitBody(
-    //     this.filePath, 
-    //     JSON.stringify(this.layoutDataTabFromDb), 
-    //     this.gitManager.sha.toString()
-    //   )
-    // )
-    // .subscribe({
-    //   next: e => {
-    //     this.endSaveMessage = 'Save has succeed';
-    //     console.log("");
-    //   },
-    //   error: e => {
-    //     this.endSaveMessage = 'Save has failed';
-    //     console.log("");
-    //   },
-    // });
   }
 
   updateLayoutTab(index: number){

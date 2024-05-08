@@ -10,8 +10,8 @@ import { LayoutManagerService } from './services/layout-manager/layout-manager.s
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit{
-  color!: string;
-  testColor: string = 'green';
+  mainBackgroundColor!: string;
+  imageBackgroundColor!: string;
   dropdownTab!: number[];
   selectedIndex!: number;
 
@@ -46,18 +46,27 @@ export class AppComponent implements OnInit{
       ;
   }
 
-  getStyle(): string{
+  getMainBackgroundStyle(): string{
     this.setLayoutData();
 
-
     let realColor: string;
-    if(this.color == undefined) realColor = 'blue';
-    else realColor = this.color
+    if(this.mainBackgroundColor == undefined) realColor = 'blue';
+    else realColor = this.mainBackgroundColor
     return 'background-color: ' + realColor + '; height: 100%;'
   }
 
+  getImageBackgroundStyle(): string{
+    this.setLayoutData();
+
+    let realColor: string;
+    if(this.imageBackgroundColor == undefined) realColor = 'blue';
+    else realColor = this.imageBackgroundColor
+    return 'background-color: ' + realColor + '; height: 50%; width: 50%; margin: auto;'
+  }
+
   setLayoutData(){
-    this.layoutManager.layoutData.backgroundColor = this.color;
+    this.layoutManager.layoutData.mainBackgroundColor = this.mainBackgroundColor;
+    this.layoutManager.layoutData.imageBackgroundColor = this.imageBackgroundColor;
   }
 
   loadLayoutDataDropdown(event: any){
@@ -79,7 +88,8 @@ export class AppComponent implements OnInit{
         [0]
         ;
     this.layoutManager.layoutData.hasBeenSaved = '';
-    this.color = this.layoutManager.layoutData.backgroundColor;
+    this.mainBackgroundColor = this.layoutManager.layoutData.mainBackgroundColor;
+    this.imageBackgroundColor = this.layoutManager.layoutData.imageBackgroundColor;
   }
 
   save(){

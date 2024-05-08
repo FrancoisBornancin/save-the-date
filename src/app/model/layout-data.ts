@@ -1,5 +1,6 @@
 export interface LayoutData {
     key: number;
-    backgroundColor: string;
+    mainBackgroundColor: string;
+    imageBackgroundColor: string;
     hasBeenSaved: string;
 }
