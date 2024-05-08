@@ -29,6 +29,7 @@ export class AppComponent implements OnInit{
         this.gitManager.sha = response.sha;
         this.layoutManager.layoutDataTabFromDb = this.gitManager.getResponseContent(response);
         this.layoutManager.layoutDataTabCurrent = this.gitManager.getResponseContent(response);
+        this.selectedIndex = 1;
         this.loadLayoutData(1);
         this.setDropdown();
       },
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit{
     this.dropdownTab = 
      this.layoutManager.layoutDataTabFromDb
       .map(element => element.key)
+      .sort((a, b) => (a - b))
       ;
     console.log("");
   }
