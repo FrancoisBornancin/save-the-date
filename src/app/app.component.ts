@@ -29,7 +29,6 @@ export class AppComponent implements OnInit{
         this.gitManager.sha = response.sha;
         this.layoutManager.layoutDataTabFromDb = this.gitManager.getResponseContent(response);
         this.layoutManager.layoutDataTabCurrent = this.gitManager.getResponseContent(response);
-        this.selectedIndex = 1;
         this.loadLayoutData(1);
         this.setDropdown();
       },
@@ -45,7 +44,6 @@ export class AppComponent implements OnInit{
       .map(element => element.key)
       .sort((a, b) => (a - b))
       ;
-    console.log("");
   }
 
   getStyle(): string{
@@ -70,16 +68,17 @@ export class AppComponent implements OnInit{
 
     this.layoutManager.layoutDataTabCurrent.push(this.layoutManager.layoutData);
 
-    this.selectedIndex = event.value;
     this.loadLayoutData(event.value)
   }
 
   loadLayoutData(index: number){
+    this.selectedIndex = index;
     this.layoutManager.layoutData =
       this.layoutManager.layoutDataTabCurrent
         .filter(layoutData => layoutData.key == index)
         [0]
         ;
+    this.layoutManager.layoutData.hasBeenSaved = '';
     this.color = this.layoutManager.layoutData.backgroundColor;
   }
 

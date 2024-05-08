@@ -3,6 +3,6 @@
         <p-button (click)="this.save()">Save</p-button>
         <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
         <p-colorPicker [(ngModel)]="color">Choose Color</p-colorPicker>
-        <div>{{ this.layoutManager.endSaveMessage }}</div>
+        <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
         <router-outlet />
     </div>

@@ -26,23 +26,47 @@ export class LayoutManagerService {
 
   saveData(index: number){
     this.updateLayoutTab(index);
-    this.gitManager.putData(
-      this.gitManager.getGitBody(
-        this.filePath, 
-        JSON.stringify(this.layoutDataTabFromDb), 
-        this.gitManager.sha.toString()
-      )
-    )
+    this.loadData()
     .subscribe({
-      next: e => {
-        this.endSaveMessage = 'Save has succeed';
-        console.log("");
+      next: (response: any) => {
+        this.layoutData.hasBeenSaved = 'Data are saving...'
+        this.gitManager.sha = response.sha
+        const gitBody: GitBody = this.gitManager.getGitBody(this.filePath, JSON.stringify(this.layoutDataTabFromDb), this.gitManager.sha.toString())
+        this.gitManager.putData(gitBody)
+        .subscribe({
+          next: e => {
+            this.layoutData.hasBeenSaved = 'Save has succeed';
+          },
+          error: e => {
+            this.layoutData.hasBeenSaved = 'Save has failed';
+          },
+        });
       },
-      error: e => {
-        this.endSaveMessage = 'Save has failed';
-        console.log("");
+      error: response => {
+        this.layoutData.hasBeenSaved = 'Retrieve data has failed';
       },
     });
+
+
+
+
+    // this.gitManager.putData(
+    //   this.gitManager.getGitBody(
+    //     this.filePath, 
+    //     JSON.stringify(this.layoutDataTabFromDb), 
+    //     this.gitManager.sha.toString()
+    //   )
+    // )
+    // .subscribe({
+    //   next: e => {
+    //     this.endSaveMessage = 'Save has succeed';
+    //     console.log("");
+    //   },
+    //   error: e => {
+    //     this.endSaveMessage = 'Save has failed';
+    //     console.log("");
+    //   },
+    // });
   }
 
   updateLayoutTab(index: number){
