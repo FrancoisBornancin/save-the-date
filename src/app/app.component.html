@@ -5,11 +5,16 @@
             <div>Main Background Color<p-colorPicker [(ngModel)]="mainBackgroundColor"></p-colorPicker></div>
             <div>Image Background Color<p-colorPicker [(ngModel)]="imageBackgroundColor"></p-colorPicker></div>
             <input type="text" pInputText [(ngModel)]="this.layoutManager.layoutData.imageText" />
+            <p-fileUpload mode="basic" customUpload="true" (uploadHandler)="upload($event)"></p-fileUpload>
             <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
         </div>
 
         <div [style]="getImageBackgroundStyle()" style="display: flex; align-items: center; justify-content: center; height: 100%;">
             {{ this.layoutManager.layoutData.imageText }}
+        </div>
+
+        <div *ngIf="imageUrl" style="margin: auto; display: flex; align-items: center; justify-content: center; height: 100%">
+            <img [src]="imageUrl" alt="Uploaded Image" style="height: 50%; width: 50%;">
         </div>
         <router-outlet />
     </div>

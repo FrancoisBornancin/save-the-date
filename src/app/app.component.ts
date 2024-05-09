@@ -14,6 +14,7 @@ export class AppComponent implements OnInit{
   imageBackgroundColor!: string;
   dropdownTab!: number[];
   selectedIndex!: number;
+  imageUrl!: string;
 
   constructor(
     public layoutManager: LayoutManagerService,
@@ -90,6 +91,22 @@ export class AppComponent implements OnInit{
     this.layoutManager.layoutData.hasBeenSaved = '';
     this.mainBackgroundColor = this.layoutManager.layoutData.mainBackgroundColor;
     this.imageBackgroundColor = this.layoutManager.layoutData.imageBackgroundColor;
+  }
+
+  upload(event: any){
+    if (event.files.length == 0) {
+      console.log('No file selected.');
+      return;
+    }
+
+    let file = event.files[0];
+    let reader = new FileReader();
+    
+    reader.onload = (e: any) => {
+      this.imageUrl = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
   }
 
   save(){

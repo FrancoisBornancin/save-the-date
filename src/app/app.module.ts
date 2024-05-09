@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { InputTextModule } from 'primeng/inputtext';
     ColorPickerModule,
     DropdownModule,
     InputTextModule,
+    FileUploadModule,
     FormsModule,
     BrowserAnimationsModule,
     BrowserModule,
