@@ -17,7 +17,7 @@ export class GitManagerService {
   private repo = 'save-the-date'; 
 
   private finalApiUrl!: string;
-  private finalHeaders!: HttpHeaders;
+  finalHeaders!: HttpHeaders;
 
   data: any;
 
@@ -59,8 +59,12 @@ export class GitManagerService {
     return this.http.get(this.finalApiUrl, { headers }); 
   }
 
-  getResponseContent(response: any): any{
+  getStringifyResponseContent(response: any): any{
     return JSON.parse(atob(response.content)); 
+  }
+
+  getBlobUrl(response: any): string{
+    return response.git_url;
   }
 
   getGitBody(filePath: string, stringData: string, stringSha: string): GitBody{

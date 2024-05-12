@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { GitManagerService } from './services/git-manager/git-manager.service';
 import { TokenManagerService } from './services/token-manager/token-manager.service';
 import { LayoutManagerService } from './services/layout-manager/layout-manager.service';
+import { ImageDataUtilsService } from './services/image-data-utils/image-data-utils.service';
+import { CustomImageData } from './model/image-data';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +21,9 @@ export class AppComponent implements OnInit{
   constructor(
     public layoutManager: LayoutManagerService,
     private gitManager: GitManagerService,
+    private imageDataUtils: ImageDataUtilsService,
+    private tokenManager: TokenManagerService,
+    private http: HttpClient,
   ){
 
   }
@@ -28,9 +33,10 @@ export class AppComponent implements OnInit{
     .subscribe({
       next: (response: any) => {
         this.gitManager.sha = response.sha;
-        this.layoutManager.layoutDataTabFromDb = this.gitManager.getResponseContent(response);
-        this.layoutManager.layoutDataTabCurrent = this.gitManager.getResponseContent(response);
+        this.layoutManager.layoutDataTabFromDb = this.gitManager.getStringifyResponseContent(response);
+        this.layoutManager.layoutDataTabCurrent = this.gitManager.getStringifyResponseContent(response);
         this.loadLayoutData(1);
+        this.loadImageData();
         this.setDropdown();
       },
       error: e => {
@@ -70,6 +76,30 @@ export class AppComponent implements OnInit{
     this.layoutManager.layoutData.imageBackgroundColor = this.imageBackgroundColor;
   }
 
+  loadImageData(){
+    this.gitManager.get('test.txt')
+    .subscribe({
+      next: (response: any) => {
+        this.gitManager.sha = response.sha;
+
+        const blobUrl = this.gitManager.getBlobUrl(response);
+
+        this.http.get(blobUrl, { headers: this.gitManager.getHeaders(), responseType: 'json' })
+          .subscribe({
+            next: (data: any) => {
+              this.imageUrl = "data:image/jpeg;base64" + "," + atob(data.content);
+            },
+            error: e => {
+              console.log(e);
+            },
+          });
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
+  }
+
   loadLayoutDataDropdown(event: any){
     this.layoutManager.layoutDataTabCurrent =
       this.layoutManager.layoutDataTabCurrent
@@ -94,18 +124,9 @@ export class AppComponent implements OnInit{
 
     this.imageUrl = '';
 
-    if(this.layoutManager.layoutData.imageUrlByteArray != undefined){
-      const byteArray = this.layoutManager.layoutData.imageUrlByteArray;
-      let newString = '';
-  
-      for(let a = 0 ; a < byteArray.length ; a++){
-        newString += String.fromCharCode(byteArray[a]);
-      }
-  
-      const toString = btoa(newString);
-      this.imageUrl = this.layoutManager.layoutData.imageUrlPath + ',' + toString;
-      console.log("");
-    }
+    // if(this.layoutManager.layoutData.imageData.imageUrlPath != undefined){
+    //   ////////////////////////////////////
+    // }
   }
 
   upload(event: any){
@@ -113,30 +134,19 @@ export class AppComponent implements OnInit{
       console.log('No file selected.');
       return;
     }
+    console.log("");
 
-    let file = event.files[0];
-    let reader = new FileReader();
+    // let file = event.files[0];
+    // let reader = new FileReader();
     
-    reader.onload = (e: any) => {
-      this.imageUrl = e.target.result;
+    // reader.onload = (e: any) => {
+    //   const imageData: CustomImageData = this.imageDataUtils.getImageData(e.target.result);
+    //   const blob: Blob = this.imageDataUtils.getBlob(imageData);
 
-      const imageUrlSplitted = this.imageUrl.split(',');
-      const imageUrlPath = imageUrlSplitted[0]
-      const imageUrlContent = imageUrlSplitted[1];
+    //   console.log("");
+    // };
 
-      const byteCharacters = atob(imageUrlContent);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-
-      this.layoutManager.layoutData.imageUrlPath = imageUrlPath;
-      this.layoutManager.layoutData.imageUrlByteArray = Object.values(new Uint8Array(byteNumbers));
-
-      console.log("");
-    };
-
-    reader.readAsDataURL(file);
+    // reader.readAsDataURL(file);
   }
 
   save(){
