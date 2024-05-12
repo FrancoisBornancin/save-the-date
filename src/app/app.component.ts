@@ -91,6 +91,21 @@ export class AppComponent implements OnInit{
     this.layoutManager.layoutData.hasBeenSaved = '';
     this.mainBackgroundColor = this.layoutManager.layoutData.mainBackgroundColor;
     this.imageBackgroundColor = this.layoutManager.layoutData.imageBackgroundColor;
+
+    this.imageUrl = '';
+
+    if(this.layoutManager.layoutData.imageUrlByteArray != undefined){
+      const byteArray = this.layoutManager.layoutData.imageUrlByteArray;
+      let newString = '';
+  
+      for(let a = 0 ; a < byteArray.length ; a++){
+        newString += String.fromCharCode(byteArray[a]);
+      }
+  
+      const toString = btoa(newString);
+      this.imageUrl = this.layoutManager.layoutData.imageUrlPath + ',' + toString;
+      console.log("");
+    }
   }
 
   upload(event: any){
@@ -104,6 +119,21 @@ export class AppComponent implements OnInit{
     
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result;
+
+      const imageUrlSplitted = this.imageUrl.split(',');
+      const imageUrlPath = imageUrlSplitted[0]
+      const imageUrlContent = imageUrlSplitted[1];
+
+      const byteCharacters = atob(imageUrlContent);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+
+      this.layoutManager.layoutData.imageUrlPath = imageUrlPath;
+      this.layoutManager.layoutData.imageUrlByteArray = Object.values(new Uint8Array(byteNumbers));
+
+      console.log("");
     };
 
     reader.readAsDataURL(file);
