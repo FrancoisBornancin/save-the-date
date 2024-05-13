@@ -4,6 +4,7 @@ import { GitManagerService } from '../git-manager/git-manager.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenManagerService } from '../token-manager/token-manager.service';
 import { Observable } from 'rxjs';
+import { GitBody } from '../../model/git-body';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,33 @@ export class ImageDataUtilsService {
   loadImageData(index: number): Observable<any>{
     this.constructFinalPath(1);
     return this.gitManager.get(this.finalPath);
+  }
+
+  putData(imageData: CustomImageData, response: any): Observable<any>{
+    this.gitManager.sha = response.sha;
+
+    const gitBody: GitBody = this.gitManager.getGitBody(this.finalPath, imageData.imageUrlContent, this.gitManager.sha.toString())
+    return this.gitManager.putData(gitBody)
+  }
+
+  saveImageData(index: number, imageData: CustomImageData){
+    this.loadImageData(1)
+    .subscribe({
+      next: (response: any) => {
+        this.putData(imageData, response)
+        .subscribe({
+          next: e => {
+            console.log("");
+          },
+          error: e => {
+            console.log("");
+          },
+        });
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
   }
 
   getImageData(imageUrl: string): CustomImageData{

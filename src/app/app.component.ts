@@ -147,29 +147,7 @@ export class AppComponent implements OnInit{
 
   saveImage(){
     const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageUrl);
-    const imageContent = imageData.imageUrlContent;
 
-    // this.imageDataUtils.constructFinalPath(1);
-    // this.gitManager.get(this.imageDataUtils.finalPath)
-    this.imageDataUtils.loadImageData(1)
-    .subscribe({
-      next: (response: any) => {
-        this.gitManager.sha = response.sha;
-
-        const gitBody: GitBody = this.gitManager.getGitBody(this.imageDataUtils.finalPath, imageContent, this.gitManager.sha.toString())
-        this.gitManager.putData(gitBody)
-        .subscribe({
-          next: e => {
-            console.log("");
-          },
-          error: e => {
-            console.log("");
-          },
-        });
-      },
-      error: e => {
-        console.log(e);
-      },
-    });
+    this.imageDataUtils.saveImageData(1, imageData);
   }
 }
