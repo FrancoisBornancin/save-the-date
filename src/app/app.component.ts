@@ -1,10 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { GitManagerService } from './services/git-manager/git-manager.service';
 import { TokenManagerService } from './services/token-manager/token-manager.service';
 import { LayoutManagerService } from './services/layout-manager/layout-manager.service';
 import { ImageDataUtilsService } from './services/image-data-utils/image-data-utils.service';
 import { CustomImageData } from './model/image-data';
+import { GitBody } from './model/git-body';
 
 @Component({
   selector: 'app-root',
@@ -136,17 +137,38 @@ export class AppComponent implements OnInit{
     }
     console.log("");
 
-    // let file = event.files[0];
-    // let reader = new FileReader();
+    let file = event.files[0];
+    let reader = new FileReader();
     
-    // reader.onload = (e: any) => {
-    //   const imageData: CustomImageData = this.imageDataUtils.getImageData(e.target.result);
-    //   const blob: Blob = this.imageDataUtils.getBlob(imageData);
+    reader.onload = (e: any) => {
+      const imageData: CustomImageData = this.imageDataUtils.getImageData(e.target.result);
 
-    //   console.log("");
-    // };
+      this.gitManager.get('test.txt')
+      .subscribe({
+        next: (response: any) => {
+          this.gitManager.sha = response.sha;
+  
+          const gitBody: GitBody = this.gitManager.getGitBody('test.txt', imageData.imageUrlContent, this.gitManager.sha.toString())
+          this.gitManager.putData(gitBody)
+          .subscribe({
+            next: e => {
+              console.log("");
+            },
+            error: e => {
+              console.log("");
+            },
+          });
+        },
+        error: e => {
+          console.log(e);
+        },
+      });
 
-    // reader.readAsDataURL(file);
+
+      console.log("");
+    };
+
+    reader.readAsDataURL(file);
   }
 
   save(){

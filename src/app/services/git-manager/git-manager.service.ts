@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LayoutData } from '../../model/layout-data';
 import { GitBody } from '../../model/git-body';
 import { TokenManagerService } from '../token-manager/token-manager.service';
 
