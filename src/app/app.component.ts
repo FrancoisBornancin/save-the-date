@@ -78,14 +78,12 @@ export class AppComponent implements OnInit{
   }
 
   loadImageData(){
-    this.gitManager.get('test.txt')
+    // this.imageDataUtils.constructFinalPath(1);
+    // this.gitManager.get(this.imageDataUtils.finalPath)
+    this.imageDataUtils.loadImageData(1)
     .subscribe({
       next: (response: any) => {
-        this.gitManager.sha = response.sha;
-
-        const blobUrl = this.gitManager.getBlobUrl(response);
-
-        this.http.get(blobUrl, { headers: this.gitManager.getHeaders(), responseType: 'json' })
+        this.imageDataUtils.getBlobContent(response)
           .subscribe({
             next: (data: any) => {
               this.imageUrl = "data:image/jpeg;base64" + "," + atob(data.content);
@@ -124,10 +122,6 @@ export class AppComponent implements OnInit{
     this.imageBackgroundColor = this.layoutManager.layoutData.imageBackgroundColor;
 
     this.imageUrl = '';
-
-    // if(this.layoutManager.layoutData.imageData.imageUrlPath != undefined){
-    //   ////////////////////////////////////
-    // }
   }
 
   upload(event: any){
@@ -141,37 +135,41 @@ export class AppComponent implements OnInit{
     let reader = new FileReader();
     
     reader.onload = (e: any) => {
-      const imageData: CustomImageData = this.imageDataUtils.getImageData(e.target.result);
-
-      this.gitManager.get('test.txt')
-      .subscribe({
-        next: (response: any) => {
-          this.gitManager.sha = response.sha;
-  
-          const gitBody: GitBody = this.gitManager.getGitBody('test.txt', imageData.imageUrlContent, this.gitManager.sha.toString())
-          this.gitManager.putData(gitBody)
-          .subscribe({
-            next: e => {
-              console.log("");
-            },
-            error: e => {
-              console.log("");
-            },
-          });
-        },
-        error: e => {
-          console.log(e);
-        },
-      });
-
-
-      console.log("");
+      this.imageUrl = e.target.result;
     };
 
     reader.readAsDataURL(file);
   }
 
-  save(){
+  saveLayout(){
     this.layoutManager.saveData(this.selectedIndex);
+  }
+
+  saveImage(){
+    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageUrl);
+    const imageContent = imageData.imageUrlContent;
+
+    // this.imageDataUtils.constructFinalPath(1);
+    // this.gitManager.get(this.imageDataUtils.finalPath)
+    this.imageDataUtils.loadImageData(1)
+    .subscribe({
+      next: (response: any) => {
+        this.gitManager.sha = response.sha;
+
+        const gitBody: GitBody = this.gitManager.getGitBody(this.imageDataUtils.finalPath, imageContent, this.gitManager.sha.toString())
+        this.gitManager.putData(gitBody)
+        .subscribe({
+          next: e => {
+            console.log("");
+          },
+          error: e => {
+            console.log("");
+          },
+        });
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
   }
 }

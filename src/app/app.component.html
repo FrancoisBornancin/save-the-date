@@ -1,6 +1,7 @@
     <div  [style]="getMainBackgroundStyle()" style="display: flex; flex-direction: column; height: 100%;">
         <div>
-            <p-button (click)="this.save()">Save</p-button>
+            <p-button (click)="this.saveLayout()">SaveLayout</p-button>
+            <p-button (click)="this.saveImage()">SaveImage</p-button>
             <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
             <div>Main Background Color<p-colorPicker [(ngModel)]="mainBackgroundColor"></p-colorPicker></div>
             <div>Image Background Color<p-colorPicker [(ngModel)]="imageBackgroundColor"></p-colorPicker></div>

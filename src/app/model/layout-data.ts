@@ -5,6 +5,5 @@ export interface LayoutData {
     mainBackgroundColor: string;
     imageBackgroundColor: string;
     imageText: string;
-    imageData: CustomImageData
     hasBeenSaved: string;
 }
