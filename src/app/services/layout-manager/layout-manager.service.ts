@@ -31,10 +31,10 @@ export class LayoutManagerService {
         this.gitManager.putData(gitBody)
         .subscribe({
           next: e => {
-            this.layoutData.hasBeenSaved = 'Save has succeed';
+            this.layoutData.hasBeenSaved = 'LayoutSave has succeed';
           },
           error: e => {
-            this.layoutData.hasBeenSaved = 'Save has failed';
+            this.layoutData.hasBeenSaved = 'LayoutSave has failed';
           },
         });
       },

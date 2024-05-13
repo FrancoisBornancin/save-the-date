@@ -8,6 +8,7 @@
             <input type="text" pInputText [(ngModel)]="this.layoutManager.layoutData.imageText" />
             <p-fileUpload mode="basic" customUpload="true" (uploadHandler)="upload($event)"></p-fileUpload>
             <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
+            <div>{{ this.imageDataUtils.hasBeenSaved }}</div>
         </div>
 
         <div [style]="getImageBackgroundStyle()" style="display: flex; align-items: center; justify-content: center; height: 100%;">

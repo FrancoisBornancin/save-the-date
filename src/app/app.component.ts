@@ -22,7 +22,7 @@ export class AppComponent implements OnInit{
   constructor(
     public layoutManager: LayoutManagerService,
     private gitManager: GitManagerService,
-    private imageDataUtils: ImageDataUtilsService,
+    public imageDataUtils: ImageDataUtilsService,
     private tokenManager: TokenManagerService,
     private http: HttpClient,
   ){

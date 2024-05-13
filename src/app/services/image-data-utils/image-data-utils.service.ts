@@ -14,6 +14,7 @@ export class ImageDataUtilsService {
   startFinalPath: string = 'image-content-';
   endFinalPath: string = '.txt'
   finalPath!: string;
+  hasBeenSaved!: string;
 
   constructor(
     private gitManager: GitManagerService,
@@ -48,16 +49,16 @@ export class ImageDataUtilsService {
   }
 
   saveImageData(index: number, imageData: CustomImageData){
-    this.loadImageData(1)
+    this.loadImageData(index)
     .subscribe({
       next: (response: any) => {
         this.putData(imageData, response)
         .subscribe({
           next: e => {
-            console.log("");
+            this.hasBeenSaved = 'ImageSave has succeed';
           },
           error: e => {
-            console.log("");
+            this.hasBeenSaved = 'ImageSave has failed';
           },
         });
       },
@@ -82,10 +83,10 @@ export class ImageDataUtilsService {
   const byteNumbers = new Array(byteCharacters.length);
   for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);
-  } 
+  }
 
   const byteArray = new Uint8Array(byteNumbers);
 
-    return new Blob([byteArray], { type: 'image/jpeg' }); 
+    return new Blob([byteArray], { type: 'image/jpeg' });
   }
 }
