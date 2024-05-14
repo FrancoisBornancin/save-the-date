@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 })
 export class LayoutManagerService {
   filePath: string = 'layout.json';
-  color: string = 'blue';
   layoutData!: LayoutData;
   layoutDataTabFromDb!: LayoutData[];
   layoutDataTabCurrent!: LayoutData[];
@@ -37,15 +36,19 @@ export class LayoutManagerService {
     this.layoutDataTabCurrent.push(this.layoutData);
   }
 
+  putData(response: any): Observable<any>{
+    this.gitManager.sha = response.sha
+    const gitBody: GitBody = this.gitManager.getGitBody(this.filePath, JSON.stringify(this.layoutDataTabFromDb), this.gitManager.sha.toString())
+    return this.gitManager.putData(gitBody);
+  }
+
   saveData(index: number){
     this.updateLayoutTab(index);
     this.loadData()
     .subscribe({
       next: (response: any) => {
         this.layoutData.hasBeenSaved = 'Data are saving...'
-        this.gitManager.sha = response.sha
-        const gitBody: GitBody = this.gitManager.getGitBody(this.filePath, JSON.stringify(this.layoutDataTabFromDb), this.gitManager.sha.toString())
-        this.gitManager.putData(gitBody)
+        this.putData(response)
         .subscribe({
           next: e => {
             this.layoutData.hasBeenSaved = 'LayoutSave has succeed';
@@ -68,7 +71,6 @@ export class LayoutManagerService {
         ;
 
     this.layoutDataTabFromDb.push(this.layoutData);
-    console.log("");
   }
 
 
