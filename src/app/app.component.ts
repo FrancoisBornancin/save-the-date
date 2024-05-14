@@ -28,8 +28,6 @@ export class AppComponent implements OnInit{
     public layoutManager: LayoutManagerService,
     private gitManager: GitManagerService,
     public imageDataUtils: ImageDataUtilsService,
-    private tokenManager: TokenManagerService,
-    private http: HttpClient,
   ){
 
   }
@@ -52,7 +50,6 @@ export class AppComponent implements OnInit{
   }
 
   setDropdown(){
-    console.log("");
     this.dropdownTab = 
      this.layoutManager.layoutDataTabFromDb
       .map(element => element.key)
@@ -148,7 +145,6 @@ export class AppComponent implements OnInit{
 
   saveImage(){
     const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageUrl);
-
     this.imageDataUtils.saveImageData(this.selectedIndex, imageData);
   }
 }

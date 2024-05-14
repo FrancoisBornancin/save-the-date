@@ -21,7 +21,6 @@ export class ImageDataUtilsService {
   constructor(
     private gitManager: GitManagerService,
     private http: HttpClient,
-    private tokenManager: TokenManagerService
   ){
 
   }
