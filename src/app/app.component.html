@@ -6,7 +6,11 @@
             <div>Main Background Color<p-colorPicker [(ngModel)]="mainBackgroundColor"></p-colorPicker></div>
             <div>Image Background Color<p-colorPicker [(ngModel)]="imageBackgroundColor"></p-colorPicker></div>
             <input type="text" pInputText [(ngModel)]="this.layoutManager.layoutData.imageText" />
-            <p-fileUpload mode="basic" customUpload="true" (uploadHandler)="upload($event)"></p-fileUpload>
+            <p-fileUpload #fileUploader
+                mode="basic" 
+                customUpload="true" 
+                (uploadHandler)="upload($event)">
+            </p-fileUpload>
             <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
             <div>{{ this.imageDataUtils.hasBeenSaved }}</div>
         </div>

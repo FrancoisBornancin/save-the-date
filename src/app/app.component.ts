@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GitManagerService } from './services/git-manager/git-manager.service';
 import { TokenManagerService } from './services/token-manager/token-manager.service';
 import { LayoutManagerService } from './services/layout-manager/layout-manager.service';
@@ -8,6 +8,7 @@ import { CustomImageData } from './model/image-data';
 import { GitBody } from './model/git-body';
 import { BigImageData } from './model/big-image-data';
 import { forkJoin } from 'rxjs';
+import { FileUpload } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,8 @@ export class AppComponent implements OnInit{
   dropdownTab!: number[];
   selectedIndex!: number;
   imageUrl!: string;
+
+  @ViewChild('fileUploader') fileUpload!: FileUpload;
 
   constructor(
     public layoutManager: LayoutManagerService,
@@ -152,6 +155,8 @@ export class AppComponent implements OnInit{
         .at(0)!
         .imageUrlContent = this.imageUrl
         ;
+
+      this.fileUpload.clear();
     };
 
     reader.readAsDataURL(file);
