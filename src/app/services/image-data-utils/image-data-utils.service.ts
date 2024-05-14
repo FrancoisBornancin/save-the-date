@@ -34,6 +34,14 @@ export class ImageDataUtilsService {
     ;
   }
 
+  loadIndexedImageUrl(index: number): string{
+    return this.bigImageTab
+    .filter(element => element.key == index)
+    .map(element => element.imageUrlContent)
+    .at(0)!
+    ;
+  }
+
   constructFinalPath(index: number){
     this.finalPath = this.startFinalPath + index + this.endFinalPath;
   }

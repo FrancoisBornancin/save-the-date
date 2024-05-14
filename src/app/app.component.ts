@@ -84,12 +84,7 @@ export class AppComponent implements OnInit{
   }
 
   loadImageData(index: number){
-    console.log("");
-    this.imageUrl = 
-      this.imageDataUtils.bigImageTab
-        .filter(element => element.key == index)
-        .map(element => element.imageUrlContent)
-        .at(0)!;
+    this.imageUrl = this.imageDataUtils.loadIndexedImageUrl(index);
   }
 
   loadAllImageData() {
