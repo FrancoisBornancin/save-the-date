@@ -6,6 +6,8 @@ import { LayoutManagerService } from './services/layout-manager/layout-manager.s
 import { ImageDataUtilsService } from './services/image-data-utils/image-data-utils.service';
 import { CustomImageData } from './model/image-data';
 import { GitBody } from './model/git-body';
+import { BigImageData } from './model/big-image-data';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +39,7 @@ export class AppComponent implements OnInit{
         this.layoutManager.layoutDataTabFromDb = this.gitManager.getStringifyResponseContent(response);
         this.layoutManager.layoutDataTabCurrent = this.gitManager.getStringifyResponseContent(response);
         this.loadLayoutData(1);
-        this.loadImageData();
+        this.loadAllImageData();
         this.setDropdown();
       },
       error: e => {
@@ -47,6 +49,7 @@ export class AppComponent implements OnInit{
   }
 
   setDropdown(){
+    console.log("");
     this.dropdownTab = 
      this.layoutManager.layoutDataTabFromDb
       .map(element => element.key)
@@ -77,25 +80,32 @@ export class AppComponent implements OnInit{
     this.layoutManager.layoutData.imageBackgroundColor = this.imageBackgroundColor;
   }
 
-  loadImageData(){
-    // this.imageDataUtils.constructFinalPath(1);
-    // this.gitManager.get(this.imageDataUtils.finalPath)
-    this.imageDataUtils.loadImageData(1)
-    .subscribe({
-      next: (response: any) => {
-        this.imageDataUtils.getBlobContent(response)
-          .subscribe({
-            next: (data: any) => {
-              this.imageUrl = "data:image/jpeg;base64" + "," + atob(data.content);
-            },
-            error: e => {
-              console.log(e);
-            },
-          });
+  loadImageData(index: number){
+    console.log("");
+    this.imageUrl = 
+      this.imageDataUtils.bigImageTab
+        .filter(element => element.key == index)
+        .map(element => element.imageUrlContent)
+        .at(0)!;
+  }
+
+  loadAllImageData() {
+    this.imageDataUtils.bigImageTab =
+    this.layoutManager.layoutDataTabFromDb
+      .map(element => {
+        return {key: element.key} 
+      })
+
+    const tasks = this.imageDataUtils.bigImageTab.map(element => this.imageDataUtils.fillBigImageTab(element.key));
+  
+    forkJoin(tasks).subscribe({
+      next: (results) => {
+        console.log("Toutes les images ont été chargées", results);
+        this.loadImageData(1);
       },
-      error: e => {
-        console.log(e);
-      },
+      error: (error) => {
+        console.error("Erreur lors du chargement des images", error);
+      }
     });
   }
 
@@ -108,6 +118,7 @@ export class AppComponent implements OnInit{
     this.layoutManager.layoutDataTabCurrent.push(this.layoutManager.layoutData);
 
     this.loadLayoutData(event.value)
+    this.loadImageData(event.value);
   }
 
   loadLayoutData(index: number){
@@ -136,6 +147,11 @@ export class AppComponent implements OnInit{
     
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result;
+      this.imageDataUtils.bigImageTab
+        .filter(element => element.key == this.selectedIndex)
+        .at(0)!
+        .imageUrlContent = this.imageUrl
+        ;
     };
 
     reader.readAsDataURL(file);
@@ -148,6 +164,6 @@ export class AppComponent implements OnInit{
   saveImage(){
     const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageUrl);
 
-    this.imageDataUtils.saveImageData(1, imageData);
+    this.imageDataUtils.saveImageData(this.selectedIndex, imageData);
   }
 }

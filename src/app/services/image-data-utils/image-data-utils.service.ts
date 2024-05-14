@@ -3,8 +3,9 @@ import { CustomImageData } from '../../model/image-data';
 import { GitManagerService } from '../git-manager/git-manager.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenManagerService } from '../token-manager/token-manager.service';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, switchMap, throwError } from 'rxjs';
 import { GitBody } from '../../model/git-body';
+import { BigImageData } from '../../model/big-image-data';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class ImageDataUtilsService {
   endFinalPath: string = '.txt'
   finalPath!: string;
   hasBeenSaved!: string;
+  bigImageTab!: BigImageData[];
 
   constructor(
     private gitManager: GitManagerService,
@@ -37,8 +39,26 @@ export class ImageDataUtilsService {
   }
 
   loadImageData(index: number): Observable<any>{
-    this.constructFinalPath(1);
+    this.constructFinalPath(index);
     return this.gitManager.get(this.finalPath);
+  }
+
+  fillBigImageTab(index: number): Observable<any> {
+    return this.loadImageData(index).pipe(
+      switchMap(response => this.getBlobContent(response)),
+      map(data => {
+        const imageContent = "data:image/jpeg;base64," + atob(data.content);
+        const element = this.bigImageTab.find(el => el.key === index);
+        if (element) {
+          element.imageUrlContent = imageContent;
+        }
+        return element; 
+      }),
+      catchError(error => {
+        console.error(error);
+        return throwError(() => new Error(error));
+      })
+    );
   }
 
   putData(imageData: CustomImageData, response: any): Observable<any>{
@@ -49,6 +69,7 @@ export class ImageDataUtilsService {
   }
 
   saveImageData(index: number, imageData: CustomImageData){
+    this.hasBeenSaved = 'ImageSave is processing';
     this.loadImageData(index)
     .subscribe({
       next: (response: any) => {
@@ -75,18 +96,5 @@ export class ImageDataUtilsService {
       imageUrlPath: imageUrlSplitted[0],
       imageUrlContent: imageUrlSplitted[1],
     }
-  }
-
-  getBlob(imageData: CustomImageData): Blob{
-  const byteCharacters = atob(imageData.imageUrlContent);
-
-  const byteNumbers = new Array(byteCharacters.length);
-  for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-  }
-
-  const byteArray = new Uint8Array(byteNumbers);
-
-    return new Blob([byteArray], { type: 'image/jpeg' });
   }
 }
