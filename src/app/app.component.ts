@@ -113,13 +113,7 @@ export class AppComponent implements OnInit{
   }
 
   loadLayoutDataDropdown(event: any){
-    this.layoutManager.layoutDataTabCurrent =
-      this.layoutManager.layoutDataTabCurrent
-        .filter(element => element.key != this.layoutManager.layoutData.key)
-        ;
-
-    this.layoutManager.layoutDataTabCurrent.push(this.layoutManager.layoutData);
-
+    this.layoutManager.updateCurrentLayoutDataTab()
     this.loadLayoutData(event.value)
     this.loadImageData(event.value);
   }

@@ -28,6 +28,15 @@ export class LayoutManagerService {
       ;
   }
 
+  updateCurrentLayoutDataTab(){
+    this.layoutDataTabCurrent =
+      this.layoutDataTabCurrent
+        .filter(element => element.key != this.layoutData.key)
+        ;
+
+    this.layoutDataTabCurrent.push(this.layoutData);
+  }
+
   saveData(index: number){
     this.updateLayoutTab(index);
     this.loadData()
