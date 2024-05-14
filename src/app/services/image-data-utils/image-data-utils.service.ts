@@ -26,6 +26,14 @@ export class ImageDataUtilsService {
 
   }
 
+  setImageContent(imageUrl: string, index: number){
+    this.bigImageTab
+    .filter(element => element.key == index)
+    .at(0)!
+    .imageUrlContent = imageUrl
+    ;
+  }
+
   constructFinalPath(index: number){
     this.finalPath = this.startFinalPath + index + this.endFinalPath;
   }

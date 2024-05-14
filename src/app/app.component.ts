@@ -150,12 +150,7 @@ export class AppComponent implements OnInit{
     
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result;
-      this.imageDataUtils.bigImageTab
-        .filter(element => element.key == this.selectedIndex)
-        .at(0)!
-        .imageUrlContent = this.imageUrl
-        ;
-
+      this.imageDataUtils.setImageContent(this.imageUrl, this.selectedIndex);
       this.fileUpload.clear();
     };
 
