@@ -20,6 +20,14 @@ export class LayoutManagerService {
     private gitManager: GitManagerService
   ) { }
 
+  updateCurrentLayoutData(index: number){
+    this.layoutData =
+    this.layoutDataTabCurrent
+      .filter(layoutData => layoutData.key == index)
+      [0]
+      ;
+  }
+
   saveData(index: number){
     this.updateLayoutTab(index);
     this.loadData()

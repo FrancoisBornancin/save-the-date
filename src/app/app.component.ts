@@ -126,11 +126,7 @@ export class AppComponent implements OnInit{
 
   loadLayoutData(index: number){
     this.selectedIndex = index;
-    this.layoutManager.layoutData =
-      this.layoutManager.layoutDataTabCurrent
-        .filter(layoutData => layoutData.key == index)
-        [0]
-        ;
+    this.layoutManager.updateCurrentLayoutData(this.selectedIndex);
     this.layoutManager.layoutData.hasBeenSaved = '';
     this.mainBackgroundColor = this.layoutManager.layoutData.mainBackgroundColor;
     this.imageBackgroundColor = this.layoutManager.layoutData.imageBackgroundColor;
