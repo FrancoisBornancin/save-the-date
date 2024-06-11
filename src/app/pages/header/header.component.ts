@@ -16,4 +16,8 @@ export class HeaderComponent {
   returnHome(){
     this.router.navigate(['home']);
   }
+
+  returnProgram(){
+    this.router.navigate(['program']);
+  }
 }
