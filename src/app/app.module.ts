@@ -11,14 +11,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
-import { HomeComponent } from './pages/home/home.component';
-import { TestComponent } from './pages/test/test.component';
+import { HomeComponent } from './pages/body/home/home.component';
+import { TestComponent } from './pages/body/test/test.component';
+import { HeaderComponent } from './pages/header/header.component';
+import { FooterComponent } from './pages/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    TestComponent
+    TestComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     ButtonModule,
