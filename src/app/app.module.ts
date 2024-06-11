@@ -11,10 +11,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
+import { HomeComponent } from './pages/home/home.component';
+import { TestComponent } from './pages/test/test.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    TestComponent
   ],
   imports: [
     ButtonModule,
