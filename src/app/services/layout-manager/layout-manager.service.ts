@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LayoutManagerService {
-  filePath: string = 'layout.json';
   layoutData!: LayoutData;
   layoutDataTabFromDb!: LayoutData[];
   layoutDataTabCurrent!: LayoutData[];
@@ -36,19 +35,19 @@ export class LayoutManagerService {
     this.layoutDataTabCurrent.push(this.layoutData);
   }
 
-  putData(response: any): Observable<any>{
+  putData(response: any, jsonFileName: string): Observable<any>{
     this.gitManager.sha = response.sha
-    const gitBody: GitBody = this.gitManager.getGitBody(this.filePath, JSON.stringify(this.layoutDataTabFromDb), this.gitManager.sha.toString())
+    const gitBody: GitBody = this.gitManager.getGitBody(jsonFileName, JSON.stringify(this.layoutDataTabFromDb), this.gitManager.sha.toString())
     return this.gitManager.putData(gitBody);
   }
 
-  saveData(index: number){
+  saveData(index: number, jsonFileName: string){
     this.updateLayoutTab(index);
-    this.loadData()
+    this.loadData(jsonFileName)
     .subscribe({
       next: (response: any) => {
         this.layoutData.hasBeenSaved = 'Data are saving...'
-        this.putData(response)
+        this.putData(response, jsonFileName)
         .subscribe({
           next: e => {
             this.layoutData.hasBeenSaved = 'LayoutSave has succeed';
@@ -74,7 +73,7 @@ export class LayoutManagerService {
   }
 
 
-  loadData(): Observable<any>{
-    return this.gitManager.get(this.filePath)
+  loadData(jsonFileName: string): Observable<any>{
+    return this.gitManager.get(jsonFileName)
   }
 }
