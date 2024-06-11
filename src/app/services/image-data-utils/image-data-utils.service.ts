@@ -12,7 +12,6 @@ import { BigImageData } from '../../model/big-image-data';
 })
 export class ImageDataUtilsService {
   imageUrl!: string;
-  folder: string = 'test-images-repository';
   startFinalPath: string = 'image-content-';
   endFinalPath: string = '.txt'
   finalPath!: string;
@@ -26,67 +25,9 @@ export class ImageDataUtilsService {
 
   }
 
-  setImageContent(imageUrl: string, index: number){
-    this.bigImageTab
-    .filter(element => element.key == index)
-    .at(0)!
-    .imageUrlContent = imageUrl
-    ;
-  }
-
-  loadIndexedImageUrl(index: number): string{
-    return this.bigImageTab
-    .filter(element => element.key == index)
-    .map(element => element.imageUrlContent)
-    .at(0)!
-    ;
-  }
-
-  constructFinalPath(index: number){
-    this.finalPath = this.folder + "/" + this.startFinalPath + index + this.endFinalPath;
-  }
-
-  getBlobContent(response: any): Observable<any>{
-    this.gitManager.sha = response.sha;
-
-    const blobUrl = this.gitManager.getBlobUrl(response);
-
-    return this.http.get(blobUrl, { headers: this.gitManager.getHeaders(), responseType: 'json' })
-  }
-
-  loadImageData(index: number): Observable<any>{
-    this.constructFinalPath(index);
-    return this.gitManager.get(this.finalPath);
-  }
-
-  fillBigImageTab(index: number): Observable<any> {
-    return this.loadImageData(index).pipe(
-      switchMap(response => this.getBlobContent(response)),
-      map(data => {
-        const imageContent = "data:image/jpeg;base64," + atob(data.content);
-        const element = this.bigImageTab.find(el => el.key === index);
-        if (element) {
-          element.imageUrlContent = imageContent;
-        }
-        return element; 
-      }),
-      catchError(error => {
-        console.error(error);
-        return throwError(() => new Error(error));
-      })
-    );
-  }
-
-  putData(imageData: CustomImageData, response: any): Observable<any>{
-    this.gitManager.sha = response.sha;
-
-    const gitBody: GitBody = this.gitManager.getGitBody(this.finalPath, imageData.imageUrlContent, this.gitManager.sha.toString())
-    return this.gitManager.putData(gitBody)
-  }
-
-  saveImageData(index: number, imageData: CustomImageData){
+  saveImageData(index: number, imageData: CustomImageData, folder: string){
     this.hasBeenSaved = 'ImageSave is processing';
-    this.loadImageData(index)
+    this.loadImageData(index, folder)
     .subscribe({
       next: (response: any) => {
         this.putData(imageData, response)
@@ -112,5 +53,63 @@ export class ImageDataUtilsService {
       imageUrlPath: imageUrlSplitted[0],
       imageUrlContent: imageUrlSplitted[1],
     }
+  }
+
+  setImageContent(imageUrl: string, index: number){
+    this.bigImageTab
+    .filter(element => element.key == index)
+    .at(0)!
+    .imageUrlContent = imageUrl
+    ;
+  }
+
+  loadIndexedImageUrl(index: number): string{
+    return this.bigImageTab
+    .filter(element => element.key == index)
+    .map(element => element.imageUrlContent)
+    .at(0)!
+    ;
+  }
+
+  fillBigImageTab(index: number, folder: string): Observable<any> {
+    return this.loadImageData(index, folder).pipe(
+      switchMap(response => this.getBlobContent(response)),
+      map(data => {
+        const imageContent = "data:image/jpeg;base64," + atob(data.content);
+        const element = this.bigImageTab.find(el => el.key === index);
+        if (element) {
+          element.imageUrlContent = imageContent;
+        }
+        return element; 
+      }),
+      catchError(error => {
+        console.error(error);
+        return throwError(() => new Error(error));
+      })
+    );
+  }
+
+  private constructFinalPath(index: number, folder: string){
+    this.finalPath = folder + "/" + this.startFinalPath + index + this.endFinalPath;
+  }
+
+  private getBlobContent(response: any): Observable<any>{
+    this.gitManager.sha = response.sha;
+
+    const blobUrl = this.gitManager.getBlobUrl(response);
+
+    return this.http.get(blobUrl, { headers: this.gitManager.getHeaders(), responseType: 'json' })
+  }
+
+  private loadImageData(index: number, folder: string): Observable<any>{
+    this.constructFinalPath(index, folder);
+    return this.gitManager.get(this.finalPath);
+  }
+
+  private putData(imageData: CustomImageData, response: any): Observable<any>{
+    this.gitManager.sha = response.sha;
+
+    const gitBody: GitBody = this.gitManager.getGitBody(this.finalPath, imageData.imageUrlContent, this.gitManager.sha.toString())
+    return this.gitManager.putData(gitBody)
   }
 }

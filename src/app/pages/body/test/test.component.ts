@@ -18,6 +18,7 @@ export class TestComponent implements OnInit{
   dropdownTab!: number[];
   selectedIndex!: number;
   imageUrl!: string;
+  folder: string = 'test-images-repository';
 
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
@@ -46,14 +47,6 @@ export class TestComponent implements OnInit{
     });
   }
 
-  setDropdown(){
-    this.dropdownTab = 
-     this.layoutManager.layoutDataTabFromDb
-      .map(element => element.key)
-      .sort((a, b) => (a - b))
-      ;
-  }
-
   getMainBackgroundStyle(): string{
     this.setLayoutData();
 
@@ -72,49 +65,10 @@ export class TestComponent implements OnInit{
     return 'background-color: ' + realColor + '; height: 50%; width: 50%; margin: auto;'
   }
 
-  setLayoutData(){
-    this.layoutManager.layoutData.mainBackgroundColor = this.mainBackgroundColor;
-    this.layoutManager.layoutData.imageBackgroundColor = this.imageBackgroundColor;
-  }
-
-  loadImageData(index: number){
-    this.imageUrl = this.imageDataUtils.loadIndexedImageUrl(index);
-  }
-
-  loadAllImageData() {
-    this.imageDataUtils.bigImageTab =
-    this.layoutManager.layoutDataTabFromDb
-      .map(element => {
-        return {key: element.key} 
-      })
-
-    const tasks = this.imageDataUtils.bigImageTab.map(element => this.imageDataUtils.fillBigImageTab(element.key));
-  
-    forkJoin(tasks).subscribe({
-      next: (results) => {
-        console.log("Toutes les images ont été chargées", results);
-        this.loadImageData(1);
-      },
-      error: (error) => {
-        console.error("Erreur lors du chargement des images", error);
-      }
-    });
-  }
-
   loadLayoutDataDropdown(event: any){
     this.layoutManager.updateCurrentLayoutDataTab()
     this.loadLayoutData(event.value)
     this.loadImageData(event.value);
-  }
-
-  loadLayoutData(index: number){
-    this.selectedIndex = index;
-    this.layoutManager.updateCurrentLayoutData(this.selectedIndex);
-    this.layoutManager.layoutData.hasBeenSaved = '';
-    this.mainBackgroundColor = this.layoutManager.layoutData.mainBackgroundColor;
-    this.imageBackgroundColor = this.layoutManager.layoutData.imageBackgroundColor;
-
-    this.imageUrl = '';
   }
 
   upload(event: any){
@@ -142,6 +96,53 @@ export class TestComponent implements OnInit{
 
   saveImage(){
     const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageUrl);
-    this.imageDataUtils.saveImageData(this.selectedIndex, imageData);
+    this.imageDataUtils.saveImageData(this.selectedIndex, imageData, this.folder);
+  }
+
+  private setDropdown(){
+    this.dropdownTab = 
+     this.layoutManager.layoutDataTabFromDb
+      .map(element => element.key)
+      .sort((a, b) => (a - b))
+      ;
+  }
+
+  private setLayoutData(){
+    this.layoutManager.layoutData.mainBackgroundColor = this.mainBackgroundColor;
+    this.layoutManager.layoutData.imageBackgroundColor = this.imageBackgroundColor;
+  }
+
+  private loadImageData(index: number){
+    this.imageUrl = this.imageDataUtils.loadIndexedImageUrl(index);
+  }
+
+  private loadAllImageData() {
+    this.imageDataUtils.bigImageTab =
+    this.layoutManager.layoutDataTabFromDb
+      .map(element => {
+        return {key: element.key} 
+      })
+
+    const tasks = this.imageDataUtils.bigImageTab.map(element => this.imageDataUtils.fillBigImageTab(element.key, this.folder));
+  
+    forkJoin(tasks).subscribe({
+      next: (results) => {
+        console.log("Toutes les images ont été chargées", results);
+        this.loadImageData(1);
+      },
+      error: (error) => {
+        console.error("Erreur lors du chargement des images", error);
+      }
+    });
+  }
+
+  private loadLayoutData(index: number){
+    this.selectedIndex = index;
+    this.layoutManager.updateCurrentLayoutData(this.selectedIndex);
+    this.layoutManager.layoutData.hasBeenSaved = '';
+    this.mainBackgroundColor = this.layoutManager.layoutData.mainBackgroundColor;
+    this.imageBackgroundColor = this.layoutManager.layoutData.imageBackgroundColor;
+
+    this.imageUrl = '';
   }
 }
