@@ -12,6 +12,7 @@ import { BigImageData } from '../../model/big-image-data';
 })
 export class ImageDataUtilsService {
   imageUrl!: string;
+  folder: string = 'test-images-repository';
   startFinalPath: string = 'image-content-';
   endFinalPath: string = '.txt'
   finalPath!: string;
@@ -42,7 +43,7 @@ export class ImageDataUtilsService {
   }
 
   constructFinalPath(index: number){
-    this.finalPath = this.startFinalPath + index + this.endFinalPath;
+    this.finalPath = this.folder + "/" + this.startFinalPath + index + this.endFinalPath;
   }
 
   getBlobContent(response: any): Observable<any>{
