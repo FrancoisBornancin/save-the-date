@@ -21,18 +21,41 @@ export class ComponentFacadeService {
   }
 
   getElements(index: number){
-      // this.selectedIndex = index;
       this.layoutManager.updateCurrentLayoutData(index);
       this.layoutManager.layoutData.hasBeenSaved = '';
-      // this.mainBackgroundColor = this.layoutManager.layoutData.mainBackgroundColor;
-      // this.imageBackgroundColor = this.layoutManager.layoutData.imageBackgroundColor;
-  
-      // this.imageUrl = '';
-  
+
       return {
         imageUrl: '',
         mainBackgroundColor: this.layoutManager.layoutData.mainBackgroundColor,
         imageBackgroundColor: this.layoutManager.layoutData.imageBackgroundColor
       }
+  }
+
+  initTasks(imageFolder: string){
+    this.imageDataUtils.bigImageTab =
+    this.layoutManager.layoutDataTabFromDb
+      .map(element => {
+        return {key: element.key}
+      })
+
+    return this.imageDataUtils.bigImageTab.map(element => this.imageDataUtils.fillBigImageTab(element.key, imageFolder));
+  }
+
+  getImageUrl(index: number){
+    return this.imageDataUtils.loadIndexedImageUrl(index);
+  }
+
+  getDropdownIndexes(){
+    const numberTab: number[] =
+     this.layoutManager.layoutDataTabFromDb
+      .map(element => element.key)
+      .sort((a, b) => (a - b))
+      ;
+
+    return [...new Set(numberTab)];
+  }
+
+  saveLayout(selectedIndex: number, layoutJsonName: string){
+    this.layoutManager.saveData(selectedIndex, layoutJsonName);
   }
 }
