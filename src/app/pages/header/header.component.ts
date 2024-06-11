@@ -20,4 +20,8 @@ export class HeaderComponent {
   returnProgram(){
     this.router.navigate(['program']);
   }
+
+  returnTest(){
+    this.router.navigate(['test']);
+  }
 }
