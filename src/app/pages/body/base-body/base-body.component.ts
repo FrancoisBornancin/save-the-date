@@ -1,9 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FileUpload } from 'primeng/fileupload';
 import { forkJoin } from 'rxjs';
-import { CustomImageData } from '../../../model/image-data';
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
-import { ImageDataUtilsService } from '../../../services/image-data-utils/image-data-utils.service';
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
 
 @Component({
@@ -23,15 +21,13 @@ export class BaseBodyComponent implements OnInit{
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
   constructor(
-    public layoutManager: LayoutManagerService,
-    public imageDataUtils: ImageDataUtilsService,
-    private componentFacade: ComponentFacadeService
+    public componentFacade: ComponentFacadeService
   ){
 
   }
 
   ngOnInit(): void {
-    this.layoutManager.loadData(this.layoutJsonName)
+    this.componentFacade.loadData(this.layoutJsonName)
     .subscribe({
       next: (response: any) => {
         this.componentFacade.initImplicitDependencies(response);
@@ -76,7 +72,7 @@ export class BaseBodyComponent implements OnInit{
 
   loadLayoutDataDropdown(event: any){
     this.selectedIndex = event.value
-    this.layoutManager.updateCurrentLayoutDataTab()
+    this.componentFacade.updateCurrentLayoutDataTab()
     this.setElements(event.value);
     this.imageUrl = this.componentFacade.getImageUrl(event.value);
   }
@@ -93,7 +89,7 @@ export class BaseBodyComponent implements OnInit{
 
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result;
-      this.imageDataUtils.setImageContent(this.imageUrl, this.selectedIndex);
+      this.componentFacade.setImageContent(this.imageUrl, this.selectedIndex);
       this.fileUpload.clear();
     };
 
@@ -105,8 +101,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   saveImage(){
-    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageUrl);
-    this.imageDataUtils.saveImageData(this.selectedIndex, imageData, this.imageFolder);
+    this.componentFacade.saveImage(this.imageUrl, this.imageFolder, this.selectedIndex);
   }
 
   private setElements(index: number){
@@ -117,7 +112,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   private setLayoutData(){
-    this.layoutManager.layoutData.mainBackgroundColor = this.mainBackgroundColor;
-    this.layoutManager.layoutData.imageBackgroundColor = this.imageBackgroundColor;
+    this.componentFacade.setLayoutData('mainBackgroundColor', this.mainBackgroundColor);
+    this.componentFacade.setLayoutData('imageBackgroundColor', this.imageBackgroundColor);
   }
 }

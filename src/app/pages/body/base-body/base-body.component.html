@@ -5,18 +5,18 @@
         <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
         <div>Main Background Color<p-colorPicker [(ngModel)]="mainBackgroundColor"></p-colorPicker></div>
         <div>Image Background Color<p-colorPicker [(ngModel)]="imageBackgroundColor"></p-colorPicker></div>
-        <input type="text" pInputText [(ngModel)]="this.layoutManager.layoutData.imageText" />
+        <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" />
         <p-fileUpload #fileUploader
             mode="basic" 
             customUpload="true" 
             (uploadHandler)="upload($event)">
         </p-fileUpload>
-        <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
-        <div>{{ this.imageDataUtils.hasBeenSaved }}</div>
+        <div>{{ this.componentFacade.layoutManager.layoutData.hasBeenSaved }}</div>
+        <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
     </div>
 
     <div [style]="getImageBackgroundStyle()" style="display: flex; align-items: center; justify-content: center; height: 100%;">
-        {{ this.layoutManager.layoutData.imageText }}
+        {{ this.componentFacade.layoutManager.layoutData.imageText }}
     </div>
 
     <div *ngIf="imageUrl" style="margin: auto; display: flex; align-items: center; justify-content: center; height: 100%">
