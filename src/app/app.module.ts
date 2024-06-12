@@ -16,6 +16,7 @@ import { TestComponent } from './pages/body/test/test.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { ProgramComponent } from './pages/body/program/program.component';
+import { BaseBodyComponent } from './pages/body/base-body/base-body.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ProgramComponent } from './pages/body/program/program.component';
     TestComponent,
     HeaderComponent,
     FooterComponent,
-    ProgramComponent
+    ProgramComponent,
+    BaseBodyComponent
   ],
   imports: [
     ButtonModule,
