@@ -26,6 +26,22 @@ export class BaseBodyComponent implements OnInit{
 
   }
 
+  printLineBreaks(){
+
+    return this.componentFacade
+            .layoutManager
+            .layoutData
+            .imageText
+            .replace('esp', '<br>')
+  }
+
+  getImageUrl(){
+    return "background-image: url(" + this.imageUrl + ");"
+         + "background-size: contain;"
+         + "background-repeat: no-repeat;"
+         + "height: 100%;"
+  }
+
   ngOnInit(): void {
     this.componentFacade.loadData(this.layoutJsonName)
     .subscribe({

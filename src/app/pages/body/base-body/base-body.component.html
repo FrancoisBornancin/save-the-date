@@ -1,4 +1,4 @@
-<div  [style]="getMainBackgroundStyle()" style="display: flex; flex-direction: column; height: 100%;">
+<!-- <div  [style]="getMainBackgroundStyle()" style="display: flex; flex-direction: column; height: 50%;">
     <div>
         <p-button (click)="this.saveLayout()">SaveLayout</p-button>
         <p-button (click)="this.saveImage()">SaveImage</p-button>
@@ -21,5 +21,21 @@
 
     <div *ngIf="imageUrl" style="margin: auto; display: flex; align-items: center; justify-content: center; height: 100%">
         <img [src]="imageUrl" alt="Uploaded Image" style="height: 50%; width: 50%;">
+    </div>
+</div> -->
+<div [style]="getImageUrl()">
+    <p-button (click)="this.saveImage()">SaveImage</p-button>
+    <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
+    <p-fileUpload #fileUploader
+    mode="basic" 
+    customUpload="true" 
+    (uploadHandler)="upload($event)">
+    </p-fileUpload>
+    <!-- <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" /> -->
+    <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" />
+    <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
+    <div style="height: 50%; width: 50%; background-color: aqua;">
+        <!-- {{ this.componentFacade.layoutManager.layoutData.imageText }} -->
+          <!-- {{ printLineBreaks() }} -->
     </div>
 </div>

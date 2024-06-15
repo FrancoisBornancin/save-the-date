@@ -1,4 +1,6 @@
-<div>header-component</div>
-<p-button (click)="returnHome()">home</p-button>
-<p-button (click)="returnProgram()">program</p-button>
-<p-button (click)="returnTest()">test</p-button>
+<div style="height: 20%; background-color: aqua;">
+    <ng-container *ngFor="let element of headerTab">
+        <p-button (click)="returnPage(element)">{{ element }}</p-button>
+    </ng-container>
+</div>
+

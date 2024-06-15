@@ -13,15 +13,9 @@ export class HeaderComponent {
 
   }
 
-  returnHome(){
-    this.router.navigate(['home']);
-  }
+  headerTab: string[] = ['home', "program", "test"]
 
-  returnProgram(){
-    this.router.navigate(['program']);
-  }
-
-  returnTest(){
-    this.router.navigate(['test']);
+  returnPage(pageName: string){
+    this.router.navigate([pageName]);
   }
 }
