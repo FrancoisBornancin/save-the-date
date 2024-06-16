@@ -43,7 +43,12 @@ export class BaseBodyComponent implements OnInit{
     this.fakeText = this.replace(this.fakeText, '|', '<br>');
     this.fakeText = this.replaceAndSurround(this.fakeText, ':it:', '<em>');
     this.fakeText = this.replaceAndSurround(this.fakeText, ':gr:', '<strong>');
+    this.fakeText = this.replacePuce(this.fakeText, ':p:');
     return this.fakeText
+  }
+
+  private replacePuce(initialText: string, initialElement: string): string{
+    return '';
   }
 
   private replaceAndSurround(initialText: string, initialElement: string, replacementElement: string){
@@ -79,7 +84,11 @@ export class BaseBodyComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.fakeText = ':gr:toto:gr:titi:it:tutu:it:tata';
+    // this.fakeText = ':gr:toto:gr:titi:it:tutu:it:tata';
+    // this.fakeText = 'Toto:p:tutu';
+    // this.fakeText = 'Toto:p:tutu|toto';
+    this.fakeText = 'Toto:p:tutu:p:toto';
+    // this.fakeText = 'Toto:p:tutu:p:toto|tutu';
     this.stringToHtml();
     console.log("");
 

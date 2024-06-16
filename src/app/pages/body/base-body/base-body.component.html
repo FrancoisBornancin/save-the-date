@@ -36,9 +36,13 @@
     <input type="text" pInputText [(ngModel)]="this.fakeText" />
     <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
     <div style="height: 70%; width: 70%; background-color: aqua; margin: auto; opacity: 0.5;">
-    <!-- <div style="height: 50%; width: 50%; margin: auto"> -->
         <div [innerHTML]="this.stringToHtml()"></div>
-        <!-- {{ this.componentFacade.layoutManager.layoutData.imageText }} -->
-          <!-- {{ printLineBreaks() }} -->
     </div>
+    <!-- <div>
+        <ul>
+            <li>
+                Toto
+            </li>
+        </ul>
+    </div> -->
 </div>
