@@ -18,21 +18,15 @@ export class BaseBodyComponent implements OnInit{
   @Input() imageFolder!: string
   @Input() layoutJsonName!: string
 
+  fakeText!: string;
+  replacementString!: string;
+
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
   constructor(
     public componentFacade: ComponentFacadeService
   ){
 
-  }
-
-  printLineBreaks(){
-
-    return this.componentFacade
-            .layoutManager
-            .layoutData
-            .imageText
-            .replace('esp', '<br>')
   }
 
   getImageUrl(){
@@ -42,30 +36,75 @@ export class BaseBodyComponent implements OnInit{
          + "height: 100%;"
   }
 
+  stringToHtml(){
+    const startString = "<p>"
+    const endString = "</p>"
+    this.fakeText = this.replace(this.fakeText, '|', '<br>');
+    this.fakeText = this.replaceAndSurround(this.fakeText, ':it:', '<em>');
+    this.fakeText = this.replaceAndSurround(this.fakeText, ':gr:', '<strong>');
+    return this.fakeText
+  }
+
+  private replaceAndSurround(initialText: string, initialElement: string, replacementElement: string){
+    const openBalise: string = replacementElement;
+    let closeBalise: string = replacementElement.substring(1, replacementElement.length);
+    closeBalise = "</" + closeBalise;
+
+    const splittedText = initialText.split(initialElement);
+    let stringRecontructed = "";
+    if(initialText.startsWith(initialElement)){
+      stringRecontructed = this.reconstructString(1, splittedText, openBalise, closeBalise);
+    }else{
+      stringRecontructed = this.reconstructString(0, splittedText, openBalise, closeBalise);
+    }
+    return stringRecontructed;
+  }
+
+  reconstructString(startIndex: number, splittedText: string[], openBalise: string, closeBalise: string): string{
+    let stringRecontructed = '';
+    for(let a = startIndex ; a < splittedText.length ; a++){
+      if(a % 2 != 0){
+        stringRecontructed += (openBalise + splittedText[a] + closeBalise);
+      }else{
+        stringRecontructed += splittedText[a];
+      }
+    }
+    return stringRecontructed;
+  }
+
+  private replace(initialText: string, initialElement: string, replacementElement: string): string{
+    const splittedText: string[] = initialText.split(initialElement);
+    return splittedText.join(replacementElement); 
+  }
+
   ngOnInit(): void {
-    this.componentFacade.loadData(this.layoutJsonName)
-    .subscribe({
-      next: (response: any) => {
-        this.componentFacade.initImplicitDependencies(response);
-        this.setElements(1);
-      forkJoin(
-        this.componentFacade.initTasks(this.imageFolder)
-      )
-      .subscribe({
-        next: (results) => {
-          console.log("Toutes les images ont été chargées", results);
-          this.imageUrl = this.componentFacade.getImageUrl(1);
-        },
-        error: (error) => {
-          console.error("Erreur lors du chargement des images", error);
-        }
-      });
-        this.dropdownTab = this.componentFacade.getDropdownIndexes();
-      },
-      error: e => {
-        console.log(e);
-      },
-    });
+    this.fakeText = ':gr:toto:gr:titi:it:tutu:it:tata';
+    this.stringToHtml();
+    console.log("");
+
+    // this.componentFacade.loadData(this.layoutJsonName)
+    // .subscribe({
+    //   next: (response: any) => {
+    //     this.componentFacade.initImplicitDependencies(response);
+    //     this.setElements(1);
+    //   forkJoin(
+    //     this.componentFacade.initTasks(this.imageFolder)
+    //   )
+    //   .subscribe({
+    //     next: (results) => {
+    //       console.log("Toutes les images ont été chargées", results);
+    //       this.imageUrl = this.componentFacade.getImageUrl(1);
+    //     },
+    //     error: (error) => {
+    //       console.error("Erreur lors du chargement des images", error);
+    //     }
+    //   });
+    //     this.dropdownTab = this.componentFacade.getDropdownIndexes();
+    //   },
+    //   error: e => {
+    //     console.log(e);
+    //   },
+    // });
   }
 
   getMainBackgroundStyle(): string{

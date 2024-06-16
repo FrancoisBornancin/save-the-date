@@ -32,9 +32,11 @@
     (uploadHandler)="upload($event)">
     </p-fileUpload>
     <!-- <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" /> -->
-    <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" />
+    <!-- <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" /> -->
+    <input type="text" pInputText [(ngModel)]="this.fakeText" />
     <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
     <div style="height: 50%; width: 50%; background-color: aqua;">
+        <div [innerHTML]="this.stringToHtml()"></div>
         <!-- {{ this.componentFacade.layoutManager.layoutData.imageText }} -->
           <!-- {{ printLineBreaks() }} -->
     </div>
