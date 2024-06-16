@@ -3,6 +3,7 @@ import { FileUpload } from 'primeng/fileupload';
 import { forkJoin } from 'rxjs';
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
+import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
 
 @Component({
   selector: 'app-base-body',
@@ -25,7 +26,8 @@ export class BaseBodyComponent implements OnInit{
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
   constructor(
-    public componentFacade: ComponentFacadeService
+    public componentFacade: ComponentFacadeService,
+    public stringToHtmlService: StringToHtmlService
   ){
 
   }
@@ -38,57 +40,11 @@ export class BaseBodyComponent implements OnInit{
   }
 
   stringToHtml(){
-    const startString = "<p>"
-    const endString = "</p>"
-    this.fakeText = this.replace(this.fakeText, '|', '<br>');
-    this.fakeText = this.replaceAndSurround(this.fakeText, ':it:', '<em>');
-    this.fakeText = this.replaceAndSurround(this.fakeText, ':gr:', '<strong>');
-    this.fakeText = this.replacePuce(this.fakeText, ':p:');
-    return this.fakeText
-  }
-
-  private replacePuce(initialText: string, initialElement: string): string{
-    return '';
-  }
-
-  private replaceAndSurround(initialText: string, initialElement: string, replacementElement: string){
-    const openBalise: string = replacementElement;
-    let closeBalise: string = replacementElement.substring(1, replacementElement.length);
-    closeBalise = "</" + closeBalise;
-
-    const splittedText = initialText.split(initialElement);
-    let stringRecontructed = "";
-    if(initialText.startsWith(initialElement)){
-      stringRecontructed = this.reconstructString(1, splittedText, openBalise, closeBalise);
-    }else{
-      stringRecontructed = this.reconstructString(0, splittedText, openBalise, closeBalise);
-    }
-    return stringRecontructed;
-  }
-
-  reconstructString(startIndex: number, splittedText: string[], openBalise: string, closeBalise: string): string{
-    let stringRecontructed = '';
-    for(let a = startIndex ; a < splittedText.length ; a++){
-      if(a % 2 != 0){
-        stringRecontructed += (openBalise + splittedText[a] + closeBalise);
-      }else{
-        stringRecontructed += splittedText[a];
-      }
-    }
-    return stringRecontructed;
-  }
-
-  private replace(initialText: string, initialElement: string, replacementElement: string): string{
-    const splittedText: string[] = initialText.split(initialElement);
-    return splittedText.join(replacementElement); 
+      return this.stringToHtmlService.replaceString(this.fakeText);
   }
 
   ngOnInit(): void {
-    // this.fakeText = ':gr:toto:gr:titi:it:tutu:it:tata';
-    // this.fakeText = 'Toto:p:tutu';
-    // this.fakeText = 'Toto:p:tutu|toto';
     this.fakeText = 'Toto:p:tutu:p:toto';
-    // this.fakeText = 'Toto:p:tutu:p:toto|tutu';
     this.stringToHtml();
     console.log("");
 

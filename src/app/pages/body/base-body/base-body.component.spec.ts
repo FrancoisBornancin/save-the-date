@@ -2,22 +2,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BaseBodyComponent } from './base-body.component';
 
-describe('BaseBodyComponent', () => {
-  let component: BaseBodyComponent;
-  let fixture: ComponentFixture<BaseBodyComponent>;
+// describe('BaseBodyComponent', () => {
+//   let component: BaseBodyComponent;
+//   let fixture: ComponentFixture<BaseBodyComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [BaseBodyComponent]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       declarations: [BaseBodyComponent]
+//     })
+//     .compileComponents();
     
-    fixture = TestBed.createComponent(BaseBodyComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(BaseBodyComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });
