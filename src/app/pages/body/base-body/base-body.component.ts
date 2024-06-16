@@ -14,7 +14,8 @@ export class BaseBodyComponent implements OnInit{
   imageBackgroundColor!: string;
   dropdownTab!: number[];
   selectedIndex!: number;
-  imageUrl!: string;
+  // imageUrl!: string;
+  imageUrl: string = 'assets/test-wedding.jpg';
   @Input() imageFolder!: string
   @Input() layoutJsonName!: string
 
