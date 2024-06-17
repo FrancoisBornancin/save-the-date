@@ -16,8 +16,7 @@ export class BaseBodyComponent implements OnInit{
   imageBackgroundColor!: string;
   dropdownTab!: number[];
   selectedIndex!: number;
-  // imageUrl!: string;
-  imageUrl: string = 'assets/test-wedding.jpg';
+  imageUrl!: string;
   @Input() imageFolder!: string
   @Input() layoutJsonName!: string
 
@@ -42,37 +41,33 @@ export class BaseBodyComponent implements OnInit{
   }
 
   stringToHtml(){
-      return this.stringToHtmlService.replaceString(this.fakeText);
+      return this.stringToHtmlService.replaceString(this.componentFacade.layoutManager.layoutData.imageText);
   }
 
   ngOnInit(): void {
-    this.fakeText = 'Toto:p:tutu:p:toto';
-    this.stringToHtml();
-    console.log("");
-
-    // this.componentFacade.loadData(this.layoutJsonName)
-    // .subscribe({
-    //   next: (response: any) => {
-    //     this.componentFacade.initImplicitDependencies(response);
-    //     this.setElements(1);
-    //   forkJoin(
-    //     this.componentFacade.initTasks(this.imageFolder)
-    //   )
-    //   .subscribe({
-    //     next: (results) => {
-    //       console.log("Toutes les images ont été chargées", results);
-    //       this.imageUrl = this.componentFacade.getImageUrl(1);
-    //     },
-    //     error: (error) => {
-    //       console.error("Erreur lors du chargement des images", error);
-    //     }
-    //   });
-    //     this.dropdownTab = this.componentFacade.getDropdownIndexes();
-    //   },
-    //   error: e => {
-    //     console.log(e);
-    //   },
-    // });
+    this.componentFacade.loadData(this.layoutJsonName)
+    .subscribe({
+      next: (response: any) => {
+        this.componentFacade.initImplicitDependencies(response);
+        this.setElements(1);
+      forkJoin(
+        this.componentFacade.initTasks(this.imageFolder)
+      )
+      .subscribe({
+        next: (results) => {
+          console.log("Toutes les images ont été chargées", results);
+          this.imageUrl = this.componentFacade.getImageUrl(1);
+        },
+        error: (error) => {
+          console.error("Erreur lors du chargement des images", error);
+        }
+      });
+        this.dropdownTab = this.componentFacade.getDropdownIndexes();
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
   }
 
   getMainBackgroundStyle(): string{
