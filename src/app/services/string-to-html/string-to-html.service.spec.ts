@@ -69,32 +69,35 @@ describe('StringToHtmlService', () => {
   });
 
   it('test with :p:toto ', () => {
+    console.log("");
     const html = service.replaceString(':p:toto');
-    expect(html).toEqual('<ul><li>toto</ul></li>');
+    expect(html).toEqual('<ul><li>toto</li></ul>');
   });
 
   it('test with tata:p:toto ', () => {
+    console.log("");
     const html = service.replaceString('tata:p:toto');
-    expect(html).toEqual('tata<ul><li>toto</ul></li>');
+    expect(html).toEqual('tata<ul><li>toto</li></ul>');
   });
 
   it('test with :p:toto:p:tata ', () => {
+    console.log("");
     const html = service.replaceString(':p:toto:p:tata');
-    expect(html).toEqual('<ul><li>toto</ul></li><ul><li>tata</ul></li>');
+    expect(html).toEqual('<ul><li>toto</li></ul><ul><li>tata</li></ul>');
   });
 
   it('test with :p:toto|tata ', () => {
     const html = service.replaceString(':p:toto|tata');
-    expect(html).toEqual('<ul><li>toto</ul></li><br>tata');
+    expect(html).toEqual('<ul><li>toto</li></ul><br>tata');
   });
 
   it('test with :p:toto:p:tata|tutu ', () => {
     const html = service.replaceString(':p:toto:p:tata|tutu');
-    expect(html).toEqual('<ul><li>toto</ul></li><ul><li>tata</ul></li><br>tutu');
+    expect(html).toEqual('<ul><li>toto</li></ul><ul><li>tata</li></ul><br>tutu');
   });
 
   it('test with :p:toto:p:tata|tutu:p:tete ', () => {
     const html = service.replaceString(':p:toto:p:tata|tutu:p:tete');
-    expect(html).toEqual('<ul><li>toto</ul></li><ul><li>tata</ul></li><br>tutu<ul><li>tete</ul></li>');
+    expect(html).toEqual('<ul><li>toto</li></ul><ul><li>tata</li></ul><br>tutu<ul><li>tete</li></ul>');
   });
 });
