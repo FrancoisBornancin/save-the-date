@@ -24,25 +24,20 @@
     </div>
 </div> -->
 <div [style]="getImageUrl()">
-    <p-button (click)="this.saveImage()">SaveImage</p-button>
-    <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
-    <p-fileUpload #fileUploader
-    mode="basic" 
-    customUpload="true" 
-    (uploadHandler)="upload($event)">
-    </p-fileUpload>
-    <!-- <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" /> -->
-    <!-- <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" /> -->
-    <input type="text" pInputText [(ngModel)]="this.fakeText" />
+    <ng-container *ngIf="!this.adminManager.isPreviewActive">
+        <p-button (click)="this.saveImage()">SaveImage</p-button>
+        <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
+        <p-fileUpload #fileUploader
+        mode="basic" 
+        customUpload="true" 
+        (uploadHandler)="upload($event)">
+        </p-fileUpload>
+        <!-- <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" /> -->
+        <!-- <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" /> -->
+        <input type="text" pInputText [(ngModel)]="this.fakeText" />
+    </ng-container>
     <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
     <div style="height: 70%; width: 70%; background-color: aqua; margin: auto; opacity: 0.5;">
         <div [innerHTML]="this.stringToHtml()"></div>
     </div>
-    <!-- <div>
-        <ul>
-            <li>
-                Toto
-            </li>
-        </ul>
-    </div> -->
 </div>

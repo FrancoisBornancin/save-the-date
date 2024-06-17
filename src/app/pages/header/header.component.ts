@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AdminManagerService } from '../../services/admin-manager/admin-manager.service';
 
 @Component({
   selector: 'app-header',
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   constructor(
+    public adminManager: AdminManagerService,
     private router: Router
   ){
 

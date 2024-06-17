@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
 import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
+import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 
 @Component({
   selector: 'app-base-body',
@@ -27,7 +28,8 @@ export class BaseBodyComponent implements OnInit{
 
   constructor(
     public componentFacade: ComponentFacadeService,
-    public stringToHtmlService: StringToHtmlService
+    public stringToHtmlService: StringToHtmlService,
+    public adminManager: AdminManagerService
   ){
 
   }
