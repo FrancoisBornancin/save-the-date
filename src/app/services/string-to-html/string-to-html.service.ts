@@ -9,7 +9,7 @@ export class StringToHtmlService {
 
   replaceString(stringToReplace: string): string{
     if(stringToReplace != undefined){
-      const startString = "<p>"
+      const startString = "<p style='color: rgba(0, 0, 0, 1)'>"
       const endString = "</p>"
       stringToReplace = this.replace(stringToReplace, '|', '<br>');
       stringToReplace = this.replaceAndSurround(stringToReplace, ':it:', '<em>');

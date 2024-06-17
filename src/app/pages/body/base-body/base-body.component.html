@@ -1,32 +1,20 @@
-<!-- <div  [style]="getMainBackgroundStyle()" style="display: flex; flex-direction: column; height: 50%;">
-    <div>
-        <p-button (click)="this.saveLayout()">SaveLayout</p-button>
-        <p-button (click)="this.saveImage()">SaveImage</p-button>
-        <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
-        <div>Main Background Color<p-colorPicker [(ngModel)]="mainBackgroundColor"></p-colorPicker></div>
-        <div>Image Background Color<p-colorPicker [(ngModel)]="imageBackgroundColor"></p-colorPicker></div>
-        <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" />
-        <p-fileUpload #fileUploader
-            mode="basic" 
-            customUpload="true" 
-            (uploadHandler)="upload($event)">
-        </p-fileUpload>
-        <div>{{ this.componentFacade.layoutManager.layoutData.hasBeenSaved }}</div>
-        <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
-    </div>
-
-    <div [style]="getImageBackgroundStyle()" style="display: flex; align-items: center; justify-content: center; height: 100%;">
-        {{ this.componentFacade.layoutManager.layoutData.imageText }}
-    </div>
-
-    <div *ngIf="imageUrl" style="margin: auto; display: flex; align-items: center; justify-content: center; height: 100%">
-        <img [src]="imageUrl" alt="Uploaded Image" style="height: 50%; width: 50%;">
-    </div>
-</div> -->
 <div [style]="getImageUrl()">
     <ng-container *ngIf="!this.adminManager.isPreviewActive">
         <p-button (click)="this.saveImage()">SaveImage</p-button>
         <p-button (click)="this.saveLayout()">SaveLayout</p-button>
+        <ng-container *ngIf="this.colorRendered">
+            <p-colorPicker [(ngModel)]="this.imageBackgroundColor"></p-colorPicker>
+            <p-button (onClick)="this.doNotPrintColor()">No Color</p-button>
+            <p-button (onClick)="increaseData('opacity', 10)">(+) opacity</p-button>
+            <p-button (onClick)="decreaseData('opacity', 10)">(-) opacity</p-button>
+        </ng-container>
+        <ng-container *ngIf="!this.colorRendered">
+            <p-button (onClick)="this.printColor()">Color</p-button>
+        </ng-container>
+        <p-button (onClick)="increaseData('width', 1)">(+) width</p-button>
+        <p-button (onClick)="decreaseData('width', 1)">(-) width</p-button>
+        <p-button (onClick)="increaseData('height', 1)">(+) height</p-button>
+        <p-button (onClick)="decreaseData('height', 1)">(-) height</p-button>
         <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
         <p-fileUpload #fileUploader
         mode="basic" 
@@ -36,9 +24,11 @@
         <div>{{ this.componentFacade.layoutManager.layoutData.hasBeenSaved }}</div>
         <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
         <input type="text" pInputText [(ngModel)]="this.componentFacade.layoutManager.layoutData.imageText" />
+        <!-- <input type="text" pInputText [(ngModel)]="this.fakeText" /> -->
     </ng-container>
-    <div style="height: 70%; width: 70%; background-color: aqua; margin: auto; opacity: 0.5;">
+    <div  [style]="this.getImageBackgroundStyle()">
         <ng-container *ngIf="this.componentFacade.layoutManager.layoutData">
+        <!-- <ng-container *ngIf="this.fakeText"> -->
             <div [innerHTML]="this.stringToHtml()"></div>
         </ng-container>
     </div>

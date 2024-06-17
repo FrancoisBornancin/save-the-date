@@ -5,6 +5,7 @@ import { ComponentFacadeService } from '../../../services/component-facade/compo
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
 import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
+import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
 
 @Component({
   selector: 'app-base-body',
@@ -20,14 +21,17 @@ export class BaseBodyComponent implements OnInit{
   @Input() imageFolder!: string
   @Input() layoutJsonName!: string
 
+  toto: { [key: string]: number } = {};
   fakeText!: string;
-  replacementString!: string;
+
+  colorRendered: boolean = false;
 
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
   constructor(
     public componentFacade: ComponentFacadeService,
     public stringToHtmlService: StringToHtmlService,
+    private colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService
   ){
 
@@ -42,9 +46,11 @@ export class BaseBodyComponent implements OnInit{
 
   stringToHtml(){
       return this.stringToHtmlService.replaceString(this.componentFacade.layoutManager.layoutData.imageText);
+      // return this.stringToHtmlService.replaceString(this.fakeText);
   }
 
   ngOnInit(): void {
+    // this.fakeText = 'toto';
     this.componentFacade.loadData(this.layoutJsonName)
     .subscribe({
       next: (response: any) => {
@@ -70,13 +76,23 @@ export class BaseBodyComponent implements OnInit{
     });
   }
 
-  getMainBackgroundStyle(): string{
-    this.setLayoutData();
+  increaseData(data: string, value: number){
+    if(this.toto[data] == undefined){
+      this.toto[data] = 70; 
+    }else{
+      if(data != 'opacity') this.toto[data] += value;
+      else {
+        if(this.toto[data] != 100) this.toto[data] += value;
+      }
+    }
+  }
 
-    let realColor: string;
-    if(this.mainBackgroundColor == undefined) realColor = 'blue';
-    else realColor = this.mainBackgroundColor
-    return 'background-color: ' + realColor + '; height: 100%;'
+  decreaseData(data: string, value: number){
+    if(this.toto[data] == undefined){
+      this.toto[data] = 70; 
+    }else{
+      if(this.toto[data] != 0) this.toto[data] -= value;
+    }
   }
 
   getImageBackgroundStyle(): string{
@@ -85,7 +101,36 @@ export class BaseBodyComponent implements OnInit{
     let realColor: string;
     if(this.imageBackgroundColor == undefined) realColor = 'blue';
     else realColor = this.imageBackgroundColor
-    return 'background-color: ' + realColor + '; height: 50%; width: 50%; margin: auto;'
+
+    let opacity: number = 0; 
+  
+    if(this.toto['opacity'] == undefined){
+      opacity = 0.2
+    }else{
+      opacity = ((this.toto['opacity'])/100);
+    }
+
+    let backgroundColor = '';
+    if(this.colorRendered){
+      backgroundColor = 
+       "background-color: " + this.colorConvertor.addOpacity(
+        this.colorConvertor.convertToRgba(this.imageBackgroundColor),
+        opacity
+       ) + ";"
+       console.log("");
+    } 
+    return "height: " + this.toto['height'] + "%;"
+         + "width: " + this.toto['width'] + "%;" 
+         + "margin: auto;"
+         + backgroundColor 
+  }
+
+  printColor(){
+    this.colorRendered = true;
+  }
+
+  doNotPrintColor(){
+    this.colorRendered = false;
   }
 
   loadLayoutDataDropdown(event: any){
@@ -130,7 +175,6 @@ export class BaseBodyComponent implements OnInit{
   }
 
   private setLayoutData(){
-    this.componentFacade.setLayoutData('mainBackgroundColor', this.mainBackgroundColor);
     this.componentFacade.setLayoutData('imageBackgroundColor', this.imageBackgroundColor);
   }
 }
