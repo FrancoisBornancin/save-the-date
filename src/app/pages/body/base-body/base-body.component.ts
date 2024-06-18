@@ -86,7 +86,7 @@ export class BaseBodyComponent implements OnInit{
 
   increaseData(data: string, value: number){
     if(this.toto[data] == undefined){
-      this.toto[data] = 70; 
+      this.toto[data] = 70;
     }else{
       if(data != 'opacity') this.toto[data] += value;
       else {
@@ -97,7 +97,7 @@ export class BaseBodyComponent implements OnInit{
 
   decreaseData(data: string, value: number){
     if(this.toto[data] == undefined){
-      this.toto[data] = 70; 
+      this.toto[data] = 70;
     }else{
       if(this.toto[data] != 0) this.toto[data] -= value;
     }
@@ -110,8 +110,8 @@ export class BaseBodyComponent implements OnInit{
     if(this.imageBackgroundColor == undefined) realColor = 'blue';
     else realColor = this.imageBackgroundColor
 
-    let opacity: number = 0; 
-  
+    let opacity: number = 0;
+
     if(this.toto['opacity'] == undefined){
       opacity = 0.2
     }else{
@@ -120,17 +120,17 @@ export class BaseBodyComponent implements OnInit{
 
     let backgroundColor = '';
     if(this.colorRendered){
-      backgroundColor = 
+      backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
         this.colorConvertor.convertToRgba(this.imageBackgroundColor),
         opacity
        ) + ";"
        console.log("");
-    } 
+    }
     return "height: " + this.toto['height'] + "%;"
-         + "width: " + this.toto['width'] + "%;" 
+         + "width: " + this.toto['width'] + "%;"
          + "margin: auto;"
-         + backgroundColor 
+         + backgroundColor
   }
 
   printColor(){

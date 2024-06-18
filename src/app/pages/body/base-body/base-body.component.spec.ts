@@ -15,7 +15,7 @@ import { GitBody } from "../../../model/git-body";
 describe('BaseBodyComponent', () => {
   let component: BaseBodyComponent;
   let fixture: ComponentFixture<BaseBodyComponent>;
-  let componentFacade: ComponentFacadeService 
+  let componentFacade: ComponentFacadeService
   let stringToHtml: StringToHtmlService
   let colorConvertor: ColorConvertorService
   let adminManager: AdminManagerService
@@ -31,7 +31,7 @@ describe('BaseBodyComponent', () => {
         ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(BaseBodyComponent);
     componentFacade = TestBed.inject(ComponentFacadeService);
     stringToHtml = TestBed.inject(StringToHtmlService);
@@ -46,11 +46,11 @@ describe('BaseBodyComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('LayoutData should contains only those keys' 
+  it('LayoutData should contains only those keys'
     + "key, height, width, opacity, imageBackgroundColor, imageText, hasBeenSaved"
     + '"', () => {
     const layoutData: LayoutData = getInitialTab().at(0)!;
-    const layoutDataKeys = Object.keys(layoutData); 
+    const layoutDataKeys = Object.keys(layoutData);
     const layoutDataKeysToString
       = layoutDataKeys
         .join(", ")
@@ -132,9 +132,9 @@ describe('BaseBodyComponent', () => {
   it('on loadLayoutDataDropdown, selectIndex should be set', () => {
     const event = {value: 3};
 
-    spyOn(componentFacade, 'updateCurrentLayoutDataTab')  
-    
-    spyOn(componentFacade, 'getImageUrl')  
+    spyOn(componentFacade, 'updateCurrentLayoutDataTab')
+
+    spyOn(componentFacade, 'getImageUrl')
       .and.returnValue('fakeUrl');
 
     spyOn(componentFacade, 'getLayoutElements')
@@ -163,8 +163,8 @@ describe('BaseBodyComponent', () => {
 
     componentFacade.layoutManager.layoutDataTabCurrent = layoutDataTab;
     componentFacade.layoutManager.layoutData = layoutData;
-    
-    spyOn(componentFacade, 'getImageUrl')  
+
+    spyOn(componentFacade, 'getImageUrl')
       .and.returnValue('fakeUrl');
 
     spyOn(componentFacade, 'getLayoutElements')
@@ -183,18 +183,18 @@ describe('BaseBodyComponent', () => {
   it('on loadLayoutDataDropdown, layoutElements should be set', () => {
     const event = {value: 2};
     const layoutDataTab: LayoutData[] = getInitialTab();
-    componentFacade.layoutManager.layoutDataTabCurrent = layoutDataTab; 
+    componentFacade.layoutManager.layoutDataTabCurrent = layoutDataTab;
 
-    spyOn(componentFacade, 'updateCurrentLayoutDataTab')  
+    spyOn(componentFacade, 'updateCurrentLayoutDataTab')
 
-    spyOn(componentFacade, 'getImageUrl')  
+    spyOn(componentFacade, 'getImageUrl')
     .and.returnValue('fakeUrl');
 
     component.loadLayoutDataDropdown(event);
 
     console.log("");
 
-    const expectedlayoutDataSet 
+    const expectedlayoutDataSet
       = layoutDataTab.filter(element => element.key == event.value)
         .at(0)!
 
@@ -208,9 +208,9 @@ describe('BaseBodyComponent', () => {
   it('on loadLayoutDataDropdown, imageUrl should be set', () => {
     const event = {value: 3};
 
-    spyOn(componentFacade, 'updateCurrentLayoutDataTab')  
-    
-    spyOn(componentFacade, 'getImageUrl')  
+    spyOn(componentFacade, 'updateCurrentLayoutDataTab')
+
+    spyOn(componentFacade, 'getImageUrl')
       .and.returnValue('fakeUrl');
 
     spyOn(componentFacade, 'getLayoutElements')
@@ -243,10 +243,10 @@ describe('BaseBodyComponent', () => {
 
   it('on saveLayout, layoutDataFromDb should be updated with index from currentLayoutData', () => {
     component.layoutJsonName = 'fakeRepositoryName';
-    component.selectedIndex = 1;    
+    component.selectedIndex = 1;
 
-    componentFacade.layoutManager.layoutData = getInitialTab().filter(element => element.key == component.selectedIndex).at(0)! 
-    
+    componentFacade.layoutManager.layoutData = getInitialTab().filter(element => element.key == component.selectedIndex).at(0)!
+
     componentFacade.layoutManager.layoutDataTabFromDb = [
       {
         key: 1,
@@ -276,16 +276,16 @@ describe('BaseBodyComponent', () => {
 
     component.saveLayout()
 
-    const layoutDataFromDbUpdated 
+    const layoutDataFromDbUpdated
       = componentFacade.layoutManager.
-        layoutDataTabFromDb.filter(element => element.key == component.selectedIndex).at(0); 
+        layoutDataTabFromDb.filter(element => element.key == component.selectedIndex).at(0);
 
     expect(layoutDataFromDbUpdated).toEqual(componentFacade.layoutManager.layoutData);
   });
 
   it('on saveLayout, layoutDataFromDb should be saved', () => {
     component.layoutJsonName = 'fakeRepositoryName';
-    component.selectedIndex = 1;    
+    component.selectedIndex = 1;
     componentFacade.layoutManager.layoutData = {
       key: 1,
       height: 60,
@@ -294,8 +294,8 @@ describe('BaseBodyComponent', () => {
       imageBackgroundColor: 'toto',
       imageText: 'toto',
       hasBeenSaved: 'toto',
-    }, 
-    
+    },
+
     componentFacade.layoutManager.layoutDataTabFromDb = getInitialTab();
 
     spyOn(componentFacade.layoutManager, 'updateLayoutTab')
@@ -308,16 +308,16 @@ describe('BaseBodyComponent', () => {
 
     component.saveLayout()
 
-    const gitBody: GitBody 
+    const gitBody: GitBody
       = componentFacade
           .layoutManager
           .gitManager
           .getGitBody(
             component.layoutJsonName,
-            JSON.stringify(componentFacade.layoutManager.layoutDataTabFromDb),  
+            JSON.stringify(componentFacade.layoutManager.layoutDataTabFromDb),
             'fakeSha'
           )
-          
+
     expect(mySpy).toHaveBeenCalledWith(gitBody)
 
   });
@@ -338,16 +338,16 @@ describe('BaseBodyComponent', () => {
 
     component.saveImage();
 
-    const gitBody: GitBody 
+    const gitBody: GitBody
     = componentFacade
         .layoutManager
         .gitManager
         .getGitBody(
           componentFacade.imageDataUtils.finalPath,
-          component.imageUrl.split(',')[1],  
+          component.imageUrl.split(',')[1],
           'fakeSha'
         )
-        
+
     expect(mySpy).toHaveBeenCalledWith(gitBody)
 
   });
@@ -368,7 +368,7 @@ describe('BaseBodyComponent', () => {
 
     component.saveImage();
 
-    const repositoryPath: string = "fakeFolder/image-content-2.txt"; 
+    const repositoryPath: string = "fakeFolder/image-content-2.txt";
 
     expect(repositoryPath).toContain(component.imageFolder)
     expect(mySpy).toHaveBeenCalledWith(repositoryPath);
@@ -390,15 +390,15 @@ describe('BaseBodyComponent', () => {
 
     component.saveImage();
 
-    const repositoryPath: string = "fakeFolder/image-content-2.txt"; 
+    const repositoryPath: string = "fakeFolder/image-content-2.txt";
 
     expect(repositoryPath).toContain(component.selectedIndex.toString())
     expect(mySpy).toHaveBeenCalledWith(repositoryPath);
   });
 
   it('on getImageBackgroundStyle, all current layoutData keys should be updated', () => {
-    componentFacade.layoutManager.layoutData = getInitialTab().at(1)!; 
-    
+    componentFacade.layoutManager.layoutData = getInitialTab().at(1)!;
+
     const layoutData: LayoutData = getInitialTab().at(0)!;
 
     component.imageText = layoutData.imageText;
