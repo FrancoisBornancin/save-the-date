@@ -1,4 +1,4 @@
-import { CustomImageData } from "./image-data";
+import { TextData } from "./text-data";
 
 export interface LayoutData {
     key: number;
@@ -6,6 +6,6 @@ export interface LayoutData {
     width: number;
     opacity: number;
     imageBackgroundColor: string;
-    imageText: string;
+    textData: TextData,  
     hasBeenSaved: string;
 }

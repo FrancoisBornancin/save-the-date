@@ -3,14 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
+import { of } from "rxjs";
+import { GitBody } from "../../../model/git-body";
+import { LayoutData } from "../../../model/layout-data/layout-data";
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
 import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
 import { BaseBodyComponent } from './base-body.component';
-import { of } from "rxjs";
-import { LayoutData } from "../../../model/layout-data";
-import { GitBody } from "../../../model/git-body";
 
 describe('BaseBodyComponent', () => {
   let component: BaseBodyComponent;
@@ -47,7 +47,7 @@ describe('BaseBodyComponent', () => {
   });
 
   it('LayoutData should contains only those keys'
-    + "key, height, width, opacity, imageBackgroundColor, imageText, hasBeenSaved"
+    + "key, height, width, opacity, imageBackgroundColor, textData, hasBeenSaved"
     + '"', () => {
     const layoutData: LayoutData = getInitialTab().at(0)!;
     const layoutDataKeys = Object.keys(layoutData);
@@ -55,8 +55,21 @@ describe('BaseBodyComponent', () => {
       = layoutDataKeys
         .join(", ")
 
-    expect(layoutDataKeysToString).toEqual("key, height, width, opacity, imageBackgroundColor, imageText, hasBeenSaved");
+    expect(layoutDataKeysToString).toEqual("key, height, width, opacity, imageBackgroundColor, textData, hasBeenSaved");
     expect(layoutDataKeys.length).toBe(7);
+  });
+
+  it('TextData should contains only those keys: '
+    + "value, color, size, police"
+    + '"', () => {
+    const layoutData: LayoutData = getInitialTab().at(0)!;
+    const layoutDataKeys = Object.keys(layoutData.textData);
+    const layoutDataKeysToString
+      = layoutDataKeys
+        .join(", ")
+
+    expect(layoutDataKeysToString).toEqual("value, color, size, police");
+    expect(layoutDataKeys.length).toBe(4);
   });
 
   it('onInit, all layoutElements should be set', () => {
@@ -71,7 +84,7 @@ describe('BaseBodyComponent', () => {
     expect(component.height).toBe(layoutData.height);
     expect(component.width).toBe(layoutData.width);
     expect(component.opacity).toBe(layoutData.opacity);
-    expect(component.imageText).toBe(layoutData.imageText);
+    expect(component.textValue).toBe(layoutData.textData.value);
   });
 
   it('onInit, imageUrl should be set', () => {
@@ -157,7 +170,12 @@ describe('BaseBodyComponent', () => {
       width: 60,
       opacity: 0.5,
       imageBackgroundColor: 'otherImageBackgroundColor',
-      imageText: 'otherImageText',
+      textData: {
+        value: 'toto',
+        color: 'toto',
+        size: 12,
+        police: "toto",
+      },
       hasBeenSaved: ''
     }
 
@@ -202,7 +220,44 @@ describe('BaseBodyComponent', () => {
     expect(component.height).toBe(expectedlayoutDataSet.height)
     expect(component.width).toBe(expectedlayoutDataSet.width)
     expect(component.opacity).toBe(expectedlayoutDataSet.opacity)
-    expect(component.imageText).toBe(expectedlayoutDataSet.imageText)
+    expect(component.textValue).toBe(expectedlayoutDataSet.textData.value)
+  });
+
+  it('on loadLayoutDataDropdown, layoutData should be set without not ui keys', () => {
+    const layoutData = getInitialTab()[0]
+    componentFacade.layoutManager.layoutData = layoutData;
+
+    component.height = 4;
+    component.width = 4;
+    component.opacity = 0.7;
+    component.imageBackgroundColor = 'tutu';
+    component.textValue = 'tutu'
+    component.textColor = 'tutu'
+    component.textSize = 12
+    component.textPolice = 'tutu'
+
+    const event = {value: 3};
+
+    spyOn(componentFacade, 'updateCurrentLayoutDataTab')
+
+    spyOn(componentFacade, 'getImageUrl')
+      .and.returnValue('fakeUrl');
+
+    spyOn(component, 'setLayoutElements')
+
+    component.loadLayoutDataDropdown(event);
+
+    expect(componentFacade.layoutManager.layoutData.height).toEqual(component.height);
+    expect(componentFacade.layoutManager.layoutData.width).toEqual(component.width);
+    expect(componentFacade.layoutManager.layoutData.opacity).toEqual(component.opacity);
+    expect(componentFacade.layoutManager.layoutData.imageBackgroundColor).toEqual(component.imageBackgroundColor);
+    expect(componentFacade.layoutManager.layoutData.textData.value).toEqual(component.textValue);
+    expect(componentFacade.layoutManager.layoutData.textData.color).toEqual(component.textColor);
+    expect(componentFacade.layoutManager.layoutData.textData.size).toEqual(component.textSize);
+    expect(componentFacade.layoutManager.layoutData.textData.police).toEqual(component.textPolice);
+
+    expect(componentFacade.layoutManager.layoutData.key).toEqual(layoutData.key);
+    expect(componentFacade.layoutManager.layoutData.hasBeenSaved).toEqual(layoutData.hasBeenSaved);
   });
 
   it('on loadLayoutDataDropdown, imageUrl should be set', () => {
@@ -254,7 +309,12 @@ describe('BaseBodyComponent', () => {
         width: 60,
         opacity: 0.5,
         imageBackgroundColor: 'toto',
-        imageText: 'toto',
+        textData: {
+          value: 'toto',
+          color: 'toto',
+          size: 12,
+          police: "toto",
+        },
         hasBeenSaved: 'toto',
       },
       {
@@ -263,7 +323,12 @@ describe('BaseBodyComponent', () => {
         width: 60,
         opacity: 0.5,
         imageBackgroundColor: 'toto',
-        imageText: 'toto',
+        textData: {
+          value: 'toto',
+          color: 'toto',
+          size: 12,
+          police: "toto",
+        },
         hasBeenSaved: 'toto',
       }
     ]
@@ -292,7 +357,12 @@ describe('BaseBodyComponent', () => {
       width: 60,
       opacity: 0.5,
       imageBackgroundColor: 'toto',
-      imageText: 'toto',
+      textData: {
+        value: 'toto',
+        color: 'toto',
+        size: 12,
+        police: "toto",
+      },
       hasBeenSaved: 'toto',
     },
 
@@ -401,7 +471,11 @@ describe('BaseBodyComponent', () => {
 
     const layoutData: LayoutData = getInitialTab().at(0)!;
 
-    component.imageText = layoutData.imageText;
+    component.textValue = layoutData.textData.value;
+    component.textColor = layoutData.textData.color;
+    component.textPolice = layoutData.textData.police;
+    component.textSize = layoutData.textData.size;
+
     component.imageBackgroundColor = layoutData.imageBackgroundColor;
     component.height = layoutData.height;
     component.width = layoutData.width;
@@ -413,14 +487,16 @@ describe('BaseBodyComponent', () => {
     expect(componentFacade.layoutManager.layoutData.width).toEqual(component.width);
     expect(componentFacade.layoutManager.layoutData.opacity).toEqual(component.opacity);
     expect(componentFacade.layoutManager.layoutData.imageBackgroundColor).toEqual(component.imageBackgroundColor);
-    expect(componentFacade.layoutManager.layoutData.imageText).toEqual(component.imageText);
+    expect(componentFacade.layoutManager.layoutData.textData.value).toEqual(component.textValue);
+    expect(componentFacade.layoutManager.layoutData.textData.color).toEqual(component.textColor);
+    expect(componentFacade.layoutManager.layoutData.textData.police).toEqual(component.textPolice);
+    expect(componentFacade.layoutManager.layoutData.textData.size).toEqual(component.textSize);
   });
 
   it('on getImageBackgroundStyle, backgroundColor should be set when color is rendered', () => {
     componentFacade.layoutManager.layoutData = getInitialTab().at(1)!;
     const layoutData: LayoutData = getInitialTab().at(1)!;
 
-    component.imageText = layoutData.imageText;
     component.imageBackgroundColor = layoutData.imageBackgroundColor;
     component.height = layoutData.height;
     component.width = layoutData.width;
@@ -433,11 +509,10 @@ describe('BaseBodyComponent', () => {
     expect(backgroundStyle).toContain(expectedBackgroundColor);
   });
 
-  it('on getImageBackgroundStyle, backgroundColor should ²not be set when color is not rendered', () => {
+  it('on getImageBackgroundStyle, backgroundColor should not be set when color is not rendered', () => {
     componentFacade.layoutManager.layoutData = getInitialTab().at(1)!;
     const layoutData: LayoutData = getInitialTab().at(0)!;
 
-    component.imageText = layoutData.imageText;
     component.imageBackgroundColor = layoutData.imageBackgroundColor;
     component.height = layoutData.height;
     component.width = layoutData.width;
@@ -448,7 +523,7 @@ describe('BaseBodyComponent', () => {
 
     expect(backgroundStyle).not.toContain("background-color");
   });
-  
+
   function prepareTestOfOnInit(layoutDataTab: LayoutData[], layoutData: LayoutData){
     const response = {
       sha: 'fakeSha',
@@ -486,7 +561,12 @@ function getInitialTab(): LayoutData[]{
       width: 60,
       opacity: 0.5,
       imageBackgroundColor: 'fakeImageBackgroundColor_1',
-      imageText: 'fakeImageText_1',
+      textData: {
+        value: 'fakeImageText_1',
+        color: '#1E90FF',
+        size: 12,
+        police: "fakePolice",
+      },
       hasBeenSaved: 'fakehasBeenSaved_1',
     },
     {
@@ -495,7 +575,12 @@ function getInitialTab(): LayoutData[]{
       width: 60,
       opacity: 0.5,
       imageBackgroundColor: '#1E90FF',
-      imageText: 'fakeImageText_2',
+      textData: {
+        value: 'fakeImageText_2',
+        color: '#1E90FF',
+        size: 12,
+        police: "fakePolice",
+      },
       hasBeenSaved: 'fakehasBeenSaved_2',
     },
   ];

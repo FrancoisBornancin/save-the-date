@@ -1,12 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FileUpload } from 'primeng/fileupload';
 import { Observable, forkJoin } from 'rxjs';
-import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
-import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
-import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
+import { LayoutData } from '../../../model/layout-data/layout-data';
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
-import { LayoutData } from '../../../model/layout-data';
+import { LayoutData } from '../../../model/layout-data/layout-data';
 
 @Component({
   selector: 'app-base-body',
@@ -14,18 +12,26 @@ import { LayoutData } from '../../../model/layout-data';
   styleUrl: './base-body.component.scss'
 })
 export class BaseBodyComponent implements OnInit{
+  colorRendered: boolean = false;
+  textDataRendered: boolean = false;
+
   imageBackgroundColor!: string;
-  imageText!: string;
   height!: number;
   width!: number;
   opacity!: number;
+
+  textValue!: string;
+  textColor!: string;
+  textSize!: number;
+  textPolice!: string;
+  
+
   dropdownTab!: number[];
   selectedIndex!: number;
   imageUrl!: string;
+
   @Input() imageFolder!: string
   @Input() layoutJsonName!: string
-
-  colorRendered: boolean = false;
 
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
@@ -46,7 +52,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   stringToHtml(){
-      return this.stringToHtmlService.replaceString(this.imageText);
+      return this.stringToHtmlService.replaceString(this.textValue);
   }
 
   wrapForkJoin(): Observable<any[]>{
@@ -83,12 +89,14 @@ export class BaseBodyComponent implements OnInit{
     if(data == 'opacity' && this.opacity != 100) this.opacity += value;
     if(data == 'height') this.height += value;
     if(data == 'width') this.width += value;
+    if(data == 'textSize') this.textSize += value;
   }
 
   decreaseData(data: string, value: number){
     if(data == 'opacity' && this.opacity != 0) this.opacity -= value;
     if(data == 'height' && this.height != 0) this.height -= value;
     if(data == 'width' && this.width != 0) this.width -= value;
+    if(data == 'textSize' && this.textSize != 0) this.textSize -= value;
   }
 
   getImageBackgroundStyle(): string{
@@ -113,6 +121,14 @@ export class BaseBodyComponent implements OnInit{
 
   doNotPrintColor(){
     this.colorRendered = false;
+  }
+
+  printTextData(){
+    this.textDataRendered = true;
+  }
+
+  doNotPrintTextData(){
+    this.textDataRendered = false;
   }
 
   loadLayoutDataDropdown(event: any){
@@ -155,7 +171,10 @@ export class BaseBodyComponent implements OnInit{
     this.height = element.layoutData.height;
     this.width = element.layoutData.width;
     this.opacity = element.layoutData.opacity;
-    this.imageText = element.layoutData.imageText;
+    this.textValue = element.layoutData.textData.value;
+    this.textColor = element.layoutData.textData.color;
+    this.textSize = element.layoutData.textData.size;
+    this.textPolice = element.layoutData.textData.police;
   }
 
   private setLayoutData(){
@@ -165,7 +184,12 @@ export class BaseBodyComponent implements OnInit{
       width: this.width,
       opacity: this.opacity,
       imageBackgroundColor: this.imageBackgroundColor,
-      imageText: this.imageText,
+      textData: {
+        value: this.textValue,
+        color: this.textColor,
+        size: this.textSize,
+        police: this.textPolice,
+      },
       hasBeenSaved: ''
     }
     this.componentFacade.setLayoutData(layoutData);

@@ -4,7 +4,7 @@ import { ImageDataUtilsService } from '../image-data-utils/image-data-utils.serv
 import { LayoutManagerService } from '../layout-manager/layout-manager.service';
 import { CustomImageData } from '../../model/image-data';
 import { Observable } from 'rxjs/internal/Observable';
-import { LayoutData } from '../../model/layout-data';
+import { LayoutData } from '../../model/layout-data/layout-data';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +37,7 @@ export class ComponentFacadeService {
     this.layoutManager.layoutData.width = layoutData.width;
     this.layoutManager.layoutData.opacity = layoutData.opacity;
     this.layoutManager.layoutData.imageBackgroundColor = layoutData.imageBackgroundColor;
-    this.layoutManager.layoutData.imageText = layoutData.imageText;
+    this.layoutManager.layoutData.textData.value = layoutData.textData.value;
   }
 
   saveImage(imageUrl: string, imageFolder: string, index: number){

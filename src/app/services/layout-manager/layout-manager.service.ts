@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GitManagerService } from '../git-manager/git-manager.service';
-import { LayoutData } from '../../model/layout-data';
+import { LayoutData } from '../../model/layout-data/layout-data';
 import { GitBody } from '../../model/git-body';
 import { Observable } from 'rxjs';
 

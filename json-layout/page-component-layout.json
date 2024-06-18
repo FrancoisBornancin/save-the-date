@@ -1,1 +1,72 @@
-[{"key":3,"height":60,"width":60,"opacity":0.5,"imageBackgroundColor":"#3498db","imageText":"fakeTest3","hasBeenSaved":""},{"key":4,"height":60,"width":60,"opacity":0.5,"imageBackgroundColor":"#3498db","imageText":"fakeTest4","hasBeenSaved":""},{"key":5,"height":60,"width":60,"opacity":0.5,"imageBackgroundColor":"#3498db","imageText":"fakeTest5","hasBeenSaved":""},{"key":1,"height":60,"width":60,"opacity":40.5,"imageBackgroundColor":"#53db34","imageText":"fakeTest1","hasBeenSaved":"Data are saving..."},{"key":2,"height":60,"width":60,"opacity":10.5,"imageBackgroundColor":"#3498db","imageText":":gr:TOTO TATA et TITI:gr:","hasBeenSaved":"Data are saving..."}]
+[
+    {
+        "key": 1,
+        "height": 60,
+        "width": 60,
+        "opacity": 0.5,
+        "imageBackgroundColor": "#1E90FF",
+        "textData": {
+          "value": "fakeImageText_2",
+          "color": "#1E90FF",
+          "size": "fakeSize",
+          "police": "fakePolice"
+        },
+        "hasBeenSaved": "fakehasBeenSaved_2"
+      },
+      {
+        "key": 2,
+        "height": 60,
+        "width": 60,
+        "opacity": 0.5,
+        "imageBackgroundColor": "#1E90FF",
+        "textData": {
+          "value": "fakeImageText_2",
+          "color": "#1E90FF",
+          "size": "fakeSize",
+          "police": "fakePolice"
+        },
+        "hasBeenSaved": "fakehasBeenSaved_2"
+      },
+      {
+        "key": 3,
+        "height": 60,
+        "width": 60,
+        "opacity": 0.5,
+        "imageBackgroundColor": "#1E90FF",
+        "textData": {
+          "value": "fakeImageText_2",
+          "color": "#1E90FF",
+          "size": "fakeSize",
+          "police": "fakePolice"
+        },
+        "hasBeenSaved": "fakehasBeenSaved_2"
+      },
+      {
+        "key": 4,
+        "height": 60,
+        "width": 60,
+        "opacity": 0.5,
+        "imageBackgroundColor": "#1E90FF",
+        "textData": {
+          "value": "fakeImageText_2",
+          "color": "#1E90FF",
+          "size": "fakeSize",
+          "police": "fakePolice"
+        },
+        "hasBeenSaved": "fakehasBeenSaved_2"
+      },
+      {
+        "key": 5,
+        "height": 60,
+        "width": 60,
+        "opacity": 0.5,
+        "imageBackgroundColor": "#1E90FF",
+        "textData": {
+          "value": "fakeImageText_2",
+          "color": "#1E90FF",
+          "size": "fakeSize",
+          "police": "fakePolice"
+        },
+        "hasBeenSaved": "fakehasBeenSaved_2"
+      }
+]

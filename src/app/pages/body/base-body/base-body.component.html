@@ -11,6 +11,12 @@
         <ng-container *ngIf="!this.colorRendered">
             <p-button (onClick)="this.printColor()">Color</p-button>
         </ng-container>
+        <ng-container *ngIf="!this.textDataRendered">
+            <p-button (onClick)="this.printTextData()">textData</p-button>
+        </ng-container>
+        <ng-container *ngIf="this.textDataRendered">
+            <p-button (onClick)="this.doNotPrintTextData()">no TextData</p-button>
+        </ng-container>
         <p-button (onClick)="increaseData('width', 1)">(+) width</p-button>
         <p-button (onClick)="decreaseData('width', 1)">(-) width</p-button>
         <p-button (onClick)="increaseData('height', 1)">(+) height</p-button>
@@ -23,7 +29,7 @@
         </p-fileUpload>
         <div>{{ this.componentFacade.layoutManager.layoutData.hasBeenSaved }}</div>
         <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
-        <input type="text" pInputText [(ngModel)]="this.imageText" />
+        <input type="text" pInputText [(ngModel)]="this.textValue" />
     </ng-container>
     <div  [style]="this.getImageBackgroundStyle()">
         <ng-container *ngIf="this.componentFacade.layoutManager.layoutData">

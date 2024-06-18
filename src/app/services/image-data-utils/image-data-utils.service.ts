@@ -1,11 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, catchError, map, switchMap, throwError } from 'rxjs';
+import { BigImageData } from '../../model/big-image-data';
+import { GitBody } from '../../model/git-body';
 import { CustomImageData } from '../../model/image-data';
 import { GitManagerService } from '../git-manager/git-manager.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TokenManagerService } from '../token-manager/token-manager.service';
-import { Observable, catchError, map, switchMap, throwError } from 'rxjs';
-import { GitBody } from '../../model/git-body';
-import { BigImageData } from '../../model/big-image-data';
 
 @Injectable({
   providedIn: 'root'
