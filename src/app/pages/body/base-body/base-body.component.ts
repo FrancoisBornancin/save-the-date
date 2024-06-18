@@ -49,8 +49,8 @@ export class BaseBodyComponent implements OnInit{
   }
 
   stringToHtml(){
-      return this.stringToHtmlService.replaceString(this.componentFacade.layoutManager.layoutData.imageText);
-      // return this.stringToHtmlService.replaceString(this.fakeText);
+
+      return this.stringToHtmlService.replaceString(this.imageText);
   }
 
   wrapForkJoin(): Observable<any[]>{
@@ -85,50 +85,30 @@ export class BaseBodyComponent implements OnInit{
   }
 
   increaseData(data: string, value: number){
-    if(this.toto[data] == undefined){
-      this.toto[data] = 70;
-    }else{
-      if(data != 'opacity') this.toto[data] += value;
-      else {
-        if(this.toto[data] != 100) this.toto[data] += value;
-      }
-    }
+    if(data == 'opacity' && this.opacity != 100) this.opacity += value;
+    if(data == 'height') this.height += value;
+    if(data == 'width') this.width += value;
   }
 
   decreaseData(data: string, value: number){
-    if(this.toto[data] == undefined){
-      this.toto[data] = 70;
-    }else{
-      if(this.toto[data] != 0) this.toto[data] -= value;
-    }
+    if(data == 'opacity' && this.opacity != 0) this.opacity -= value;
+    if(data == 'height' && this.height != 0) this.height -= value;
+    if(data == 'width' && this.width != 0) this.width -= value;
   }
 
   getImageBackgroundStyle(): string{
     this.setLayoutData();
-
-    let realColor: string;
-    if(this.imageBackgroundColor == undefined) realColor = 'blue';
-    else realColor = this.imageBackgroundColor
-
-    let opacity: number = 0;
-
-    if(this.toto['opacity'] == undefined){
-      opacity = 0.2
-    }else{
-      opacity = ((this.toto['opacity'])/100);
-    }
-
     let backgroundColor = '';
     if(this.colorRendered){
       backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
         this.colorConvertor.convertToRgba(this.imageBackgroundColor),
-        opacity
+        (this.opacity/100)
        ) + ";"
        console.log("");
     }
-    return "height: " + this.toto['height'] + "%;"
-         + "width: " + this.toto['width'] + "%;"
+    return "height: " + this.height + "%;"
+         + "width: " + this.width + "%;" 
          + "margin: auto;"
          + backgroundColor
   }
