@@ -229,7 +229,7 @@ describe('BaseBodyComponent', () => {
     component.layoutJsonName = 'fakeRepositoryName';
     component.selectedIndex = 1;
 
-    spyOn(componentFacade.layoutManager, 'updateLayoutTab');
+    spyOn(componentFacade.layoutManager, 'updateLayoutDataTab');
     spyOn(componentFacade.layoutManager.gitManager, 'getData')
       .and.returnValue(of('toto'));
 
@@ -298,7 +298,7 @@ describe('BaseBodyComponent', () => {
 
     componentFacade.layoutManager.layoutDataTabFromDb = getInitialTab();
 
-    spyOn(componentFacade.layoutManager, 'updateLayoutTab')
+    spyOn(componentFacade.layoutManager, 'updateLayoutDataTab')
 
     spyOn(componentFacade.layoutManager, 'loadData')
       .and.returnValue(of({sha: 'fakeSha'}));

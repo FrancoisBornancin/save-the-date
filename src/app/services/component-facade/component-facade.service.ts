@@ -28,7 +28,8 @@ export class ComponentFacadeService {
   }
 
   updateCurrentLayoutDataTab(){
-    this.layoutManager.updateCurrentLayoutDataTab()
+    this.layoutManager.layoutDataTabCurrent 
+      = this.layoutManager.updateLayoutDataTab(this.layoutManager.layoutDataTabCurrent, this.layoutManager.layoutData.key);
   }
 
   setLayoutData(layoutData: LayoutData){

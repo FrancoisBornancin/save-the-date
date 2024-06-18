@@ -26,13 +26,14 @@ export class LayoutManagerService {
       ;
   }
 
-  updateCurrentLayoutDataTab(){
-    this.layoutDataTabCurrent =
-      this.layoutDataTabCurrent
-        .filter(element => element.key != this.layoutData.key)
+  updateLayoutDataTab(layoutDataTab: LayoutData[], index: number): LayoutData[]{
+    layoutDataTab =
+    layoutDataTab
+        .filter(element => element.key != index)
         ;
 
-    this.layoutDataTabCurrent.push(this.layoutData);
+    layoutDataTab.push(this.layoutData);
+    return layoutDataTab;
   }
 
   putData(response: any, jsonFileName: string): Observable<any>{
@@ -42,7 +43,8 @@ export class LayoutManagerService {
   }
 
   saveData(index: number, jsonFileName: string){
-    this.updateLayoutTab(index);
+    this.layoutDataTabFromDb 
+      = this.updateLayoutDataTab(this.layoutDataTabFromDb , index);
     this.loadData(jsonFileName)
     .subscribe({
       next: (response: any) => {
@@ -62,16 +64,6 @@ export class LayoutManagerService {
       },
     });
   }
-
-  updateLayoutTab(index: number){
-    this.layoutDataTabFromDb = 
-      this.layoutDataTabFromDb  
-        .filter(element => element.key != index)
-        ;
-
-    this.layoutDataTabFromDb.push(this.layoutData);
-  }
-
 
   loadData(jsonFileName: string): Observable<any>{
     return this.gitManager.get(jsonFileName)

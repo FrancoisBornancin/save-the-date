@@ -100,7 +100,6 @@ export class BaseBodyComponent implements OnInit{
         this.colorConvertor.convertToRgba(this.imageBackgroundColor),
         (this.opacity/100)
        ) + ";"
-       console.log("");
     }
     return "height: " + this.height + "%;"
          + "width: " + this.width + "%;"
@@ -128,7 +127,6 @@ export class BaseBodyComponent implements OnInit{
       console.log('No file selected.');
       return;
     }
-    console.log("");
 
     let file = event.files[0];
     let reader = new FileReader();
