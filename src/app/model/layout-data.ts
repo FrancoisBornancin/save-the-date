@@ -2,7 +2,9 @@ import { CustomImageData } from "./image-data";
 
 export interface LayoutData {
     key: number;
-    mainBackgroundColor: string;
+    height: number;
+    width: number;
+    opacity: number;
     imageBackgroundColor: string;
     imageText: string;
     hasBeenSaved: string;

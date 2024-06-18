@@ -14,9 +14,11 @@ import { LayoutData } from '../../../model/layout-data';
   styleUrl: './base-body.component.scss'
 })
 export class BaseBodyComponent implements OnInit{
-  mainBackgroundColor!: string;
   imageBackgroundColor!: string;
   imageText!: string;
+  height!: number;
+  width!: number;
+  opacity!: number;
   dropdownTab!: number[];
   selectedIndex!: number;
   imageUrl!: string;
@@ -177,14 +179,18 @@ export class BaseBodyComponent implements OnInit{
     const element = this.componentFacade.getLayoutElements(index);
     this.imageUrl = element.imageUrl;
     this.imageBackgroundColor = element.layoutData.imageBackgroundColor;
-    this.mainBackgroundColor = element.layoutData.mainBackgroundColor;
+    this.height = element.layoutData.height;
+    this.width = element.layoutData.width;
+    this.opacity = element.layoutData.opacity;
     this.imageText = element.layoutData.imageText;
   }
 
   private setLayoutData(){
     const layoutData: LayoutData = {
       key: 0,
-      mainBackgroundColor: this.mainBackgroundColor,
+      height: this.height,
+      width: this.width,
+      opacity: this.opacity,
       imageBackgroundColor: this.imageBackgroundColor,
       imageText: this.imageText,
       hasBeenSaved: ''

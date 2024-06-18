@@ -32,7 +32,9 @@ export class ComponentFacadeService {
   }
 
   setLayoutData(layoutData: LayoutData){
-    this.layoutManager.layoutData.mainBackgroundColor = layoutData.mainBackgroundColor;
+    this.layoutManager.layoutData.height = layoutData.height;
+    this.layoutManager.layoutData.width = layoutData.width;
+    this.layoutManager.layoutData.opacity = layoutData.opacity;
     this.layoutManager.layoutData.imageBackgroundColor = layoutData.imageBackgroundColor;
     this.layoutManager.layoutData.imageText = layoutData.imageText;
   }
