@@ -106,7 +106,7 @@ export class ImageDataUtilsService {
     return this.gitManager.get(this.finalPath);
   }
 
-  private putData(imageData: CustomImageData, response: any): Observable<any>{
+  putData(imageData: CustomImageData, response: any): Observable<any>{
     this.gitManager.sha = response.sha;
 
     const gitBody: GitBody = this.gitManager.getGitBody(this.finalPath, imageData.imageUrlContent, this.gitManager.sha.toString())

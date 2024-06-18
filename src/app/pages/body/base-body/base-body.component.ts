@@ -6,6 +6,7 @@ import { LayoutManagerService } from '../../../services/layout-manager/layout-ma
 import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
+import { LayoutData } from '../../../model/layout-data';
 
 @Component({
   selector: 'app-base-body',
@@ -181,6 +182,13 @@ export class BaseBodyComponent implements OnInit{
   }
 
   private setLayoutData(){
-    this.componentFacade.setLayoutData('imageBackgroundColor', this.imageBackgroundColor);
+    const layoutData: LayoutData = {
+      key: 0,
+      mainBackgroundColor: this.mainBackgroundColor,
+      imageBackgroundColor: this.imageBackgroundColor,
+      imageText: this.imageText,
+      hasBeenSaved: ''
+    }
+    this.componentFacade.setLayoutData(layoutData);
   }
 }

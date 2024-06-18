@@ -341,20 +341,63 @@ describe('BaseBodyComponent', () => {
   });
 
   it('on saveImage, image should be saved in proper repository', () => {
-    component.imageUrl = 'dontCareUrl'
+    component.imageUrl = 'dontCare,Url'
     component.imageFolder = 'fakeFolder'
     component.selectedIndex = 2
     componentFacade.imageDataUtils.finalPath = 'fakeFinalPath'
 
+    const mySpy = spyOn(componentFacade.imageDataUtils.gitManager, 'get')
+                  .and.returnValue(of({
+                    sha: 'fakeSha'
+                  }));
+
+    spyOn(componentFacade.imageDataUtils, 'putData')
+      .and.returnValue(of('toto'));
+
     component.saveImage();
 
-    // CONTINUE HERE
+    const repositoryPath: string = "fakeFolder/image-content-2.txt"; 
 
-    expect(component).toBeFalse()
+    expect(repositoryPath).toContain(component.imageFolder)
+    expect(mySpy).toHaveBeenCalledWith(repositoryPath);
   });
 
   it('on saveImage, image should be saved with proper index', () => {
+    component.imageUrl = 'dontCare,Url'
+    component.imageFolder = 'fakeFolder'
+    component.selectedIndex = 2
+    componentFacade.imageDataUtils.finalPath = 'fakeFinalPath'
 
+    const mySpy = spyOn(componentFacade.imageDataUtils.gitManager, 'get')
+                  .and.returnValue(of({
+                    sha: 'fakeSha'
+                  }));
+
+    spyOn(componentFacade.imageDataUtils, 'putData')
+      .and.returnValue(of('toto'));
+
+    component.saveImage();
+
+    const repositoryPath: string = "fakeFolder/image-content-2.txt"; 
+
+    expect(repositoryPath).toContain(component.selectedIndex.toString())
+    expect(mySpy).toHaveBeenCalledWith(repositoryPath);
+  });
+
+  it('on getImageBackgroundStyle, all current layoutData keys should be updated', () => {
+    componentFacade.layoutManager.layoutData = getInitialTab().at(1)!; 
+    
+    const layoutData: LayoutData = getInitialTab().at(0)!;
+
+    component.imageText = layoutData.imageText;
+    component.imageBackgroundColor = layoutData.imageBackgroundColor;
+    component.mainBackgroundColor = layoutData.mainBackgroundColor;
+
+    component.getImageBackgroundStyle()
+
+    expect(componentFacade.layoutManager.layoutData.mainBackgroundColor).toEqual(component.mainBackgroundColor);
+    expect(componentFacade.layoutManager.layoutData.imageBackgroundColor).toEqual(component.imageBackgroundColor);
+    expect(componentFacade.layoutManager.layoutData.imageText).toEqual(component.imageText);
   });
 
   function prepareTestOfOnInit(layoutDataTab: LayoutData[], layoutData: LayoutData){
