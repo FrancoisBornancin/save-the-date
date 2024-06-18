@@ -25,9 +25,6 @@ export class BaseBodyComponent implements OnInit{
   @Input() imageFolder!: string
   @Input() layoutJsonName!: string
 
-  toto: { [key: string]: number } = {};
-  fakeText!: string;
-
   colorRendered: boolean = false;
 
   @ViewChild('fileUploader') fileUpload!: FileUpload;
@@ -49,7 +46,6 @@ export class BaseBodyComponent implements OnInit{
   }
 
   stringToHtml(){
-
       return this.stringToHtmlService.replaceString(this.imageText);
   }
 
@@ -60,7 +56,6 @@ export class BaseBodyComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.fakeText = 'toto';
     this.componentFacade.loadData(this.layoutJsonName)
     .subscribe({
       next: (response: any) => {
@@ -108,7 +103,7 @@ export class BaseBodyComponent implements OnInit{
        console.log("");
     }
     return "height: " + this.height + "%;"
-         + "width: " + this.width + "%;" 
+         + "width: " + this.width + "%;"
          + "margin: auto;"
          + backgroundColor
   }

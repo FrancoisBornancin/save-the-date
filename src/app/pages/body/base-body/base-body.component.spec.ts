@@ -416,6 +416,39 @@ describe('BaseBodyComponent', () => {
     expect(componentFacade.layoutManager.layoutData.imageText).toEqual(component.imageText);
   });
 
+  it('on getImageBackgroundStyle, backgroundColor should be set when color is rendered', () => {
+    componentFacade.layoutManager.layoutData = getInitialTab().at(1)!;
+    const layoutData: LayoutData = getInitialTab().at(1)!;
+
+    component.imageText = layoutData.imageText;
+    component.imageBackgroundColor = layoutData.imageBackgroundColor;
+    component.height = layoutData.height;
+    component.width = layoutData.width;
+    component.opacity = layoutData.opacity;
+
+    component.printColor();
+    const backgroundStyle: string = component.getImageBackgroundStyle()
+    const expectedBackgroundColor: string = "background-color: rgba(30, 144, 255, 0.005);"
+
+    expect(backgroundStyle).toContain(expectedBackgroundColor);
+  });
+
+  it('on getImageBackgroundStyle, backgroundColor should ²not be set when color is not rendered', () => {
+    componentFacade.layoutManager.layoutData = getInitialTab().at(1)!;
+    const layoutData: LayoutData = getInitialTab().at(0)!;
+
+    component.imageText = layoutData.imageText;
+    component.imageBackgroundColor = layoutData.imageBackgroundColor;
+    component.height = layoutData.height;
+    component.width = layoutData.width;
+    component.opacity = layoutData.opacity;
+
+    component.doNotPrintColor()
+    const backgroundStyle: string = component.getImageBackgroundStyle()
+
+    expect(backgroundStyle).not.toContain("background-color");
+  });
+  
   function prepareTestOfOnInit(layoutDataTab: LayoutData[], layoutData: LayoutData){
     const response = {
       sha: 'fakeSha',
@@ -461,7 +494,7 @@ function getInitialTab(): LayoutData[]{
       height: 60,
       width: 60,
       opacity: 0.5,
-      imageBackgroundColor: 'fakeImageBackgroundColor_2',
+      imageBackgroundColor: '#1E90FF',
       imageText: 'fakeImageText_2',
       hasBeenSaved: 'fakehasBeenSaved_2',
     },
