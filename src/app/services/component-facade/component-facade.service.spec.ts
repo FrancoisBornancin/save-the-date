@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+// import { TestBed } from '@angular/core/testing';
 
-import { ComponentFacadeService } from './component-facade.service';
+// import { ComponentFacadeService } from './component-facade.service';
 
 // describe('ComponentFacadeService', () => {
 //   let service: ComponentFacadeService;
@@ -10,7 +10,7 @@ import { ComponentFacadeService } from './component-facade.service';
 //     service = TestBed.inject(ComponentFacadeService);
 //   });
 
-  // it('should be created', () => {
-  //   expect(service).toBeTruthy();
-  // });
+//   it('should be created', () => {
+//     expect(service).toBeTruthy();
+//   });
 // });

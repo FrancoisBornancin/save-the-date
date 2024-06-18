@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FileUpload } from 'primeng/fileupload';
-import { forkJoin } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
 import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
@@ -15,6 +15,7 @@ import { ColorConvertorService } from '../../../services/color-to-rgba/color-con
 export class BaseBodyComponent implements OnInit{
   mainBackgroundColor!: string;
   imageBackgroundColor!: string;
+  imageText!: string;
   dropdownTab!: number[];
   selectedIndex!: number;
   imageUrl!: string;
@@ -31,7 +32,7 @@ export class BaseBodyComponent implements OnInit{
   constructor(
     public componentFacade: ComponentFacadeService,
     public stringToHtmlService: StringToHtmlService,
-    private colorConvertor: ColorConvertorService,
+    public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService
   ){
 
@@ -49,25 +50,29 @@ export class BaseBodyComponent implements OnInit{
       // return this.stringToHtmlService.replaceString(this.fakeText);
   }
 
+  wrapForkJoin(): Observable<any[]>{
+    return forkJoin(
+      this.componentFacade.initTasks(this.imageFolder)
+    )
+  }
+
   ngOnInit(): void {
-    // this.fakeText = 'toto';
+    this.fakeText = 'toto';
     this.componentFacade.loadData(this.layoutJsonName)
     .subscribe({
       next: (response: any) => {
         this.componentFacade.initImplicitDependencies(response);
-        this.setElements(1);
-      forkJoin(
-        this.componentFacade.initTasks(this.imageFolder)
-      )
-      .subscribe({
-        next: (results) => {
-          console.log("Toutes les images ont été chargées", results);
-          this.imageUrl = this.componentFacade.getImageUrl(1);
-        },
-        error: (error) => {
-          console.error("Erreur lors du chargement des images", error);
-        }
-      });
+        this.setLayoutElements(1);
+        this.wrapForkJoin()
+        .subscribe({
+          next: (results) => {
+            console.log("Toutes les images ont été chargées", results);
+            this.imageUrl = this.componentFacade.getImageUrl(1);
+          },
+          error: (error) => {
+            console.error("Erreur lors du chargement des images", error);
+          }
+        });
         this.dropdownTab = this.componentFacade.getDropdownIndexes();
       },
       error: e => {
@@ -136,7 +141,7 @@ export class BaseBodyComponent implements OnInit{
   loadLayoutDataDropdown(event: any){
     this.selectedIndex = event.value
     this.componentFacade.updateCurrentLayoutDataTab()
-    this.setElements(event.value);
+    this.setLayoutElements(event.value);
     this.imageUrl = this.componentFacade.getImageUrl(event.value);
   }
 
@@ -167,11 +172,12 @@ export class BaseBodyComponent implements OnInit{
     this.componentFacade.saveImage(this.imageUrl, this.imageFolder, this.selectedIndex);
   }
 
-  private setElements(index: number){
-    const element = this.componentFacade.getElements(index);
+  private setLayoutElements(index: number){
+    const element = this.componentFacade.getLayoutElements(index);
     this.imageUrl = element.imageUrl;
-    this.imageBackgroundColor = element.imageBackgroundColor;
-    this.mainBackgroundColor = element.mainBackgroundColor;
+    this.imageBackgroundColor = element.layoutData.imageBackgroundColor;
+    this.mainBackgroundColor = element.layoutData.mainBackgroundColor;
+    this.imageText = element.layoutData.imageText;
   }
 
   private setLayoutData(){

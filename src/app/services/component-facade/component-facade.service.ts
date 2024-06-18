@@ -12,7 +12,7 @@ export class ComponentFacadeService {
 
   constructor(
     public layoutManager: LayoutManagerService,
-    private gitManager: GitManagerService,
+    public gitManager: GitManagerService,
     public imageDataUtils: ImageDataUtilsService,
   ) { }
 
@@ -43,14 +43,13 @@ export class ComponentFacadeService {
     this.imageDataUtils.setImageContent(imageUrl, index);
   }
 
-  getElements(index: number){
+  getLayoutElements(index: number){
       this.layoutManager.updateCurrentLayoutData(index);
       this.layoutManager.layoutData.hasBeenSaved = '';
 
       return {
         imageUrl: '',
-        mainBackgroundColor: this.layoutManager.layoutData.mainBackgroundColor,
-        imageBackgroundColor: this.layoutManager.layoutData.imageBackgroundColor
+        layoutData: this.layoutManager.layoutData,
       }
   }
 

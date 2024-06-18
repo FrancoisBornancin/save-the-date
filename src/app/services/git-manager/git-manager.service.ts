@@ -15,7 +15,7 @@ export class GitManagerService {
   private owner = 'FrancoisBornancin';
   private repo = 'save-the-date'; 
 
-  private finalApiUrl!: string;
+  public finalApiUrl!: string;
   finalHeaders!: HttpHeaders;
 
   data: any;

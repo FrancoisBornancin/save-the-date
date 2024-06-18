@@ -15,7 +15,7 @@ export class LayoutManagerService {
   endSaveMessage!: string;
 
   constructor(
-    private gitManager: GitManagerService
+    public gitManager: GitManagerService
   ) { }
 
   updateCurrentLayoutData(index: number){

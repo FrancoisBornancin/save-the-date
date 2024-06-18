@@ -19,8 +19,8 @@ export class ImageDataUtilsService {
   bigImageTab!: BigImageData[];
 
   constructor(
-    private gitManager: GitManagerService,
-    private http: HttpClient,
+    public gitManager: GitManagerService,
+    public http: HttpClient,
   ){
 
   }
@@ -101,7 +101,7 @@ export class ImageDataUtilsService {
     return this.http.get(blobUrl, { headers: this.gitManager.getHeaders(), responseType: 'json' })
   }
 
-  private loadImageData(index: number, folder: string): Observable<any>{
+  loadImageData(index: number, folder: string): Observable<any>{
     this.constructFinalPath(index, folder);
     return this.gitManager.get(this.finalPath);
   }
