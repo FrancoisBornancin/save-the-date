@@ -143,6 +143,8 @@ describe('BaseBodyComponent', () => {
   });
 
   it('on loadLayoutDataDropdown, selectIndex should be set', () => {
+    componentFacade.layoutManager.layoutData = getInitialTab()[0];
+
     const event = {value: 3};
 
     spyOn(componentFacade, 'updateCurrentLayoutDataTab')
@@ -199,6 +201,8 @@ describe('BaseBodyComponent', () => {
   });
 
   it('on loadLayoutDataDropdown, layoutElements should be set', () => {
+    componentFacade.layoutManager.layoutData = getInitialTab()[0];
+
     const event = {value: 2};
     const layoutDataTab: LayoutData[] = getInitialTab();
     componentFacade.layoutManager.layoutDataTabCurrent = layoutDataTab;
@@ -261,6 +265,8 @@ describe('BaseBodyComponent', () => {
   });
 
   it('on loadLayoutDataDropdown, imageUrl should be set', () => {
+    componentFacade.layoutManager.layoutData = getInitialTab()[0];
+
     const event = {value: 3};
 
     spyOn(componentFacade, 'updateCurrentLayoutDataTab')
@@ -464,33 +470,6 @@ describe('BaseBodyComponent', () => {
 
     expect(repositoryPath).toContain(component.selectedIndex.toString())
     expect(mySpy).toHaveBeenCalledWith(repositoryPath);
-  });
-
-  it('on getImageBackgroundStyle, all current layoutData keys should be updated', () => {
-    componentFacade.layoutManager.layoutData = getInitialTab().at(1)!;
-
-    const layoutData: LayoutData = getInitialTab().at(0)!;
-
-    component.textValue = layoutData.textData.value;
-    component.textColor = layoutData.textData.color;
-    component.textPolice = layoutData.textData.police;
-    component.textSize = layoutData.textData.size;
-
-    component.imageBackgroundColor = layoutData.imageBackgroundColor;
-    component.height = layoutData.height;
-    component.width = layoutData.width;
-    component.opacity = layoutData.opacity;
-
-    component.getImageBackgroundStyle()
-
-    expect(componentFacade.layoutManager.layoutData.height).toEqual(component.height);
-    expect(componentFacade.layoutManager.layoutData.width).toEqual(component.width);
-    expect(componentFacade.layoutManager.layoutData.opacity).toEqual(component.opacity);
-    expect(componentFacade.layoutManager.layoutData.imageBackgroundColor).toEqual(component.imageBackgroundColor);
-    expect(componentFacade.layoutManager.layoutData.textData.value).toEqual(component.textValue);
-    expect(componentFacade.layoutManager.layoutData.textData.color).toEqual(component.textColor);
-    expect(componentFacade.layoutManager.layoutData.textData.police).toEqual(component.textPolice);
-    expect(componentFacade.layoutManager.layoutData.textData.size).toEqual(component.textSize);
   });
 
   it('on getImageBackgroundStyle, backgroundColor should be set when color is rendered', () => {

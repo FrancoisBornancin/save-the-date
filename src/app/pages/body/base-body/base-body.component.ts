@@ -24,7 +24,7 @@ export class BaseBodyComponent implements OnInit{
   textColor!: string;
   textSize!: number;
   textPolice!: string;
-  
+
 
   dropdownTab!: number[];
   selectedIndex!: number;
@@ -100,7 +100,6 @@ export class BaseBodyComponent implements OnInit{
   }
 
   getImageBackgroundStyle(): string{
-    this.setLayoutData();
     let backgroundColor = '';
     if(this.colorRendered){
       backgroundColor =
@@ -132,6 +131,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   loadLayoutDataDropdown(event: any){
+    this.setLayoutData();
     this.selectedIndex = event.value
     this.componentFacade.updateCurrentLayoutDataTab()
     this.setLayoutElements(event.value);
@@ -164,7 +164,7 @@ export class BaseBodyComponent implements OnInit{
     this.componentFacade.saveImage(this.imageUrl, this.imageFolder, this.selectedIndex);
   }
 
-  private setLayoutElements(index: number){
+  setLayoutElements(index: number){
     const element = this.componentFacade.getLayoutElements(index);
     this.imageUrl = element.imageUrl;
     this.imageBackgroundColor = element.layoutData.imageBackgroundColor;
@@ -192,6 +192,6 @@ export class BaseBodyComponent implements OnInit{
       },
       hasBeenSaved: ''
     }
-    this.componentFacade.setLayoutData(layoutData);
+    this.componentFacade.setLayoutDataWithoutNotUiKeys(layoutData);
   }
 }

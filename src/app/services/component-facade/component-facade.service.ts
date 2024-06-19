@@ -32,12 +32,12 @@ export class ComponentFacadeService {
       = this.layoutManager.updateLayoutDataTab(this.layoutManager.layoutDataTabCurrent, this.layoutManager.layoutData.key);
   }
 
-  setLayoutData(layoutData: LayoutData){
+  setLayoutDataWithoutNotUiKeys(layoutData: LayoutData){
     this.layoutManager.layoutData.height = layoutData.height;
     this.layoutManager.layoutData.width = layoutData.width;
     this.layoutManager.layoutData.opacity = layoutData.opacity;
     this.layoutManager.layoutData.imageBackgroundColor = layoutData.imageBackgroundColor;
-    this.layoutManager.layoutData.textData.value = layoutData.textData.value;
+    this.layoutManager.layoutData.textData = layoutData.textData;
   }
 
   saveImage(imageUrl: string, imageFolder: string, index: number){
