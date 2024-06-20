@@ -6,7 +6,6 @@ import { AdminManagerService } from '../../../services/admin-manager/admin-manag
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
 import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
-import { TextData } from '../../../model/layout-data/text-data';
 import { fontFamily } from '../../font-family';
 
 @Component({
@@ -15,7 +14,7 @@ import { fontFamily } from '../../font-family';
   styleUrl: './base-body.component.scss'
 })
 export class BaseBodyComponent implements OnInit{
-  colorRendered: boolean = false;
+  backgroundDataRendered: boolean = false;
   textDataRendered: boolean = false;
 
   imageBackgroundColor!: string;
@@ -123,23 +122,9 @@ export class BaseBodyComponent implements OnInit{
           + 'font-family: "Playwrite ' + this.textPolice + '", cursive;'
   }
 
-  increaseData(data: string, value: number){
-    if(data == 'opacity' && this.opacity != 100) this.opacity += value;
-    if(data == 'height') this.height += value;
-    if(data == 'width') this.width += value;
-    if(data == 'textSize') this.textSize += value;
-  }
-
-  decreaseData(data: string, value: number){
-    if(data == 'opacity' && this.opacity != 0) this.opacity -= value;
-    if(data == 'height' && this.height != 0) this.height -= value;
-    if(data == 'width' && this.width != 0) this.width -= value;
-    if(data == 'textSize' && this.textSize != 0) this.textSize -= value;
-  }
-
   getImageBackgroundStyle(): string{
     let backgroundColor = '';
-    if(this.colorRendered){
+    if(this.backgroundDataRendered){
       backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
         this.colorConvertor.convertToRgba(this.imageBackgroundColor),
@@ -152,12 +137,12 @@ export class BaseBodyComponent implements OnInit{
          + backgroundColor
   }
 
-  printColor(){
-    this.colorRendered = true;
+  printBackgroundData(){
+    this.backgroundDataRendered = true;
   }
 
-  doNotPrintColor(){
-    this.colorRendered = false;
+  doNotPrintBackgroundData(){
+    this.backgroundDataRendered = false;
   }
 
   printTextData(){

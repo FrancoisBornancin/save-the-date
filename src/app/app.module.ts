@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ButtonModule } from 'primeng/button';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { KnobModule } from 'primeng/knob';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
@@ -31,6 +32,7 @@ import { BaseBodyComponent } from './pages/body/base-body/base-body.component';
   imports: [
     ButtonModule,
     ColorPickerModule,
+    KnobModule,
     DropdownModule,
     InputTextModule,
     FileUploadModule,
