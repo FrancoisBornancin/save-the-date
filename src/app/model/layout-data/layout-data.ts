@@ -1,11 +1,9 @@
+import { BackgroundData } from "./background-data";
 import { TextData } from "./text-data";
 
 export interface LayoutData {
     key: number;
-    height: number;
-    width: number;
-    opacity: number;
-    imageBackgroundColor: string;
+    backgroundData: BackgroundData,
     textData: TextData,  
     hasBeenSaved: string;
 }

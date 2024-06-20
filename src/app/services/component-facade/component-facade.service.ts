@@ -33,10 +33,7 @@ export class ComponentFacadeService {
   }
 
   setLayoutDataWithoutNotUiKeys(layoutData: LayoutData){
-    this.layoutManager.layoutData.height = layoutData.height;
-    this.layoutManager.layoutData.width = layoutData.width;
-    this.layoutManager.layoutData.opacity = layoutData.opacity;
-    this.layoutManager.layoutData.imageBackgroundColor = layoutData.imageBackgroundColor;
+    this.layoutManager.layoutData.backgroundData = layoutData.backgroundData
     this.layoutManager.layoutData.textData = layoutData.textData;
   }
 

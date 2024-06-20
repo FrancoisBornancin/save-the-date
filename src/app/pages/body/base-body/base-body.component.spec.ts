@@ -46,32 +46,6 @@ describe('BaseBodyComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('LayoutData should contains only those keys'
-    + "key, height, width, opacity, imageBackgroundColor, textData, hasBeenSaved"
-    + '"', () => {
-    const layoutData: LayoutData = getInitialTab().at(0)!;
-    const layoutDataKeys = Object.keys(layoutData);
-    const layoutDataKeysToString
-      = layoutDataKeys
-        .join(", ")
-
-    expect(layoutDataKeysToString).toEqual("key, height, width, opacity, imageBackgroundColor, textData, hasBeenSaved");
-    expect(layoutDataKeys.length).toBe(7);
-  });
-
-  it('TextData should contains only those keys: '
-    + "value, color, size, police"
-    + '"', () => {
-    const layoutData: LayoutData = getInitialTab().at(0)!;
-    const layoutDataKeys = Object.keys(layoutData.textData);
-    const layoutDataKeysToString
-      = layoutDataKeys
-        .join(", ")
-
-    expect(layoutDataKeysToString).toEqual("value, color, size, police");
-    expect(layoutDataKeys.length).toBe(4);
-  });
-
   it('onInit, all layoutElements should be set', () => {
     const layoutDataTab: LayoutData[] = getInitialTab();
     const layoutData: LayoutData = layoutDataTab.at(0)!;
@@ -80,11 +54,15 @@ describe('BaseBodyComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.backgroundColor).toBe(layoutData.imageBackgroundColor);
-    expect(component.backgroundHeight).toBe(layoutData.height);
-    expect(component.backgroundWidth).toBe(layoutData.width);
-    expect(component.backgroundOpacity).toBe(layoutData.opacity);
+    expect(component.backgroundPaddingTop).toBe(layoutData.backgroundData.paddingTop);
+    expect(component.backgroundColor).toBe(layoutData.backgroundData.color);
+    expect(component.backgroundHeight).toBe(layoutData.backgroundData.height);
+    expect(component.backgroundWidth).toBe(layoutData.backgroundData.width);
+    expect(component.backgroundOpacity).toBe(layoutData.backgroundData.opacity);
     expect(component.textValue).toBe(layoutData.textData.value);
+    expect(component.textColor).toBe(layoutData.textData.color);
+    expect(component.textSize).toBe(layoutData.textData.size);
+    expect(component.textPolice).toBe(layoutData.textData.police);
   });
 
   it('onInit, imageUrl should be set', () => {
@@ -168,10 +146,13 @@ describe('BaseBodyComponent', () => {
     const layoutDataTab: LayoutData[] = getInitialTab()
     const layoutData: LayoutData = {
       key: 2,
-      height: 60,
-      width: 60,
-      opacity: 0.5,
-      imageBackgroundColor: 'otherImageBackgroundColor',
+      backgroundData: {
+        height: 90,
+        width: 90,
+        opacity: 90,
+        paddingTop: 90,
+        color: 'toto',
+      },
       textData: {
         value: 'toto',
         color: 'toto',
@@ -220,11 +201,15 @@ describe('BaseBodyComponent', () => {
       = layoutDataTab.filter(element => element.key == event.value)
         .at(0)!
 
-    expect(component.backgroundColor).toBe(expectedlayoutDataSet.imageBackgroundColor)
-    expect(component.backgroundHeight).toBe(expectedlayoutDataSet.height)
-    expect(component.backgroundWidth).toBe(expectedlayoutDataSet.width)
-    expect(component.backgroundOpacity).toBe(expectedlayoutDataSet.opacity)
+    expect(component.backgroundPaddingTop).toBe(expectedlayoutDataSet.backgroundData.paddingTop)
+    expect(component.backgroundColor).toBe(expectedlayoutDataSet.backgroundData.color)
+    expect(component.backgroundHeight).toBe(expectedlayoutDataSet.backgroundData.height)
+    expect(component.backgroundWidth).toBe(expectedlayoutDataSet.backgroundData.width)
+    expect(component.backgroundOpacity).toBe(expectedlayoutDataSet.backgroundData.opacity)
     expect(component.textValue).toBe(expectedlayoutDataSet.textData.value)
+    expect(component.textColor).toBe(expectedlayoutDataSet.textData.color)
+    expect(component.textPolice).toBe(expectedlayoutDataSet.textData.police)
+    expect(component.textSize).toBe(expectedlayoutDataSet.textData.size)
   });
 
   it('on loadLayoutDataDropdown, layoutData should be set without not ui keys', () => {
@@ -235,6 +220,7 @@ describe('BaseBodyComponent', () => {
     component.backgroundWidth = 4;
     component.backgroundOpacity = 0.7;
     component.backgroundColor = 'tutu';
+    component.backgroundPaddingTop = 45
     component.textValue = 'tutu'
     component.textColor = 'tutu'
     component.textSize = 12
@@ -251,10 +237,11 @@ describe('BaseBodyComponent', () => {
 
     component.loadLayoutDataDropdown(event);
 
-    expect(componentFacade.layoutManager.layoutData.height).toEqual(component.backgroundHeight);
-    expect(componentFacade.layoutManager.layoutData.width).toEqual(component.backgroundWidth);
-    expect(componentFacade.layoutManager.layoutData.opacity).toEqual(component.backgroundOpacity);
-    expect(componentFacade.layoutManager.layoutData.imageBackgroundColor).toEqual(component.backgroundColor);
+    expect(componentFacade.layoutManager.layoutData.backgroundData.paddingTop).toEqual(component.backgroundPaddingTop);
+    expect(componentFacade.layoutManager.layoutData.backgroundData.height).toEqual(component.backgroundHeight);
+    expect(componentFacade.layoutManager.layoutData.backgroundData.width).toEqual(component.backgroundWidth);
+    expect(componentFacade.layoutManager.layoutData.backgroundData.opacity).toEqual(component.backgroundOpacity);
+    expect(componentFacade.layoutManager.layoutData.backgroundData.color).toEqual(component.backgroundColor);
     expect(componentFacade.layoutManager.layoutData.textData.value).toEqual(component.textValue);
     expect(componentFacade.layoutManager.layoutData.textData.color).toEqual(component.textColor);
     expect(componentFacade.layoutManager.layoutData.textData.size).toEqual(component.textSize);
@@ -311,10 +298,13 @@ describe('BaseBodyComponent', () => {
     componentFacade.layoutManager.layoutDataTabFromDb = [
       {
         key: 1,
-        height: 60,
-        width: 60,
-        opacity: 0.5,
-        imageBackgroundColor: 'toto',
+        backgroundData: {
+          height: 90,
+          width: 90,
+          opacity: 90,
+          paddingTop: 90,
+          color: 'toto',
+        },
         textData: {
           value: 'toto',
           color: 'toto',
@@ -325,10 +315,13 @@ describe('BaseBodyComponent', () => {
       },
       {
         key: 2,
-        height: 60,
-        width: 60,
-        opacity: 0.5,
-        imageBackgroundColor: 'toto',
+        backgroundData: {
+          height: 90,
+          width: 90,
+          opacity: 90,
+          paddingTop: 90,
+          color: 'toto',
+        },
         textData: {
           value: 'toto',
           color: 'toto',
@@ -359,10 +352,13 @@ describe('BaseBodyComponent', () => {
     component.selectedIndex = 1;
     componentFacade.layoutManager.layoutData = {
       key: 1,
-      height: 60,
-      width: 60,
-      opacity: 0.5,
-      imageBackgroundColor: 'toto',
+      backgroundData: {
+        height: 90,
+        width: 90,
+        opacity: 90,
+        paddingTop: 90,
+        color: 'toto',
+      },
       textData: {
         value: 'toto',
         color: 'toto',
@@ -476,10 +472,11 @@ describe('BaseBodyComponent', () => {
     componentFacade.layoutManager.layoutData = getInitialTab().at(1)!;
     const layoutData: LayoutData = getInitialTab().at(1)!;
 
-    component.backgroundColor = layoutData.imageBackgroundColor;
-    component.backgroundHeight = layoutData.height;
-    component.backgroundWidth = layoutData.width;
-    component.backgroundOpacity = layoutData.opacity;
+    component.backgroundPaddingTop = layoutData.backgroundData.paddingTop;
+    component.backgroundColor = layoutData.backgroundData.color;
+    component.backgroundHeight = layoutData.backgroundData.height;
+    component.backgroundWidth = layoutData.backgroundData.width;
+    component.backgroundOpacity = layoutData.backgroundData.opacity;
 
     component.printBackgroundData();
     const backgroundStyle: string = component.getImageBackgroundStyle()
@@ -492,10 +489,11 @@ describe('BaseBodyComponent', () => {
     componentFacade.layoutManager.layoutData = getInitialTab().at(1)!;
     const layoutData: LayoutData = getInitialTab().at(0)!;
 
-    component.backgroundColor = layoutData.imageBackgroundColor;
-    component.backgroundHeight = layoutData.height;
-    component.backgroundWidth = layoutData.width;
-    component.backgroundOpacity = layoutData.opacity;
+    component.backgroundPaddingTop = layoutData.backgroundData.paddingTop;
+    component.backgroundColor = layoutData.backgroundData.color;
+    component.backgroundHeight = layoutData.backgroundData.height;
+    component.backgroundWidth = layoutData.backgroundData.width;
+    component.backgroundOpacity = layoutData.backgroundData.opacity;
 
     component.doNotPrintBackgroundData()
     const backgroundStyle: string = component.getImageBackgroundStyle()
@@ -536,10 +534,13 @@ function getInitialTab(): LayoutData[]{
   return [
     {
       key: 1,
-      height: 60,
-      width: 60,
-      opacity: 0.5,
-      imageBackgroundColor: 'fakeImageBackgroundColor_1',
+      backgroundData: {
+        height: 60,
+        width: 60,
+        opacity: 0.5,
+        paddingTop: 20,
+        color: '#1E90FF',
+      },
       textData: {
         value: 'fakeImageText_1',
         color: '#1E90FF',
@@ -550,10 +551,13 @@ function getInitialTab(): LayoutData[]{
     },
     {
       key: 2,
-      height: 60,
-      width: 60,
-      opacity: 0.5,
-      imageBackgroundColor: '#1E90FF',
+      backgroundData: {
+        height: 60,
+        width: 60,
+        opacity: 0.5,
+        paddingTop: 20,
+        color: '#1E90FF',
+      },
       textData: {
         value: 'fakeImageText_2',
         color: '#1E90FF',

@@ -18,7 +18,7 @@ export class BaseBodyComponent implements OnInit{
   textDataRendered: boolean = false;
 
   backgroundColor!: string;
-  backgroundPaddingTop: string = "20";
+  backgroundPaddingTop!: number;
   backgroundHeight!: number;
   backgroundWidth!: number;
   backgroundOpacity!: number;
@@ -95,6 +95,7 @@ export class BaseBodyComponent implements OnInit{
     return "background-image: url(" + this.imageUrl + ");"
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
+         + "padding-top: " + this.backgroundPaddingTop + "%;" 
          + "height: 100%;"
   }
 
@@ -125,7 +126,6 @@ export class BaseBodyComponent implements OnInit{
     }
     return "height: " + this.backgroundHeight + "%;"
          + "width: " + this.backgroundWidth + "%;"
-         + "padding-top: " + this.backgroundPaddingTop + "%;" 
          + "margin: auto;"
          + backgroundColor
   }
@@ -183,10 +183,11 @@ export class BaseBodyComponent implements OnInit{
   setLayoutElements(index: number){
     const element = this.componentFacade.getLayoutElements(index);
     this.imageUrl = element.imageUrl;
-    this.backgroundColor = element.layoutData.imageBackgroundColor;
-    this.backgroundHeight = element.layoutData.height;
-    this.backgroundWidth = element.layoutData.width;
-    this.backgroundOpacity = element.layoutData.opacity;
+    this.backgroundColor = element.layoutData.backgroundData.color;
+    this.backgroundHeight = element.layoutData.backgroundData.height;
+    this.backgroundWidth = element.layoutData.backgroundData.width;
+    this.backgroundOpacity = element.layoutData.backgroundData.opacity;
+    this.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
     this.textValue = element.layoutData.textData.value;
     this.textColor = element.layoutData.textData.color;
     this.textSize = element.layoutData.textData.size;
@@ -196,10 +197,17 @@ export class BaseBodyComponent implements OnInit{
   private setLayoutData(){
     const layoutData: LayoutData = {
       key: 0,
-      height: this.backgroundHeight,
-      width: this.backgroundWidth,
-      opacity: this.backgroundOpacity,
-      imageBackgroundColor: this.backgroundColor,
+      backgroundData: {
+        paddingTop: this.backgroundPaddingTop,
+        height: this.backgroundHeight,
+        width: this.backgroundWidth,
+        color: this.backgroundColor,
+        opacity: this.backgroundOpacity
+      },
+      // height: this.backgroundHeight,
+      // width: this.backgroundWidth,
+      // opacity: this.backgroundOpacity,
+      // imageBackgroundColor: this.backgroundColor,
       textData: {
         value: this.textValue,
         color: this.textColor,
