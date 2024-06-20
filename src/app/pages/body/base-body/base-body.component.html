@@ -10,10 +10,11 @@
     <ng-container *ngIf="this.backgroundDataRendered">
         <p-button (onClick)="this.doNotPrintBackgroundData()">No BackgroundData</p-button>
         <div style="display: flex; align-items: center; gap: 1rem;">
-            <p-colorPicker [(ngModel)]="this.imageBackgroundColor"></p-colorPicker>
-            <p-knob [(ngModel)]="this.opacity" [min]="0" [max]="100"></p-knob>
-            <p-knob [(ngModel)]="this.width" [min]="0" [max]="100"></p-knob>
-            <p-knob [(ngModel)]="this.height" [min]="0" [max]="100"></p-knob>
+            <p-colorPicker [(ngModel)]="this.backgroundColor"></p-colorPicker>
+            <p-knob [(ngModel)]="this.backgroundOpacity" [min]="0" [max]="100"></p-knob>
+            <p-knob [(ngModel)]="this.backgroundWidth" [min]="0" [max]="100"></p-knob>
+            <p-knob [(ngModel)]="this.backgroundHeight" [min]="0" [max]="100"></p-knob>
+            <p-knob [(ngModel)]="this.backgroundPaddingTop" [min]="0"></p-knob>
         </div>
     </ng-container>
     <ng-container *ngIf="!this.backgroundDataRendered">

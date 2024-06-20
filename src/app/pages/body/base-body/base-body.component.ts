@@ -17,10 +17,11 @@ export class BaseBodyComponent implements OnInit{
   backgroundDataRendered: boolean = false;
   textDataRendered: boolean = false;
 
-  imageBackgroundColor!: string;
-  height!: number;
-  width!: number;
-  opacity!: number;
+  backgroundColor!: string;
+  backgroundPaddingTop: string = "20";
+  backgroundHeight!: number;
+  backgroundWidth!: number;
+  backgroundOpacity!: number;
 
   textValue!: string;
   textColor!: string;
@@ -49,15 +50,6 @@ export class BaseBodyComponent implements OnInit{
 
   ngOnInit(): void {
     this.policeTab = this.initPoliceTab();
-
-    // this.imageBackgroundColor = "#FF0000";
-    // this.height = 60;
-    // this.width = 60;
-    // this.opacity = 0.5;
-    // this.textValue = 'fakeText for this mock';
-    // this.textColor = "#FF0000";
-    // this.textSize = 48;
-    // this.textPolice = "fakePolice";
 
     this.componentFacade.loadData(this.layoutJsonName)
     .subscribe({
@@ -127,12 +119,13 @@ export class BaseBodyComponent implements OnInit{
     if(this.backgroundDataRendered){
       backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
-        this.colorConvertor.convertToRgba(this.imageBackgroundColor),
-        (this.opacity/100)
+        this.colorConvertor.convertToRgba(this.backgroundColor),
+        (this.backgroundOpacity/100)
        ) + ";"
     }
-    return "height: " + this.height + "%;"
-         + "width: " + this.width + "%;"
+    return "height: " + this.backgroundHeight + "%;"
+         + "width: " + this.backgroundWidth + "%;"
+         + "padding-top: " + this.backgroundPaddingTop + "%;" 
          + "margin: auto;"
          + backgroundColor
   }
@@ -190,10 +183,10 @@ export class BaseBodyComponent implements OnInit{
   setLayoutElements(index: number){
     const element = this.componentFacade.getLayoutElements(index);
     this.imageUrl = element.imageUrl;
-    this.imageBackgroundColor = element.layoutData.imageBackgroundColor;
-    this.height = element.layoutData.height;
-    this.width = element.layoutData.width;
-    this.opacity = element.layoutData.opacity;
+    this.backgroundColor = element.layoutData.imageBackgroundColor;
+    this.backgroundHeight = element.layoutData.height;
+    this.backgroundWidth = element.layoutData.width;
+    this.backgroundOpacity = element.layoutData.opacity;
     this.textValue = element.layoutData.textData.value;
     this.textColor = element.layoutData.textData.color;
     this.textSize = element.layoutData.textData.size;
@@ -203,10 +196,10 @@ export class BaseBodyComponent implements OnInit{
   private setLayoutData(){
     const layoutData: LayoutData = {
       key: 0,
-      height: this.height,
-      width: this.width,
-      opacity: this.opacity,
-      imageBackgroundColor: this.imageBackgroundColor,
+      height: this.backgroundHeight,
+      width: this.backgroundWidth,
+      opacity: this.backgroundOpacity,
+      imageBackgroundColor: this.backgroundColor,
       textData: {
         value: this.textValue,
         color: this.textColor,
