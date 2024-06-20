@@ -4,7 +4,6 @@ import { Observable, forkJoin } from 'rxjs';
 import { LayoutData } from '../../../model/layout-data/layout-data';
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
-import { LayoutData } from '../../../model/layout-data/layout-data';
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
 import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
 import { TextData } from '../../../model/layout-data/text-data';
@@ -52,36 +51,36 @@ export class BaseBodyComponent implements OnInit{
   ngOnInit(): void {
     this.policeTab = this.initPoliceTab();
 
-    this.imageBackgroundColor = "#FF0000";
-    this.height = 60;
-    this.width = 60;
-    this.opacity = 0.5;
-    this.textValue = 'fakeText for this mock';
-    this.textColor = "#FF0000";
-    this.textSize = 48;
-    this.textPolice = "fakePolice";
+    // this.imageBackgroundColor = "#FF0000";
+    // this.height = 60;
+    // this.width = 60;
+    // this.opacity = 0.5;
+    // this.textValue = 'fakeText for this mock';
+    // this.textColor = "#FF0000";
+    // this.textSize = 48;
+    // this.textPolice = "fakePolice";
 
-    // this.componentFacade.loadData(this.layoutJsonName)
-    // .subscribe({
-    //   next: (response: any) => {
-    //     this.componentFacade.initImplicitDependencies(response);
-    //     this.setLayoutElements(1);
-    //     this.wrapForkJoin()
-    //     .subscribe({
-    //       next: (results) => {
-    //         console.log("Toutes les images ont été chargées", results);
-    //         this.imageUrl = this.componentFacade.getImageUrl(1);
-    //       },
-    //       error: (error) => {
-    //         console.error("Erreur lors du chargement des images", error);
-    //       }
-    //     });
-    //     this.dropdownTab = this.componentFacade.getDropdownIndexes();
-    //   },
-    //   error: e => {
-    //     console.log(e);
-    //   },
-    // });
+    this.componentFacade.loadData(this.layoutJsonName)
+    .subscribe({
+      next: (response: any) => {
+        this.componentFacade.initImplicitDependencies(response);
+        this.setLayoutElements(1);
+        this.wrapForkJoin()
+        .subscribe({
+          next: (results) => {
+            console.log("Toutes les images ont été chargées", results);
+            this.imageUrl = this.componentFacade.getImageUrl(1);
+          },
+          error: (error) => {
+            console.error("Erreur lors du chargement des images", error);
+          }
+        });
+        this.dropdownTab = this.componentFacade.getDropdownIndexes();
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
   }
 
   initPoliceTab(): string[]{

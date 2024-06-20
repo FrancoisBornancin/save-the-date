@@ -7,9 +7,9 @@
         "imageBackgroundColor": "#1E90FF",
         "textData": {
           "value": "fakeImageText_2",
-          "color": "#1E90FF",
-          "size": "fakeSize",
-          "police": "fakePolice"
+          "color": "#FF0000",
+          "size": 24,
+          "police": "ES"
         },
         "hasBeenSaved": "fakehasBeenSaved_2"
       },
@@ -21,9 +21,9 @@
         "imageBackgroundColor": "#1E90FF",
         "textData": {
           "value": "fakeImageText_2",
-          "color": "#1E90FF",
-          "size": "fakeSize",
-          "police": "fakePolice"
+          "color": "#FF0000",
+          "size": 24,
+          "police": "ES"
         },
         "hasBeenSaved": "fakehasBeenSaved_2"
       },
@@ -35,9 +35,9 @@
         "imageBackgroundColor": "#1E90FF",
         "textData": {
           "value": "fakeImageText_2",
-          "color": "#1E90FF",
-          "size": "fakeSize",
-          "police": "fakePolice"
+          "color": "#FF0000",
+          "size": 24,
+          "police": "ES"
         },
         "hasBeenSaved": "fakehasBeenSaved_2"
       },
@@ -49,9 +49,9 @@
         "imageBackgroundColor": "#1E90FF",
         "textData": {
           "value": "fakeImageText_2",
-          "color": "#1E90FF",
-          "size": "fakeSize",
-          "police": "fakePolice"
+          "color": "#FF0000",
+          "size": 24,
+          "police": "ES"
         },
         "hasBeenSaved": "fakehasBeenSaved_2"
       },
@@ -63,9 +63,9 @@
         "imageBackgroundColor": "#1E90FF",
         "textData": {
           "value": "fakeImageText_2",
-          "color": "#1E90FF",
-          "size": "fakeSize",
-          "police": "fakePolice"
+          "color": "#FF0000",
+          "size": 24,
+          "police": "ES"
         },
         "hasBeenSaved": "fakehasBeenSaved_2"
       }
