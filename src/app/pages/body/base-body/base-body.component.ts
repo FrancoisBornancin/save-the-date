@@ -117,7 +117,7 @@ export class BaseBodyComponent implements OnInit{
     )
   }
 
-  testTextStyle(){
+  textStyle(){
     return 'color: ' + this.textColor + ";"
           + 'font-size: ' + this.textSize + "px;"
           + 'font-family: "Playwrite ' + this.textPolice + '", cursive;'

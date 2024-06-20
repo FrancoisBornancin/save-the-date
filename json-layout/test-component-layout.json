@@ -1,72 +1,72 @@
 [
+  {
+      "key": 1,
+      "height": 60,
+      "width": 60,
+      "opacity": 0.5,
+      "imageBackgroundColor": "#1E90FF",
+      "textData": {
+        "value": "fakeImageText_2",
+        "color": "#FF0000",
+        "size": 24,
+        "police": "ES"
+      },
+      "hasBeenSaved": "fakehasBeenSaved_2"
+    },
     {
-        "key": 1,
-        "height": 60,
-        "width": 60,
-        "opacity": 0.5,
-        "imageBackgroundColor": "#1E90FF",
-        "textData": {
-          "value": "fakeImageText_2",
-          "color": "#1E90FF",
-          "size": "fakeSize",
-          "police": "fakePolice"
-        },
-        "hasBeenSaved": "fakehasBeenSaved_2"
+      "key": 2,
+      "height": 60,
+      "width": 60,
+      "opacity": 0.5,
+      "imageBackgroundColor": "#1E90FF",
+      "textData": {
+        "value": "fakeImageText_2",
+        "color": "#FF0000",
+        "size": 24,
+        "police": "ES"
       },
-      {
-        "key": 2,
-        "height": 60,
-        "width": 60,
-        "opacity": 0.5,
-        "imageBackgroundColor": "#1E90FF",
-        "textData": {
-          "value": "fakeImageText_2",
-          "color": "#1E90FF",
-          "size": "fakeSize",
-          "police": "fakePolice"
-        },
-        "hasBeenSaved": "fakehasBeenSaved_2"
+      "hasBeenSaved": "fakehasBeenSaved_2"
+    },
+    {
+      "key": 3,
+      "height": 60,
+      "width": 60,
+      "opacity": 0.5,
+      "imageBackgroundColor": "#1E90FF",
+      "textData": {
+        "value": "fakeImageText_2",
+        "color": "#FF0000",
+        "size": 24,
+        "police": "ES"
       },
-      {
-        "key": 3,
-        "height": 60,
-        "width": 60,
-        "opacity": 0.5,
-        "imageBackgroundColor": "#1E90FF",
-        "textData": {
-          "value": "fakeImageText_2",
-          "color": "#1E90FF",
-          "size": "fakeSize",
-          "police": "fakePolice"
-        },
-        "hasBeenSaved": "fakehasBeenSaved_2"
+      "hasBeenSaved": "fakehasBeenSaved_2"
+    },
+    {
+      "key": 4,
+      "height": 60,
+      "width": 60,
+      "opacity": 0.5,
+      "imageBackgroundColor": "#1E90FF",
+      "textData": {
+        "value": "fakeImageText_2",
+        "color": "#FF0000",
+        "size": 24,
+        "police": "ES"
       },
-      {
-        "key": 4,
-        "height": 60,
-        "width": 60,
-        "opacity": 0.5,
-        "imageBackgroundColor": "#1E90FF",
-        "textData": {
-          "value": "fakeImageText_2",
-          "color": "#1E90FF",
-          "size": "fakeSize",
-          "police": "fakePolice"
-        },
-        "hasBeenSaved": "fakehasBeenSaved_2"
+      "hasBeenSaved": "fakehasBeenSaved_2"
+    },
+    {
+      "key": 5,
+      "height": 60,
+      "width": 60,
+      "opacity": 0.5,
+      "imageBackgroundColor": "#1E90FF",
+      "textData": {
+        "value": "fakeImageText_2",
+        "color": "#FF0000",
+        "size": 24,
+        "police": "ES"
       },
-      {
-        "key": 5,
-        "height": 60,
-        "width": 60,
-        "opacity": 0.5,
-        "imageBackgroundColor": "#1E90FF",
-        "textData": {
-          "value": "fakeImageText_2",
-          "color": "#1E90FF",
-          "size": "fakeSize",
-          "police": "fakePolice"
-        },
-        "hasBeenSaved": "fakehasBeenSaved_2"
-      }
+      "hasBeenSaved": "fakehasBeenSaved_2"
+    }
 ]

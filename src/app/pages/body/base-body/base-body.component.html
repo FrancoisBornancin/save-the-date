@@ -37,7 +37,7 @@
     </ng-container>
     <div  [style]="this.getImageBackgroundStyle()">
         <ng-container *ngIf="this.componentFacade.layoutManager.layoutData">
-            <div [innerHTML]="this.stringToHtml()"></div>
+            <div [innerHTML]="this.stringToHtml()" [style]="textStyle()"></div>
         </ng-container>
     </div>
 </div>
