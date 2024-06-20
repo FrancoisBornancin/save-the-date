@@ -7,6 +7,7 @@ import { ColorConvertorService } from '../../../services/color-to-rgba/color-con
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
 import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
 import { fontFamily } from '../../font-family';
+import { TextToHtmlRetrieverService } from '../../../services/text-to-html-retriever/text-to-html-retriever.service';
 
 @Component({
   selector: 'app-base-body',
@@ -16,6 +17,7 @@ import { fontFamily } from '../../font-family';
 export class BaseBodyComponent implements OnInit{
   backgroundDataRendered: boolean = false;
   textDataRendered: boolean = false;
+  textModalRendered: boolean = false;
 
   backgroundColor!: string;
   backgroundPaddingTop!: number;
@@ -43,7 +45,8 @@ export class BaseBodyComponent implements OnInit{
     public componentFacade: ComponentFacadeService,
     public stringToHtmlService: StringToHtmlService,
     public colorConvertor: ColorConvertorService,
-    public adminManager: AdminManagerService
+    public adminManager: AdminManagerService,
+    public textToHtmlRetriever: TextToHtmlRetrieverService
   ){
 
   }
@@ -144,6 +147,14 @@ export class BaseBodyComponent implements OnInit{
 
   doNotPrintTextData(){
     this.textDataRendered = false;
+  }
+
+  printTextModal(){
+    this.textModalRendered = true;
+  }
+
+  doNotPrintTextModal(){
+    this.textModalRendered = false;
   }
 
   loadLayoutDataDropdown(event: any){

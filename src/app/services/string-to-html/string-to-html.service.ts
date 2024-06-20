@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
+import { TextToHtml } from '../../model/text-to-html';
+import { TextToHtmlRetrieverService } from '../text-to-html-retriever/text-to-html-retriever.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StringToHtmlService {
 
-  constructor() { }
+  constructor(
+    private textToHtmlRetriever: TextToHtmlRetrieverService
+  ) { }
 
   replaceString(stringToReplace: string): string{
     if(stringToReplace != undefined){
       const startString = "<p style='color: rgba(0, 0, 0, 1)'>"
       const endString = "</p>"
-      stringToReplace = this.replace(stringToReplace, '|', '<br>');
-      stringToReplace = this.replaceAndSurround(stringToReplace, ':it:', '<em>');
-      stringToReplace = this.replaceAndSurround(stringToReplace, ':gr:', '<strong>');
-      stringToReplace = this.replacePuce(stringToReplace, ':p:');
+      stringToReplace = this.replace(stringToReplace, this.textToHtmlRetriever.getText('saut_de_ligne'), this.textToHtmlRetriever.getHtml('saut_de_ligne'));
+      stringToReplace = this.replaceAndSurround(stringToReplace, this.textToHtmlRetriever.getText('italique'), this.textToHtmlRetriever.getHtml('italique'));
+      stringToReplace = this.replaceAndSurround(stringToReplace, this.textToHtmlRetriever.getText('gras'), this.textToHtmlRetriever.getHtml('gras'));
+      stringToReplace = this.replacePuce(stringToReplace, this.textToHtmlRetriever.getText('liste à puce'));
     }
     return stringToReplace;
   }
