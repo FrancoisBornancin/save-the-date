@@ -1,42 +1,48 @@
-<div [style]="getImageUrl()">
-    <ng-container *ngIf="!this.adminManager.isPreviewActive">
-        <p-button (click)="this.saveImage()">SaveImage</p-button>
-        <p-button (click)="this.saveLayout()">SaveLayout</p-button>
-        <ng-container *ngIf="this.backgroundDataRendered">
-            <p-button (onClick)="this.doNotPrintBackgroundData()">No BackgroundData</p-button>
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <p-colorPicker [(ngModel)]="this.imageBackgroundColor"></p-colorPicker>
-                <p-knob [(ngModel)]="this.opacity" [min]="0" [max]="100"></p-knob>
-                <p-knob [(ngModel)]="this.width" [min]="0" [max]="100"></p-knob>
-                <p-knob [(ngModel)]="this.height" [min]="0" [max]="100"></p-knob>
-            </div>
-        </ng-container>
-        <ng-container *ngIf="!this.backgroundDataRendered">
-            <p-button (onClick)="this.printBackgroundData()">BackgroundData</p-button>
-        </ng-container>
-        <ng-container *ngIf="!this.textDataRendered">
-            <p-button (onClick)="this.printTextData()">textData</p-button>
-        </ng-container>
-        <ng-container *ngIf="this.textDataRendered">
-            <p-button (onClick)="this.doNotPrintTextData()">no TextData</p-button>
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <p-dropdown [options]="this.policeTab" [(ngModel)]="this.textPolice">Police</p-dropdown>
-                <p-colorPicker [(ngModel)]="this.textColor"></p-colorPicker>
-                <p-knob [(ngModel)]="this.textSize" [min]="12" [max]="48">textSize</p-knob>
-            </div>
-        </ng-container>
+<ng-container *ngIf="this.adminManager.isPreviewActive">
+    <p-button (click)="this.adminManager.disactivatePreview()">Disactivate Preview</p-button>
+</ng-container>
+<ng-container *ngIf="!this.adminManager.isPreviewActive">
+    <p-button (click)="this.adminManager.activatePreview()">Activate Preview</p-button>
+</ng-container>
+<ng-container *ngIf="!this.adminManager.isPreviewActive">
+    <p-button (click)="this.saveImage()">SaveImage</p-button>
+    <p-button (click)="this.saveLayout()">SaveLayout</p-button>
+    <ng-container *ngIf="this.backgroundDataRendered">
+        <p-button (onClick)="this.doNotPrintBackgroundData()">No BackgroundData</p-button>
         <div style="display: flex; align-items: center; gap: 1rem;">
-            <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
-            <input type="text" pInputText [(ngModel)]="this.textValue" />
+            <p-colorPicker [(ngModel)]="this.imageBackgroundColor"></p-colorPicker>
+            <p-knob [(ngModel)]="this.opacity" [min]="0" [max]="100"></p-knob>
+            <p-knob [(ngModel)]="this.width" [min]="0" [max]="100"></p-knob>
+            <p-knob [(ngModel)]="this.height" [min]="0" [max]="100"></p-knob>
         </div>
-        <p-fileUpload #fileUploader
-        mode="basic"
-        customUpload="true"
-        (uploadHandler)="upload($event)">
-        </p-fileUpload>
-        <div>{{ this.componentFacade.layoutManager.layoutData.hasBeenSaved }}</div>
-        <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
     </ng-container>
+    <ng-container *ngIf="!this.backgroundDataRendered">
+        <p-button (onClick)="this.printBackgroundData()">BackgroundData</p-button>
+    </ng-container>
+    <ng-container *ngIf="!this.textDataRendered">
+        <p-button (onClick)="this.printTextData()">textData</p-button>
+    </ng-container>
+    <ng-container *ngIf="this.textDataRendered">
+        <p-button (onClick)="this.doNotPrintTextData()">no TextData</p-button>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <p-dropdown [options]="this.policeTab" [(ngModel)]="this.textPolice">Police</p-dropdown>
+            <p-colorPicker [(ngModel)]="this.textColor"></p-colorPicker>
+            <p-knob [(ngModel)]="this.textSize" [min]="12" [max]="48">textSize</p-knob>
+        </div>
+    </ng-container>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+        <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
+        <input type="text" pInputText [(ngModel)]="this.textValue" />
+    </div>
+    <p-fileUpload #fileUploader
+    mode="basic"
+    customUpload="true"
+    (uploadHandler)="upload($event)">
+    </p-fileUpload>
+    <div>{{ this.componentFacade.layoutManager.layoutData.hasBeenSaved }}</div>
+    <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
+</ng-container>
+<div [style]="getImageUrl()">
     <div  [style]="this.getImageBackgroundStyle()">
         <ng-container *ngIf="this.componentFacade.layoutManager.layoutData">
             <div [innerHTML]="this.stringToHtml()" [style]="textStyle()"></div>

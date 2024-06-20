@@ -1,10 +1,4 @@
 <div style="height: 20%; background-color: aqua;">
-    <ng-container *ngIf="this.adminManager.isPreviewActive">
-        <p-button (click)="this.adminManager.disactivatePreview()">Disactivate Preview</p-button>
-    </ng-container>
-    <ng-container *ngIf="!this.adminManager.isPreviewActive">
-        <p-button (click)="this.adminManager.activatePreview()">Activate Preview</p-button>
-    </ng-container>
     <ng-container *ngFor="let element of headerTab">
         <p-button (click)="returnPage(element)">{{ element }}</p-button>
     </ng-container>
