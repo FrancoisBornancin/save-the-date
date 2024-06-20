@@ -5,6 +5,10 @@ import { LayoutData } from '../../../model/layout-data/layout-data';
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
 import { LayoutData } from '../../../model/layout-data/layout-data';
+import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
+import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
+import { TextData } from '../../../model/layout-data/text-data';
+import { fontFamily } from '../../font-family';
 
 @Component({
   selector: 'app-base-body',
@@ -25,6 +29,7 @@ export class BaseBodyComponent implements OnInit{
   textSize!: number;
   textPolice!: string;
 
+  policeTab!: string[];
 
   dropdownTab!: number[];
   selectedIndex!: number;
@@ -44,6 +49,58 @@ export class BaseBodyComponent implements OnInit{
 
   }
 
+  ngOnInit(): void {
+    this.policeTab = this.initPoliceTab();
+
+    this.imageBackgroundColor = "#FF0000";
+    this.height = 60;
+    this.width = 60;
+    this.opacity = 0.5;
+    this.textValue = 'fakeText for this mock';
+    this.textColor = "#FF0000";
+    this.textSize = 48;
+    this.textPolice = "fakePolice";
+
+    // this.componentFacade.loadData(this.layoutJsonName)
+    // .subscribe({
+    //   next: (response: any) => {
+    //     this.componentFacade.initImplicitDependencies(response);
+    //     this.setLayoutElements(1);
+    //     this.wrapForkJoin()
+    //     .subscribe({
+    //       next: (results) => {
+    //         console.log("Toutes les images ont été chargées", results);
+    //         this.imageUrl = this.componentFacade.getImageUrl(1);
+    //       },
+    //       error: (error) => {
+    //         console.error("Erreur lors du chargement des images", error);
+    //       }
+    //     });
+    //     this.dropdownTab = this.componentFacade.getDropdownIndexes();
+    //   },
+    //   error: e => {
+    //     console.log(e);
+    //   },
+    // });
+  }
+
+  initPoliceTab(): string[]{
+    return fontFamily
+            .split("?")[1]
+            .split("&")
+            .filter(element => element != 'display=swap')
+            .map(element => {
+              let policeName =
+                element
+                  .split("Playwrite+")[1]
+                  .split(":")[0]
+
+              policeName =
+                policeName.includes("+") ? policeName.split("+").join(" ") : policeName
+              return policeName
+            })
+  }
+
   getImageUrl(){
     return "background-image: url(" + this.imageUrl + ");"
          + "background-size: contain;"
@@ -52,7 +109,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   stringToHtml(){
-      return this.stringToHtmlService.replaceString(this.textValue);
+    return this.stringToHtmlService.replaceString(this.textValue);
   }
 
   wrapForkJoin(): Observable<any[]>{
@@ -61,28 +118,10 @@ export class BaseBodyComponent implements OnInit{
     )
   }
 
-  ngOnInit(): void {
-    this.componentFacade.loadData(this.layoutJsonName)
-    .subscribe({
-      next: (response: any) => {
-        this.componentFacade.initImplicitDependencies(response);
-        this.setLayoutElements(1);
-        this.wrapForkJoin()
-        .subscribe({
-          next: (results) => {
-            console.log("Toutes les images ont été chargées", results);
-            this.imageUrl = this.componentFacade.getImageUrl(1);
-          },
-          error: (error) => {
-            console.error("Erreur lors du chargement des images", error);
-          }
-        });
-        this.dropdownTab = this.componentFacade.getDropdownIndexes();
-      },
-      error: e => {
-        console.log(e);
-      },
-    });
+  testTextStyle(){
+    return 'color: ' + this.textColor + ";"
+          + 'font-size: ' + this.textSize + "px;"
+          + 'font-family: "Playwrite ' + this.textPolice + '", cursive;'
   }
 
   increaseData(data: string, value: number){

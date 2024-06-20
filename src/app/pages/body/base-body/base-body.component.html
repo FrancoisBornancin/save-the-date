@@ -16,6 +16,10 @@
         </ng-container>
         <ng-container *ngIf="this.textDataRendered">
             <p-button (onClick)="this.doNotPrintTextData()">no TextData</p-button>
+            <p-dropdown [options]="this.policeTab" [(ngModel)]="this.textPolice">Police</p-dropdown>
+            <p-colorPicker [(ngModel)]="this.textColor"></p-colorPicker>
+            <p-button (onClick)="increaseData('textSize', 1)">(+) textSize</p-button>
+            <p-button (onClick)="decreaseData('textSize', 1)">(-) textSize</p-button>
         </ng-container>
         <p-button (onClick)="increaseData('width', 1)">(+) width</p-button>
         <p-button (onClick)="decreaseData('width', 1)">(-) width</p-button>
@@ -23,8 +27,8 @@
         <p-button (onClick)="decreaseData('height', 1)">(-) height</p-button>
         <p-dropdown [options]="this.dropdownTab" (onChange)="this.loadLayoutDataDropdown($event)">Load</p-dropdown>
         <p-fileUpload #fileUploader
-        mode="basic" 
-        customUpload="true" 
+        mode="basic"
+        customUpload="true"
         (uploadHandler)="upload($event)">
         </p-fileUpload>
         <div>{{ this.componentFacade.layoutManager.layoutData.hasBeenSaved }}</div>
