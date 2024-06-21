@@ -18,6 +18,7 @@ export class BaseBodyComponent implements OnInit{
   backgroundDataRendered: boolean = false;
   textDataRendered: boolean = false;
   textModalRendered: boolean = false;
+  generalInfoModalRendered: boolean = false;
 
   backgroundColor!: string;
   backgroundPaddingTop!: number;
@@ -157,6 +158,14 @@ export class BaseBodyComponent implements OnInit{
     this.textModalRendered = false;
   }
 
+  printGeneralInfoModal(){
+    this.generalInfoModalRendered = true;
+  }
+
+  doNotPrintGeneralInfoModal(){
+    this.generalInfoModalRendered = false;
+  }
+
   loadLayoutDataDropdown(event: any){
     this.setLayoutData();
     this.selectedIndex = event.value
@@ -215,10 +224,6 @@ export class BaseBodyComponent implements OnInit{
         color: this.backgroundColor,
         opacity: this.backgroundOpacity
       },
-      // height: this.backgroundHeight,
-      // width: this.backgroundWidth,
-      // opacity: this.backgroundOpacity,
-      // imageBackgroundColor: this.backgroundColor,
       textData: {
         value: this.textValue,
         color: this.textColor,

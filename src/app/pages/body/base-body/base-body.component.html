@@ -7,6 +7,32 @@
 <ng-container *ngIf="!this.adminManager.isPreviewActive">
     <p-button (click)="this.saveImage()">SaveImage</p-button>
     <p-button (click)="this.saveLayout()">SaveLayout</p-button>
+    <ng-container *ngIf="!this.generalInfoModalRendered">
+        <p-button (onClick)="this.printGeneralInfoModal()">GeneralInfo</p-button>
+    </ng-container>
+    <ng-container *ngIf="this.generalInfoModalRendered">
+        <p-button (onClick)="this.doNotPrintGeneralInfoModal()">No GeneralInfo</p-button>
+        <div style="background-color: #d3d3d3; margin: 10px; padding: 10px;"> 
+            <p><strong>Comment fonctionne cette application:</strong></p>
+            <p><em>Gestion et sauvegarde des visuels:</em></p>
+            <p>Tu vas pouvoir travailler sur 5 visuels max par page.
+            Si tu travailles sur un visuel en index 1 mais que tu
+            veux basculer sur un visuel en autre index tu le pourras
+            sans perdre aucun informatione <strong>tant que tu restes
+            sur cette page!</strong></p>
+            <p>La sauvegarde (image ou layout) n'est là que pour être capable
+            de récupérer ton travail après un changement de page ou une
+            déconnexion. Ce qui signifie que si tu n'enregistre pas ton travail
+            mais souhaite changer de page ou te reconnecter, il sera perdu.</p>
+            <p><em>Image, texte, couleur et disposition: </em></p>
+            <p>Tu vas pouvoir: </p>
+            <ul><li>Charger des images à la volée depuis ton portable</li></ul>
+            <ul><li>Tester du texte</li></ul>
+            <ul><li>Tester des tailles, couleurs et polices de charactères</li></ul>
+            <ul><li>Tester un fond de couleur, son opacité, sa hauteur et largeur</li></ul>
+            <p><strong>Enjoy chaton!</strong></p>
+        </div>
+    </ng-container>
     <ng-container *ngIf="this.backgroundDataRendered">
         <p-button (onClick)="this.doNotPrintBackgroundData()">No BackgroundData</p-button>
         <div style="display: flex; align-items: center; gap: 1rem;">
