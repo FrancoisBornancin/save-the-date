@@ -8,6 +8,7 @@ import { ComponentFacadeService } from '../../../services/component-facade/compo
 import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
 import { fontFamily } from '../../font-family';
 import { TextToHtmlRetrieverService } from '../../../services/text-to-html-retriever/text-to-html-retriever.service';
+import e from 'express';
 
 @Component({
   selector: 'app-base-body',
@@ -63,42 +64,27 @@ export class BaseBodyComponent implements OnInit{
   ngOnInit(): void {
     this.policeTab = this.initPoliceTab();
 
-    this.backgroundColor = '#1E90FF'
-    this.backgroundPaddingTop = 0
-    this.backgroundHeight = 20
-    this.backgroundWidth = 20
-    this.backgroundOpacity = 20
-
-    this.textValue= 'toto'
-    this.textColor = '#1E90FF'
-    this.textSize = 24
-    this.textPolice = 'ES'
-
-    this.borderRadius = 25;
-    this.borderSize = 50;
-    this.borderColor = '#FF0000';
-
-    // this.componentFacade.loadData(this.layoutJsonName)
-    // .subscribe({
-    //   next: (response: any) => {
-    //     this.componentFacade.initImplicitDependencies(response);
-    //     this.setLayoutElements(1);
-    //     this.wrapForkJoin()
-    //     .subscribe({
-    //       next: (results) => {
-    //         console.log("Toutes les images ont été chargées", results);
-    //         this.imageUrl = this.componentFacade.getImageUrl(1);
-    //       },
-    //       error: (error) => {
-    //         console.error("Erreur lors du chargement des images", error);
-    //       }
-    //     });
-    //     this.dropdownTab = this.componentFacade.getDropdownIndexes();
-    //   },
-    //   error: e => {
-    //     console.log(e);
-    //   },
-    // });
+    this.componentFacade.loadData(this.layoutJsonName)
+    .subscribe({
+      next: (response: any) => {
+        this.componentFacade.initImplicitDependencies(response);
+        this.setLayoutElements(1);
+        this.wrapForkJoin()
+        .subscribe({
+          next: (results) => {
+            console.log("Toutes les images ont été chargées", results);
+            this.imageUrl = this.componentFacade.getImageUrl(1);
+          },
+          error: (error) => {
+            console.error("Erreur lors du chargement des images", error);
+          }
+        });
+        this.dropdownTab = this.componentFacade.getDropdownIndexes();
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
   }
 
   initPoliceTab(): string[]{
@@ -244,11 +230,17 @@ export class BaseBodyComponent implements OnInit{
   setLayoutElements(index: number){
     const element = this.componentFacade.getLayoutElements(index);
     this.imageUrl = element.imageUrl;
+
     this.backgroundColor = element.layoutData.backgroundData.color;
     this.backgroundHeight = element.layoutData.backgroundData.height;
     this.backgroundWidth = element.layoutData.backgroundData.width;
     this.backgroundOpacity = element.layoutData.backgroundData.opacity;
     this.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
+
+    this.borderColor = element.layoutData.borderData.color
+    this.borderRadius = element.layoutData.borderData.radius
+    this.borderSize = element.layoutData.borderData.size
+
     this.textValue = element.layoutData.textData.value;
     this.textColor = element.layoutData.textData.color;
     this.textSize = element.layoutData.textData.size;
@@ -264,6 +256,11 @@ export class BaseBodyComponent implements OnInit{
         width: this.backgroundWidth,
         color: this.backgroundColor,
         opacity: this.backgroundOpacity
+      },
+      borderData: {
+        color: this.borderColor,
+        radius: this.borderRadius,
+        size: this.borderSize
       },
       textData: {
         value: this.textValue,

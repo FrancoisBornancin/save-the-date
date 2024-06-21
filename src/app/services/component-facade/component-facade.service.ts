@@ -34,6 +34,7 @@ export class ComponentFacadeService {
 
   setLayoutDataWithoutNotUiKeys(layoutData: LayoutData){
     this.layoutManager.layoutData.backgroundData = layoutData.backgroundData
+    this.layoutManager.layoutData.borderData = layoutData.borderData
     this.layoutManager.layoutData.textData = layoutData.textData;
   }
 

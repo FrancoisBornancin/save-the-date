@@ -59,6 +59,11 @@ describe('BaseBodyComponent', () => {
     expect(component.backgroundHeight).toBe(layoutData.backgroundData.height);
     expect(component.backgroundWidth).toBe(layoutData.backgroundData.width);
     expect(component.backgroundOpacity).toBe(layoutData.backgroundData.opacity);
+
+    expect(component.borderColor).toBe(layoutData.borderData.color);
+    expect(component.borderRadius).toBe(layoutData.borderData.radius);
+    expect(component.borderSize).toBe(layoutData.borderData.size);
+
     expect(component.textValue).toBe(layoutData.textData.value);
     expect(component.textColor).toBe(layoutData.textData.color);
     expect(component.textSize).toBe(layoutData.textData.size);
@@ -153,6 +158,11 @@ describe('BaseBodyComponent', () => {
         paddingTop: 90,
         color: 'toto',
       },
+      borderData: {
+        radius: 90,
+        size: 90,
+        color: 'toto',
+      },
       textData: {
         value: 'toto',
         color: 'toto',
@@ -206,6 +216,11 @@ describe('BaseBodyComponent', () => {
     expect(component.backgroundHeight).toBe(expectedlayoutDataSet.backgroundData.height)
     expect(component.backgroundWidth).toBe(expectedlayoutDataSet.backgroundData.width)
     expect(component.backgroundOpacity).toBe(expectedlayoutDataSet.backgroundData.opacity)
+
+    expect(componentFacade.layoutManager.layoutData.borderData.color).toEqual(component.borderColor);
+    expect(componentFacade.layoutManager.layoutData.borderData.radius).toEqual(component.borderRadius);
+    expect(componentFacade.layoutManager.layoutData.borderData.size).toEqual(component.borderSize);
+
     expect(component.textValue).toBe(expectedlayoutDataSet.textData.value)
     expect(component.textColor).toBe(expectedlayoutDataSet.textData.color)
     expect(component.textPolice).toBe(expectedlayoutDataSet.textData.police)
@@ -221,6 +236,11 @@ describe('BaseBodyComponent', () => {
     component.backgroundOpacity = 0.7;
     component.backgroundColor = 'tutu';
     component.backgroundPaddingTop = 45
+
+    component.borderColor = 'tutu'
+    component.borderSize = 80
+    component.borderRadius = 80
+
     component.textValue = 'tutu'
     component.textColor = 'tutu'
     component.textSize = 12
@@ -242,6 +262,11 @@ describe('BaseBodyComponent', () => {
     expect(componentFacade.layoutManager.layoutData.backgroundData.width).toEqual(component.backgroundWidth);
     expect(componentFacade.layoutManager.layoutData.backgroundData.opacity).toEqual(component.backgroundOpacity);
     expect(componentFacade.layoutManager.layoutData.backgroundData.color).toEqual(component.backgroundColor);
+
+    expect(componentFacade.layoutManager.layoutData.borderData.color).toEqual(component.borderColor);
+    expect(componentFacade.layoutManager.layoutData.borderData.radius).toEqual(component.borderRadius);
+    expect(componentFacade.layoutManager.layoutData.borderData.size).toEqual(component.borderSize);
+
     expect(componentFacade.layoutManager.layoutData.textData.value).toEqual(component.textValue);
     expect(componentFacade.layoutManager.layoutData.textData.color).toEqual(component.textColor);
     expect(componentFacade.layoutManager.layoutData.textData.size).toEqual(component.textSize);
@@ -305,6 +330,11 @@ describe('BaseBodyComponent', () => {
           paddingTop: 90,
           color: 'toto',
         },
+        borderData: {
+          radius: 90,
+          size: 90,
+          color: 'toto',
+        },
         textData: {
           value: 'toto',
           color: 'toto',
@@ -320,6 +350,11 @@ describe('BaseBodyComponent', () => {
           width: 90,
           opacity: 90,
           paddingTop: 90,
+          color: 'toto',
+        },
+        borderData: {
+          radius: 90,
+          size: 90,
           color: 'toto',
         },
         textData: {
@@ -357,6 +392,11 @@ describe('BaseBodyComponent', () => {
         width: 90,
         opacity: 90,
         paddingTop: 90,
+        color: 'toto',
+      },
+      borderData: {
+        radius: 90,
+        size: 90,
         color: 'toto',
       },
       textData: {
@@ -541,6 +581,11 @@ function getInitialTab(): LayoutData[]{
         paddingTop: 20,
         color: '#1E90FF',
       },
+      borderData: {
+        radius: 52,
+        size: 48,
+        color: '#1E90FF',
+      },
       textData: {
         value: 'fakeImageText_1',
         color: '#1E90FF',
@@ -556,6 +601,11 @@ function getInitialTab(): LayoutData[]{
         width: 60,
         opacity: 0.5,
         paddingTop: 20,
+        color: '#1E90FF',
+      },
+      borderData: {
+        radius: 52,
+        size: 48,
         color: '#1E90FF',
       },
       textData: {
