@@ -8,6 +8,11 @@
         "opacity": 0.5,
         "color": "#FF0000"
       },
+      "borderData": {
+        "radius": 25,
+        "size": 50,
+        "color": "#FF0000"
+      },
       "textData": {
         "value": "fakeImageText_2",
         "color": "#FF0000",
@@ -23,6 +28,11 @@
         "height": 60,
         "width": 60,
         "opacity": 0.5,
+        "color": "#FF0000"
+      },
+      "borderData": {
+        "radius": 25,
+        "size": 50,
         "color": "#FF0000"
       },
       "textData": {
@@ -42,6 +52,11 @@
         "opacity": 0.5,
         "color": "#FF0000"
       },
+      "borderData": {
+        "radius": 25,
+        "size": 50,
+        "color": "#FF0000"
+      },
       "textData": {
         "value": "fakeImageText_2",
         "color": "#FF0000",
@@ -59,6 +74,11 @@
         "opacity": 0.5,
         "color": "#FF0000"
       },
+      "borderData": {
+        "radius": 25,
+        "size": 50,
+        "color": "#FF0000"
+      },
       "textData": {
         "value": "fakeImageText_2",
         "color": "#FF0000",
@@ -74,6 +94,11 @@
         "height": 60,
         "width": 60,
         "opacity": 0.5,
+        "color": "#FF0000"
+      },
+      "borderData": {
+        "radius": 25,
+        "size": 50,
         "color": "#FF0000"
       },
       "textData": {
