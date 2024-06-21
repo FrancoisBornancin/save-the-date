@@ -8,6 +8,8 @@ import { AdminManagerService } from '../../services/admin-manager/admin-manager.
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit{
+  pageName!: string;
+
   constructor(
     public adminManager: AdminManagerService,
     private router: Router
@@ -34,6 +36,7 @@ export class HeaderComponent implements OnInit{
   headerTab: string[] = ['home', "program", "test"]
 
   returnPage(pageName: string){
+    this.pageName = pageName;
     this.router.navigate([pageName]);
   }
 }
