@@ -16,8 +16,12 @@ import { TextToHtmlRetrieverService } from '../../../services/text-to-html-retri
 })
 export class BaseBodyComponent implements OnInit{
   backgroundDataRendered: boolean = false;
+  insideBackgroundDataRendered: boolean = false;
+  borderDataRendered: boolean = false;
+
   textDataRendered: boolean = false;
   textModalRendered: boolean = false;
+
   generalInfoModalRendered: boolean = false;
 
   backgroundColor!: string;
@@ -25,6 +29,10 @@ export class BaseBodyComponent implements OnInit{
   backgroundHeight!: number;
   backgroundWidth!: number;
   backgroundOpacity!: number;
+
+  borderRadius!: number;
+  borderSize!: number;
+  borderColor!: string;
 
   textValue!: string;
   textColor!: string;
@@ -55,27 +63,42 @@ export class BaseBodyComponent implements OnInit{
   ngOnInit(): void {
     this.policeTab = this.initPoliceTab();
 
-    this.componentFacade.loadData(this.layoutJsonName)
-    .subscribe({
-      next: (response: any) => {
-        this.componentFacade.initImplicitDependencies(response);
-        this.setLayoutElements(1);
-        this.wrapForkJoin()
-        .subscribe({
-          next: (results) => {
-            console.log("Toutes les images ont été chargées", results);
-            this.imageUrl = this.componentFacade.getImageUrl(1);
-          },
-          error: (error) => {
-            console.error("Erreur lors du chargement des images", error);
-          }
-        });
-        this.dropdownTab = this.componentFacade.getDropdownIndexes();
-      },
-      error: e => {
-        console.log(e);
-      },
-    });
+    this.backgroundColor = '#1E90FF'
+    this.backgroundPaddingTop = 0
+    this.backgroundHeight = 20
+    this.backgroundWidth = 20
+    this.backgroundOpacity = 20
+
+    this.textValue= 'toto'
+    this.textColor = '#1E90FF'
+    this.textSize = 24
+    this.textPolice = 'ES'
+
+    this.borderRadius = 25;
+    this.borderSize = 50;
+    this.borderColor = '#FF0000';
+
+    // this.componentFacade.loadData(this.layoutJsonName)
+    // .subscribe({
+    //   next: (response: any) => {
+    //     this.componentFacade.initImplicitDependencies(response);
+    //     this.setLayoutElements(1);
+    //     this.wrapForkJoin()
+    //     .subscribe({
+    //       next: (results) => {
+    //         console.log("Toutes les images ont été chargées", results);
+    //         this.imageUrl = this.componentFacade.getImageUrl(1);
+    //       },
+    //       error: (error) => {
+    //         console.error("Erreur lors du chargement des images", error);
+    //       }
+    //     });
+    //     this.dropdownTab = this.componentFacade.getDropdownIndexes();
+    //   },
+    //   error: e => {
+    //     console.log(e);
+    //   },
+    // });
   }
 
   initPoliceTab(): string[]{
@@ -99,7 +122,7 @@ export class BaseBodyComponent implements OnInit{
     return "background-image: url(" + this.imageUrl + ");"
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
-         + "padding-top: " + this.backgroundPaddingTop + "%;" 
+         + "padding-top: " + this.backgroundPaddingTop + "%;"
          + "height: 100%;"
   }
 
@@ -130,6 +153,8 @@ export class BaseBodyComponent implements OnInit{
     }
     return "height: " + this.backgroundHeight + "%;"
          + "width: " + this.backgroundWidth + "%;"
+         + "border-radius: " + this.borderRadius + "%;"
+         + "border: " + this.borderSize + "px solid " + this.borderColor + ";"
          + "margin: auto;"
          + backgroundColor
   }
@@ -140,6 +165,22 @@ export class BaseBodyComponent implements OnInit{
 
   doNotPrintBackgroundData(){
     this.backgroundDataRendered = false;
+  }
+
+  printInsideBackgroundData(){
+    this.insideBackgroundDataRendered = true;
+  }
+
+  doNotPrintInsideBackgroundData(){
+    this.insideBackgroundDataRendered = false;
+  }
+
+  printBorderData(){
+    this.borderDataRendered = true;
+  }
+
+  doNotPrintBorderData(){
+    this.borderDataRendered = false;
   }
 
   printTextData(){

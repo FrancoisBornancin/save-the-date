@@ -34,16 +34,33 @@
         </div>
     </ng-container>
     <ng-container *ngIf="this.backgroundDataRendered">
+        <ng-container *ngIf="!this.borderDataRendered">
+            <p-button (onClick)="this.printBorderData()">BorderData</p-button>    
+        </ng-container>
         <p-button (onClick)="this.doNotPrintBackgroundData()">No BackgroundData</p-button>
-        <div style="display: flex; align-items: center; gap: 1rem;">
-            <p-knob [(ngModel)]="this.backgroundOpacity" [min]="0" [max]="100"></p-knob>
-            <p-knob [(ngModel)]="this.backgroundWidth" [min]="0" [max]="100"></p-knob>
-            <p-knob [(ngModel)]="this.backgroundHeight" [min]="0" [max]="100"></p-knob>
-            <p-colorPicker [(ngModel)]="this.backgroundColor"></p-colorPicker>
-        </div>
-        <div style="display: flex; align-items: center; gap: 1rem;">
-            <p-knob [(ngModel)]="this.backgroundPaddingTop" [min]="0"></p-knob>
-        </div>
+        <ng-container *ngIf="this.borderDataRendered">
+            <p-button (onClick)="this.doNotPrintBorderData()">No BorderData</p-button>    
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <p-knob [(ngModel)]="this.borderRadius" [min]="0" [max]="100"></p-knob>
+                <p-knob [(ngModel)]="this.borderSize" [min]="0" [max]="50"></p-knob>
+                <p-colorPicker [(ngModel)]="this.borderColor"></p-colorPicker>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="this.insideBackgroundDataRendered">
+            <p-button (onClick)="this.doNotPrintInsideBackgroundData()">No InsideBackgroundrData</p-button>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <p-knob [(ngModel)]="this.backgroundOpacity" [min]="0" [max]="100"></p-knob>
+                <p-knob [(ngModel)]="this.backgroundWidth" [min]="0" [max]="100"></p-knob>
+                <p-knob [(ngModel)]="this.backgroundHeight" [min]="0" [max]="100"></p-knob>
+                <p-colorPicker [(ngModel)]="this.backgroundColor"></p-colorPicker>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <p-knob [(ngModel)]="this.backgroundPaddingTop" [min]="0"></p-knob>
+            </div>    
+        </ng-container>
+        <ng-container *ngIf="!this.insideBackgroundDataRendered">
+            <p-button (onClick)="this.printInsideBackgroundData()">InsideBackgroundrData</p-button>
+        </ng-container>
     </ng-container>
     <ng-container *ngIf="!this.backgroundDataRendered">
         <p-button (onClick)="this.printBackgroundData()">BackgroundData</p-button>
