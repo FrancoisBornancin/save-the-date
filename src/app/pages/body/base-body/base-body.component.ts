@@ -38,7 +38,6 @@ export class BaseBodyComponent implements OnInit{
   uiButtons!: MenuItem[];
   saveLoadButtons!: MenuItem[];
 
-
   backgroundColor!: string;
   backgroundPaddingTop!: number;
   backgroundHeight!: number;
@@ -56,7 +55,6 @@ export class BaseBodyComponent implements OnInit{
 
   policeTab!: string[];
 
-  dropdownTab!: number[];
   selectedIndex!: number;
   imageUrl!: string;
 
@@ -69,7 +67,6 @@ export class BaseBodyComponent implements OnInit{
     public componentFacade: ComponentFacadeService,
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
-    public textToHtmlRetriever: TextToHtmlRetrieverService
   ){
     this.uiButtons = [
       ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer, 'ui'),
@@ -208,7 +205,6 @@ export class BaseBodyComponent implements OnInit{
             console.error("Erreur lors du chargement des images", error);
           }
         });
-        this.dropdownTab = this.componentFacade.getDropdownIndexes();
       },
       error: e => {
         console.log(e);
@@ -302,6 +298,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   saveLayout(){
+    this.setLayoutData();
     this.componentFacade.saveLayout(this.selectedIndex, this.layoutJsonName);
   }
 
@@ -329,7 +326,7 @@ export class BaseBodyComponent implements OnInit{
     this.textPolice = element.layoutData.textData.police;
   }
 
-  private setLayoutData(){
+  setLayoutData(){
     const layoutData: LayoutData = {
       key: 0,
       backgroundData: {

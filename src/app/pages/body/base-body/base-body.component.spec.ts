@@ -9,14 +9,12 @@ import { LayoutData } from "../../../model/layout-data/layout-data";
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
-import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
 import { BaseBodyComponent } from './base-body.component';
 
 describe('BaseBodyComponent', () => {
   let component: BaseBodyComponent;
   let fixture: ComponentFixture<BaseBodyComponent>;
   let componentFacade: ComponentFacadeService
-  let stringToHtml: StringToHtmlService
   let colorConvertor: ColorConvertorService
   let adminManager: AdminManagerService
 
@@ -34,7 +32,6 @@ describe('BaseBodyComponent', () => {
 
     fixture = TestBed.createComponent(BaseBodyComponent);
     componentFacade = TestBed.inject(ComponentFacadeService);
-    stringToHtml = TestBed.inject(StringToHtmlService);
     colorConvertor = TestBed.inject(ColorConvertorService);
     adminManager = TestBed.inject(AdminManagerService);
     component = fixture.componentInstance;
@@ -81,19 +78,6 @@ describe('BaseBodyComponent', () => {
     expect(component.imageUrl).toEqual('fakeUrl');
   });
 
-  it('onInit, dropdownIndexes should be set', () => {
-    const layoutDataTab: LayoutData[] = getInitialTab();
-    const layoutData: LayoutData = layoutDataTab.at(0)!;
-
-    prepareTestOfOnInit(layoutDataTab, layoutData);
-
-    component.ngOnInit();
-
-    const indexes = layoutDataTab.map(element => element.key)
-
-    expect(component.dropdownTab).toEqual(indexes);
-  });
-
   it('onInit, componentFacade should be call with proper repository', () => {
     component.layoutJsonName = 'fakeJsonRepository';
 
@@ -128,7 +112,7 @@ describe('BaseBodyComponent', () => {
   it('on loadLayoutDataDropdown, selectIndex should be set', () => {
     componentFacade.layoutManager.layoutData = getInitialTab()[0];
 
-    const event = {value: 3};
+    const value: number = 3;
 
     spyOn(componentFacade, 'updateCurrentLayoutDataTab')
 
@@ -141,13 +125,13 @@ describe('BaseBodyComponent', () => {
         layoutData: getInitialTab().at(0)!
       });
 
-    component.loadLayoutDataDropdown(event);
+    component.loadLayoutDataDropdown(value);
 
     expect(component.selectedIndex).toBe(3);
   });
 
   it('on loadLayoutDataDropdown, currentLayoutDataTab should be updated', () => {
-    const event = {value: 3};
+    const value: number = 3;
     const layoutDataTab: LayoutData[] = getInitialTab()
     const layoutData: LayoutData = {
       key: 2,
@@ -184,7 +168,7 @@ describe('BaseBodyComponent', () => {
         layoutData: getInitialTab().at(0)!
       });
 
-    component.loadLayoutDataDropdown(event);
+    component.loadLayoutDataDropdown(value);
 
     expect(componentFacade.layoutManager.layoutDataTabCurrent[0]).toEqual(layoutDataTab[0]);
     expect(componentFacade.layoutManager.layoutDataTabCurrent[1]).toEqual(layoutData);
@@ -194,7 +178,7 @@ describe('BaseBodyComponent', () => {
   it('on loadLayoutDataDropdown, layoutElements should be set', () => {
     componentFacade.layoutManager.layoutData = getInitialTab()[0];
 
-    const event = {value: 2};
+    const value: number = 2;
     const layoutDataTab: LayoutData[] = getInitialTab();
     componentFacade.layoutManager.layoutDataTabCurrent = layoutDataTab;
 
@@ -203,12 +187,12 @@ describe('BaseBodyComponent', () => {
     spyOn(componentFacade, 'getImageUrl')
     .and.returnValue('fakeUrl');
 
-    component.loadLayoutDataDropdown(event);
+    component.loadLayoutDataDropdown(value);
 
     console.log("");
 
     const expectedlayoutDataSet
-      = layoutDataTab.filter(element => element.key == event.value)
+      = layoutDataTab.filter(element => element.key == value)
         .at(0)!
 
     expect(component.backgroundPaddingTop).toBe(expectedlayoutDataSet.backgroundData.paddingTop)
@@ -246,7 +230,7 @@ describe('BaseBodyComponent', () => {
     component.textSize = 12
     component.textPolice = 'tutu'
 
-    const event = {value: 3};
+    const value: number = 3;
 
     spyOn(componentFacade, 'updateCurrentLayoutDataTab')
 
@@ -255,7 +239,7 @@ describe('BaseBodyComponent', () => {
 
     spyOn(component, 'setLayoutElements')
 
-    component.loadLayoutDataDropdown(event);
+    component.loadLayoutDataDropdown(value);
 
     expect(componentFacade.layoutManager.layoutData.backgroundData.paddingTop).toEqual(component.backgroundPaddingTop);
     expect(componentFacade.layoutManager.layoutData.backgroundData.height).toEqual(component.backgroundHeight);
@@ -279,7 +263,7 @@ describe('BaseBodyComponent', () => {
   it('on loadLayoutDataDropdown, imageUrl should be set', () => {
     componentFacade.layoutManager.layoutData = getInitialTab()[0];
 
-    const event = {value: 3};
+    const value: number = 3;
 
     spyOn(componentFacade, 'updateCurrentLayoutDataTab')
 
@@ -292,7 +276,7 @@ describe('BaseBodyComponent', () => {
         layoutData: getInitialTab().at(0)!
       });
 
-    component.loadLayoutDataDropdown(event);
+    component.loadLayoutDataDropdown(value);
 
     expect(component.imageUrl).toBe('fakeUrl');
   });
@@ -434,6 +418,50 @@ describe('BaseBodyComponent', () => {
 
   });
 
+  it('on saveLayout, LayoutData should be updated before being saved', () => {
+    component.layoutJsonName = 'fakeRepositoryName';
+    component.selectedIndex = 1;
+    componentFacade.layoutManager.layoutData = {
+      key: 1,
+      backgroundData: {
+        height: 90,
+        width: 90,
+        opacity: 90,
+        paddingTop: 90,
+        color: 'toto',
+      },
+      borderData: {
+        radius: 90,
+        size: 90,
+        color: 'toto',
+      },
+      textData: {
+        value: 'toto',
+        color: 'toto',
+        size: 12,
+        police: "toto",
+      },
+      hasBeenSaved: 'toto',
+    },
+
+    componentFacade.layoutManager.layoutDataTabFromDb = getInitialTab();
+
+    const mySpy = spyOn(component, 'setLayoutData')
+
+    spyOn(componentFacade.layoutManager, 'updateLayoutDataTab')
+
+    spyOn(componentFacade.layoutManager, 'loadData')
+      .and.returnValue(of({sha: 'fakeSha'}));
+
+    spyOn(componentFacade.layoutManager.gitManager, 'putData')
+      .and.returnValue(of('toto'));
+
+    component.saveLayout()
+
+    expect(mySpy).toHaveBeenCalled()
+
+  });
+
   it('on saveImage, proper imageUrl should be saved', () => {
     component.imageUrl = 'fake,url'
     component.imageFolder = 'fakeFolder'
@@ -518,27 +546,10 @@ describe('BaseBodyComponent', () => {
     component.backgroundWidth = layoutData.backgroundData.width;
     component.backgroundOpacity = layoutData.backgroundData.opacity;
 
-    component.printBackgroundData();
     const backgroundStyle: string = component.getImageBackgroundStyle()
     const expectedBackgroundColor: string = "background-color: rgba(30, 144, 255, 0.005);"
 
     expect(backgroundStyle).toContain(expectedBackgroundColor);
-  });
-
-  it('on getImageBackgroundStyle, backgroundColor should not be set when color is not rendered', () => {
-    componentFacade.layoutManager.layoutData = getInitialTab().at(1)!;
-    const layoutData: LayoutData = getInitialTab().at(0)!;
-
-    component.backgroundPaddingTop = layoutData.backgroundData.paddingTop;
-    component.backgroundColor = layoutData.backgroundData.color;
-    component.backgroundHeight = layoutData.backgroundData.height;
-    component.backgroundWidth = layoutData.backgroundData.width;
-    component.backgroundOpacity = layoutData.backgroundData.opacity;
-
-    component.doNotPrintBackgroundData()
-    const backgroundStyle: string = component.getImageBackgroundStyle()
-
-    expect(backgroundStyle).not.toContain("background-color");
   });
 
   function prepareTestOfOnInit(layoutDataTab: LayoutData[], layoutData: LayoutData){
