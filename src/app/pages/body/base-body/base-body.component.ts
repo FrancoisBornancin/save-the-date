@@ -5,10 +5,8 @@ import { LayoutData } from '../../../model/layout-data/layout-data';
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
-import { StringToHtmlService } from '../../../services/string-to-html/string-to-html.service';
-import { fontFamily } from '../../font-family';
 import { TextToHtmlRetrieverService } from '../../../services/text-to-html-retriever/text-to-html-retriever.service';
-import e from 'express';
+import { fontFamily } from '../../font-family';
 
 @Component({
   selector: 'app-base-body',
@@ -21,7 +19,6 @@ export class BaseBodyComponent implements OnInit{
   borderDataRendered: boolean = false;
 
   textDataRendered: boolean = false;
-  textModalRendered: boolean = false;
 
   generalInfoModalRendered: boolean = false;
 
@@ -53,7 +50,6 @@ export class BaseBodyComponent implements OnInit{
 
   constructor(
     public componentFacade: ComponentFacadeService,
-    public stringToHtmlService: StringToHtmlService,
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
     public textToHtmlRetriever: TextToHtmlRetrieverService
@@ -110,10 +106,6 @@ export class BaseBodyComponent implements OnInit{
          + "background-repeat: no-repeat;"
          + "padding-top: " + this.backgroundPaddingTop + "%;"
          + "height: 100%;"
-  }
-
-  stringToHtml(){
-    return this.stringToHtmlService.replaceString(this.textValue);
   }
 
   wrapForkJoin(): Observable<any[]>{
@@ -175,14 +167,6 @@ export class BaseBodyComponent implements OnInit{
 
   doNotPrintTextData(){
     this.textDataRendered = false;
-  }
-
-  printTextModal(){
-    this.textModalRendered = true;
-  }
-
-  doNotPrintTextModal(){
-    this.textModalRendered = false;
   }
 
   printGeneralInfoModal(){

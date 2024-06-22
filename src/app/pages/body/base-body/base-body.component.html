@@ -70,22 +70,6 @@
     </ng-container>
     <ng-container *ngIf="this.textDataRendered">
         <p-button (onClick)="this.doNotPrintTextData()">no TextData</p-button>
-        <ng-container *ngIf="!this.textModalRendered">
-            <p-button (onClick)="this.printTextModal()">TextInfo</p-button>
-        </ng-container>
-        <ng-container *ngIf="this.textModalRendered">
-            <p-button (onClick)="this.doNotPrintTextModal()">no TextInfo</p-button>
-            <div style="background-color: #d3d3d3; margin: 10px; padding: 10px;">
-                <ng-container *ngFor="let textToHtml of this.textToHtmlRetriever.getAllElements()">
-                    <ng-container *ngIf="textToHtml.surround == true">
-                        <p>A entourer par <strong>{{ textToHtml.text }}</strong> pour => {{ textToHtml.name }}</p>
-                    </ng-container>
-                    <ng-container *ngIf="textToHtml.surround == false">
-                        <p>Commencer par <strong>{{ textToHtml.text }}</strong> pour => {{ textToHtml.name }}</p>
-                    </ng-container>
-                </ng-container>
-            </div>
-        </ng-container>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <p-dropdown [options]="this.policeTab" [(ngModel)]="this.textPolice">Police</p-dropdown>
             <p-colorPicker [(ngModel)]="this.textColor"></p-colorPicker>
