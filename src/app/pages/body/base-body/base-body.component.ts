@@ -7,6 +7,8 @@ import { ColorConvertorService } from '../../../services/color-to-rgba/color-con
 import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
 import { TextToHtmlRetrieverService } from '../../../services/text-to-html-retriever/text-to-html-retriever.service';
 import { fontFamily } from '../../font-family';
+import { MenuItem } from 'primeng/api/menuitem';
+import { DataRenderedContainer } from '../../../model/data-rendered-container';
 
 @Component({
   selector: 'app-base-body',
@@ -14,13 +16,24 @@ import { fontFamily } from '../../font-family';
   styleUrl: './base-body.component.scss'
 })
 export class BaseBodyComponent implements OnInit{
-  backgroundDataRendered: boolean = false;
-  insideBackgroundDataRendered: boolean = false;
-  borderDataRendered: boolean = false;
 
-  textDataRendered: boolean = false;
+  insideBackgroundDataRenderedContainer: DataRenderedContainer = {
+    dataRendered: false
+  }
+
+  borderDataRenderedContainer: DataRenderedContainer = {
+    dataRendered: false
+  }
+
+  textDataRenderedContainer: DataRenderedContainer = {
+    dataRendered: false
+  }
 
   generalInfoModalRendered: boolean = false;
+
+  uiButtons!: MenuItem[];
+  saveLoadButtons!: MenuItem[];
+
 
   backgroundColor!: string;
   backgroundPaddingTop!: number;
@@ -54,7 +67,62 @@ export class BaseBodyComponent implements OnInit{
     public adminManager: AdminManagerService,
     public textToHtmlRetriever: TextToHtmlRetrieverService
   ){
+    this.uiButtons = [
+      ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer),
+      ...this.initButton('Border', this.borderDataRenderedContainer),
+      ...this.initButton('Text', this.textDataRenderedContainer),
+    ];
 
+    this.initSaveLoadButtons()
+
+  }
+
+  initButton(buttonName: string, dataRenderedContainer: DataRenderedContainer){
+    return [
+      {
+        label: buttonName,
+        command: () => {
+          if(!dataRenderedContainer.dataRendered) dataRenderedContainer.dataRendered = true;
+          else dataRenderedContainer.dataRendered = false;
+        }
+      },
+      { separator: true },
+    ]    
+  }
+
+  initSaveLoadButtons(){
+    this.saveLoadButtons = [
+      {
+        label: 'save current Image',
+        command: () => {
+          this.saveImage();
+        }
+      },
+      { separator: true },
+      {
+        label: 'save current Layout',
+        command: () => {
+          this.saveLayout();
+        }
+      },
+    ]
+
+    const indexes: number[] = [1, 2, 3, 4, 5];
+
+    indexes
+    .forEach(element => {
+      this.saveLoadButtons.push(
+        { separator: true }
+      )
+      this.saveLoadButtons.push(
+        {
+          label: ('layout' + element),
+          command: () => {
+            this.loadLayoutDataDropdown(element);
+          }
+        }
+      )
+    })
   }
 
   ngOnInit(): void {
@@ -121,14 +189,11 @@ export class BaseBodyComponent implements OnInit{
   }
 
   getImageBackgroundStyle(): string{
-    let backgroundColor = '';
-    if(this.backgroundDataRendered){
-      backgroundColor =
+      const backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
         this.colorConvertor.convertToRgba(this.backgroundColor),
         (this.backgroundOpacity/100)
        ) + ";"
-    }
     return "height: " + this.backgroundHeight + "%;"
          + "width: " + this.backgroundWidth + "%;"
          + "border-radius: " + this.borderRadius + "%;"
@@ -137,52 +202,20 @@ export class BaseBodyComponent implements OnInit{
          + backgroundColor
   }
 
-  printBackgroundData(){
-    this.backgroundDataRendered = true;
-  }
-
-  doNotPrintBackgroundData(){
-    this.backgroundDataRendered = false;
-  }
-
-  printInsideBackgroundData(){
-    this.insideBackgroundDataRendered = true;
-  }
-
-  doNotPrintInsideBackgroundData(){
-    this.insideBackgroundDataRendered = false;
-  }
-
-  printBorderData(){
-    this.borderDataRendered = true;
-  }
-
-  doNotPrintBorderData(){
-    this.borderDataRendered = false;
-  }
-
-  printTextData(){
-    this.textDataRendered = true;
-  }
-
-  doNotPrintTextData(){
-    this.textDataRendered = false;
-  }
-
   printGeneralInfoModal(){
-    this.generalInfoModalRendered = true;
+    if(this.generalInfoModalRendered){
+      this.generalInfoModalRendered = false;
+    }else{
+      this.generalInfoModalRendered = true;
+    }
   }
 
-  doNotPrintGeneralInfoModal(){
-    this.generalInfoModalRendered = false;
-  }
-
-  loadLayoutDataDropdown(event: any){
+  loadLayoutDataDropdown(index: number){
     this.setLayoutData();
-    this.selectedIndex = event.value
+    this.selectedIndex = index
     this.componentFacade.updateCurrentLayoutDataTab()
-    this.setLayoutElements(event.value);
-    this.imageUrl = this.componentFacade.getImageUrl(event.value);
+    this.setLayoutElements(index);
+    this.imageUrl = this.componentFacade.getImageUrl(index);
   }
 
   upload(event: any){
