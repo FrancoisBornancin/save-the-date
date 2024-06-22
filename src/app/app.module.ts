@@ -10,6 +10,7 @@ import { KnobModule } from 'primeng/knob';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
+import { EditorModule } from 'primeng/editor';
 import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
 import { HomeComponent } from './pages/body/home/home.component';
@@ -35,6 +36,7 @@ import { BaseBodyComponent } from './pages/body/base-body/base-body.component';
     KnobModule,
     DropdownModule,
     InputTextModule,
+    EditorModule,
     FileUploadModule,
     FormsModule,
     BrowserAnimationsModule,

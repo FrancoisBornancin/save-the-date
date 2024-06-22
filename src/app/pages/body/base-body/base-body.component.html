@@ -12,7 +12,7 @@
     </ng-container>
     <ng-container *ngIf="this.generalInfoModalRendered">
         <p-button (onClick)="this.doNotPrintGeneralInfoModal()">No GeneralInfo</p-button>
-        <div style="background-color: #d3d3d3; margin: 10px; padding: 10px;"> 
+        <div style="background-color: #d3d3d3; margin: 10px; padding: 10px;">
             <p><strong>Comment fonctionne cette application:</strong></p>
             <p><em>Gestion et sauvegarde des visuels:</em></p>
             <p>Tu vas pouvoir travailler sur 5 visuels max par page.
@@ -35,11 +35,11 @@
     </ng-container>
     <ng-container *ngIf="this.backgroundDataRendered">
         <ng-container *ngIf="!this.borderDataRendered">
-            <p-button (onClick)="this.printBorderData()">BorderData</p-button>    
+            <p-button (onClick)="this.printBorderData()">BorderData</p-button>
         </ng-container>
         <p-button (onClick)="this.doNotPrintBackgroundData()">No BackgroundData</p-button>
         <ng-container *ngIf="this.borderDataRendered">
-            <p-button (onClick)="this.doNotPrintBorderData()">No BorderData</p-button>    
+            <p-button (onClick)="this.doNotPrintBorderData()">No BorderData</p-button>
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <p-knob [(ngModel)]="this.borderRadius" [min]="0" [max]="100"></p-knob>
                 <p-knob [(ngModel)]="this.borderSize" [min]="0" [max]="50"></p-knob>
@@ -56,7 +56,7 @@
             </div>
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <p-knob [(ngModel)]="this.backgroundPaddingTop" [min]="0"></p-knob>
-            </div>    
+            </div>
         </ng-container>
         <ng-container *ngIf="!this.insideBackgroundDataRendered">
             <p-button (onClick)="this.printInsideBackgroundData()">InsideBackgroundrData</p-button>
@@ -75,7 +75,7 @@
         </ng-container>
         <ng-container *ngIf="this.textModalRendered">
             <p-button (onClick)="this.doNotPrintTextModal()">no TextInfo</p-button>
-            <div style="background-color: #d3d3d3; margin: 10px; padding: 10px;"> 
+            <div style="background-color: #d3d3d3; margin: 10px; padding: 10px;">
                 <ng-container *ngFor="let textToHtml of this.textToHtmlRetriever.getAllElements()">
                     <ng-container *ngIf="textToHtml.surround == true">
                         <p>A entourer par <strong>{{ textToHtml.text }}</strong> pour => {{ textToHtml.name }}</p>
@@ -104,10 +104,13 @@
     <div>{{ this.componentFacade.layoutManager.layoutData.hasBeenSaved }}</div>
     <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
 </ng-container>
+<div class="card">
+    <p-editor [(ngModel)]="textValue" />
+</div>
 <div [style]="getImageUrl()">
     <div  [style]="this.getImageBackgroundStyle()">
-        <ng-container *ngIf="this.componentFacade.layoutManager.layoutData">
-            <div [innerHTML]="this.stringToHtml()" [style]="textStyle()"></div>
-        </ng-container>
+        <!-- <ng-container *ngIf="this.componentFacade.layoutManager.layoutData"> -->
+            <div [innerHTML]="textValue"  [style]="textStyle()"></div>
+        <!-- </ng-container> -->
     </div>
 </div>
