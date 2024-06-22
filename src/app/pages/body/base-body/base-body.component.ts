@@ -29,6 +29,10 @@ export class BaseBodyComponent implements OnInit{
     dataRendered: false
   }
 
+  uploadImageDataRenderedContainer: DataRenderedContainer = {
+    dataRendered: false
+  }
+
   generalInfoModalRendered: boolean = false;
 
   uiButtons!: MenuItem[];
@@ -68,22 +72,74 @@ export class BaseBodyComponent implements OnInit{
     public textToHtmlRetriever: TextToHtmlRetrieverService
   ){
     this.uiButtons = [
-      ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer),
-      ...this.initButton('Border', this.borderDataRenderedContainer),
-      ...this.initButton('Text', this.textDataRenderedContainer),
+      ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer, 'ui'),
+      ...this.initButton('Border', this.borderDataRenderedContainer, 'ui'),
+      ...this.initButton('Text', this.textDataRenderedContainer, 'ui'),
     ];
 
     this.initSaveLoadButtons()
 
   }
 
-  initButton(buttonName: string, dataRenderedContainer: DataRenderedContainer){
+  doActionForLayout(index: number){
+    this.loadLayoutDataDropdown(index);
+
+    const loadButtonToNotPrintStrong: MenuItem[] =
+      this.saveLoadButtons
+        .filter(element => element.label != undefined)
+        .filter(element => element.label?.includes("<strong>"))
+
+    loadButtonToNotPrintStrong
+      .forEach(element => {
+        element.label = element.label?.split("<strong>").at(1);
+        element.label = element.label?.split("</strong>").at(0);
+      })
+
+    const loadButtonToPrintStrong: MenuItem =
+      this.saveLoadButtons
+        .filter(element => element.label != undefined)
+        .filter(element => element.label?.includes("" + index))
+        .at(0)!
+
+    loadButtonToPrintStrong.label = '<strong>' + loadButtonToPrintStrong.label + '<strong>' 
+  }
+
+  initButton(buttonName: string, dataRenderedContainer: DataRenderedContainer, menuOptionCategory: string){
     return [
       {
         label: buttonName,
         command: () => {
-          if(!dataRenderedContainer.dataRendered) dataRenderedContainer.dataRendered = true;
-          else dataRenderedContainer.dataRendered = false;
+          if(!dataRenderedContainer.dataRendered) {
+            dataRenderedContainer.dataRendered = true;
+
+            if(menuOptionCategory == 'ui'){
+              const uiButton: MenuItem =
+                this.uiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uiButton.label = '<strong>' + buttonName + '</strong>'
+            } 
+
+            if(menuOptionCategory == 'upload'){
+              const uploadButton: MenuItem =
+                this.saveLoadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uploadButton.label = '<strong>' + buttonName + '</strong>'
+            } 
+
+          }
+          else{
+            dataRenderedContainer.dataRendered = false;
+
+            if(menuOptionCategory == 'ui'){
+              const uiButton: MenuItem =
+                this.uiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uiButton.label = buttonName
+            } 
+
+            if(menuOptionCategory == 'upload'){
+              const uploadButton: MenuItem =
+                this.saveLoadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uploadButton.label = buttonName
+            } 
+          } 
         }
       },
       { separator: true },
@@ -105,22 +161,31 @@ export class BaseBodyComponent implements OnInit{
           this.saveLayout();
         }
       },
+      { separator: true },
+      ...this.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
+      {
+        label: '<strong>load layout1</strong>',
+        command: () => {
+          this.doActionForLayout(1);
+        }
+      },
+      { separator: true }
     ]
 
-    const indexes: number[] = [1, 2, 3, 4, 5];
+    const indexes: number[] = [2, 3, 4, 5];
 
     indexes
     .forEach(element => {
       this.saveLoadButtons.push(
-        { separator: true }
-      )
-      this.saveLoadButtons.push(
         {
-          label: ('layout' + element),
+          label: ('load layout' + element),
           command: () => {
-            this.loadLayoutDataDropdown(element);
+            this.doActionForLayout(element)
           }
         }
+      )
+      this.saveLoadButtons.push(
+        { separator: true }
       )
     })
   }
