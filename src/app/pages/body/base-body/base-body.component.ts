@@ -9,6 +9,7 @@ import { TextToHtmlRetrieverService } from '../../../services/text-to-html-retri
 import { fontFamily } from '../../font-family';
 import { MenuItem } from 'primeng/api/menuitem';
 import { DataRenderedContainer } from '../../../model/data-rendered-container';
+import { DatabaseManagerService } from '../../../services/database-manager/database-manager.service';
 
 @Component({
   selector: 'app-base-body',
@@ -67,6 +68,7 @@ export class BaseBodyComponent implements OnInit{
     public componentFacade: ComponentFacadeService,
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
+    public databaseManager: DatabaseManagerService
   ){
     this.uiButtons = [
       ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer, 'ui'),
@@ -295,6 +297,13 @@ export class BaseBodyComponent implements OnInit{
     };
 
     reader.readAsDataURL(file);
+  }
+
+  isSaved(): boolean{
+    const layoutData: LayoutData =
+      this.componentFacade.layoutManager.layoutData;
+
+    return this.databaseManager.isInDb(layoutData);
   }
 
   saveLayout(){
