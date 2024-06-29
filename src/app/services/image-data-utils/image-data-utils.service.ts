@@ -86,6 +86,20 @@ export class ImageDataUtilsService {
     ;
   }
 
+  loadImageForUser(folder: string): Observable<any> {
+    return this.loadImageData(1, folder).pipe(
+      switchMap(response => this.getBlobContent(response)),
+      map(data => {
+        const imageContent = "data:image/jpeg;base64," + atob(data.content);
+        return imageContent; 
+      }),
+      catchError(error => {
+        console.error(error);
+        return throwError(() => new Error(error));
+      })
+    );
+  }
+
   fillBigImageTab(index: number, folder: string): Observable<any> {
     return this.loadImageData(index, folder).pipe(
       switchMap(response => this.getBlobContent(response)),

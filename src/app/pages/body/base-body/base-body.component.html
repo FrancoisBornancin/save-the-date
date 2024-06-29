@@ -1,100 +1,102 @@
-<ng-container *ngIf="this.adminManager.isPreviewActive">
-    <p-button (click)="this.adminManager.disactivatePreview()">Disactivate Preview</p-button>
-</ng-container>
-<ng-container *ngIf="!this.adminManager.isPreviewActive">
-    <p-button (click)="this.adminManager.activatePreview()">Activate Preview</p-button>
-</ng-container>
-<ng-container *ngIf="!this.adminManager.isPreviewActive">
-    <p-splitButton label="actions" [model]="uiButtons"></p-splitButton>
-    <p-splitButton label="save/upload" [model]="saveUploadButtons" (onDropdownClick)="initSaveUploadButtons()"></p-splitButton>
-    <p-splitButton label="load" [model]="loadButtons"></p-splitButton>
-    <p-button (onClick)="this.printGeneralInfoModal()">GeneralInfo</p-button>
-    <ng-container *ngIf="this.generalInfoModalRendered">
-        <div style="background-color: #d3d3d3; margin: 10px; padding: 10px;">
-            <p><strong>Comment fonctionne cette application:</strong></p>
-            <p><em>Gestion et sauvegarde des visuels:</em></p>
-            <p>Tu vas pouvoir travailler sur 5 visuels max par page.
-            Si tu travailles sur un visuel en index 1 mais que tu
-            veux basculer sur un visuel en autre index tu le pourras
-            sans perdre aucun informatione <strong>tant que tu restes
-            sur cette page!</strong></p>
-            <p>La sauvegarde (image ou layout) n'est là que pour être capable
-            de récupérer ton travail après un changement de page ou une
-            déconnexion. Ce qui signifie que si tu n'enregistre pas ton travail
-            mais souhaite changer de page ou te reconnecter, il sera perdu.</p>
-            <p><em>Image, texte, couleur et disposition: </em></p>
-            <p>Tu vas pouvoir: </p>
-            <ul><li>Charger des images à la volée depuis ton portable</li></ul>
-            <ul><li>Tester du texte</li></ul>
-            <ul><li>Tester des tailles, couleurs et polices de charactères</li></ul>
-            <ul><li>Tester un fond de couleur, son opacité, sa hauteur et largeur</li></ul>
-            <p><strong>Enjoy chaton!</strong></p>
-        </div>
+<ng-container *ngIf="this.adminManager.isAdminModeActive">
+    <ng-container *ngIf="this.adminManager.isPreviewActive">
+        <p-button (click)="this.adminManager.disactivatePreview()">Disactivate Preview</p-button>
     </ng-container>
-        <ng-container *ngIf="this.borderDataRenderedContainer.dataRendered">
-            <strong>Manage Border:</strong>
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <strong>Angle</strong>
-                    <p-knob [(ngModel)]="this.borderRadius" [min]="0" [max]="100"></p-knob>
-                </div>
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <strong>Largeur</strong>
-                    <p-knob [(ngModel)]="this.borderSize" [min]="0" [max]="50"></p-knob>
-                </div>
-                <p-colorPicker [(ngModel)]="this.borderColor"></p-colorPicker>
+    <ng-container *ngIf="!this.adminManager.isPreviewActive">
+        <p-button (click)="this.adminManager.activatePreview()">Activate Preview</p-button>
+    </ng-container>
+    <ng-container *ngIf="!this.adminManager.isPreviewActive">
+        <p-splitButton label="actions" [model]="uiButtons"></p-splitButton>
+        <p-splitButton label="save/upload" [model]="saveUploadButtons" (onDropdownClick)="initSaveUploadButtons()"></p-splitButton>
+        <p-splitButton label="load" [model]="loadButtons"></p-splitButton>
+        <p-button (onClick)="this.printGeneralInfoModal()">GeneralInfo</p-button>
+        <ng-container *ngIf="this.generalInfoModalRendered">
+            <div style="background-color: #d3d3d3; margin: 10px; padding: 10px;">
+                <p><strong>Comment fonctionne cette application:</strong></p>
+                <p><em>Gestion et sauvegarde des visuels:</em></p>
+                <p>Tu vas pouvoir travailler sur 5 visuels max par page.
+                Si tu travailles sur un visuel en index 1 mais que tu
+                veux basculer sur un visuel en autre index tu le pourras
+                sans perdre aucun informatione <strong>tant que tu restes
+                sur cette page!</strong></p>
+                <p>La sauvegarde (image ou layout) n'est là que pour être capable
+                de récupérer ton travail après un changement de page ou une
+                déconnexion. Ce qui signifie que si tu n'enregistre pas ton travail
+                mais souhaite changer de page ou te reconnecter, il sera perdu.</p>
+                <p><em>Image, texte, couleur et disposition: </em></p>
+                <p>Tu vas pouvoir: </p>
+                <ul><li>Charger des images à la volée depuis ton portable</li></ul>
+                <ul><li>Tester du texte</li></ul>
+                <ul><li>Tester des tailles, couleurs et polices de charactères</li></ul>
+                <ul><li>Tester un fond de couleur, son opacité, sa hauteur et largeur</li></ul>
+                <p><strong>Enjoy chaton!</strong></p>
             </div>
         </ng-container>
-        <ng-container *ngIf="this.insideBackgroundDataRenderedContainer.dataRendered">
-            <strong>Manage InsideBackround:</strong>
+            <ng-container *ngIf="this.borderDataRenderedContainer.dataRendered">
+                <strong>Manage Border:</strong>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <strong>Angle</strong>
+                        <p-knob [(ngModel)]="this.borderRadius" [min]="0" [max]="100"></p-knob>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <strong>Largeur</strong>
+                        <p-knob [(ngModel)]="this.borderSize" [min]="0" [max]="50"></p-knob>
+                    </div>
+                    <p-colorPicker [(ngModel)]="this.borderColor"></p-colorPicker>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="this.insideBackgroundDataRenderedContainer.dataRendered">
+                <strong>Manage InsideBackround:</strong>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <strong>Opacity</strong>
+                        <p-knob [(ngModel)]="this.backgroundOpacity" [min]="0" [max]="100"></p-knob>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <strong>Width</strong>
+                        <p-knob [(ngModel)]="this.backgroundWidth" [min]="0" [max]="100"></p-knob>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <strong>Height</strong>
+                        <p-knob [(ngModel)]="this.backgroundHeight" [min]="0" [max]="100"></p-knob>
+                    </div>
+                    <p-colorPicker [(ngModel)]="this.backgroundColor"></p-colorPicker>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <strong>Top/Down</strong>
+                        <p-knob [(ngModel)]="this.backgroundPaddingTop" [min]="0"></p-knob>
+                    </div>
+                </div>
+            </ng-container>
+        <ng-container *ngIf="this.textDataRenderedContainer.dataRendered">
+            <strong>Manage TextData:</strong>
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <strong>Opacity</strong>
-                    <p-knob [(ngModel)]="this.backgroundOpacity" [min]="0" [max]="100"></p-knob>
+                    <strong>Police</strong>
+                    <p-dropdown [options]="this.policeTab" [(ngModel)]="this.textPolice">Police</p-dropdown>
                 </div>
+                <p-colorPicker [(ngModel)]="this.textColor"></p-colorPicker>
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <strong>Width</strong>
-                    <p-knob [(ngModel)]="this.backgroundWidth" [min]="0" [max]="100"></p-knob>
+                    <strong>Taille</strong>
+                    <p-knob [(ngModel)]="this.textSize" [min]="12" [max]="48">textSize</p-knob>
                 </div>
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <strong>Height</strong>
-                    <p-knob [(ngModel)]="this.backgroundHeight" [min]="0" [max]="100"></p-knob>
-                </div>
-                <p-colorPicker [(ngModel)]="this.backgroundColor"></p-colorPicker>
             </div>
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <strong>Top/Down</strong>
-                    <p-knob [(ngModel)]="this.backgroundPaddingTop" [min]="0"></p-knob>
-                </div>
+            <div class="card">
+                <p-editor [(ngModel)]="textValue" />
             </div>
         </ng-container>
-    <ng-container *ngIf="this.textDataRenderedContainer.dataRendered">
-        <strong>Manage TextData:</strong>
-        <div style="display: flex; align-items: center; gap: 1rem;">
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <strong>Police</strong>
-                <p-dropdown [options]="this.policeTab" [(ngModel)]="this.textPolice">Police</p-dropdown>
-            </div>
-            <p-colorPicker [(ngModel)]="this.textColor"></p-colorPicker>
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <strong>Taille</strong>
-                <p-knob [(ngModel)]="this.textSize" [min]="12" [max]="48">textSize</p-knob>
-            </div>
-        </div>
-        <div class="card">
-            <p-editor [(ngModel)]="textValue" />
-        </div>
+        <ng-container *ngIf="this.uploadImageDataRenderedContainer.dataRendered">
+            <p-fileUpload #fileUploader
+            mode="basic"
+            customUpload="true"
+            (uploadHandler)="upload($event)">
+            </p-fileUpload>
+        </ng-container>
+        <div>{{ this.componentFacade.layoutManager.layoutData.hasBeenSaved }}</div>
+        <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
     </ng-container>
-    <ng-container *ngIf="this.uploadImageDataRenderedContainer.dataRendered">
-        <p-fileUpload #fileUploader
-        mode="basic"
-        customUpload="true"
-        (uploadHandler)="upload($event)">
-        </p-fileUpload>
-    </ng-container>
-    <div>{{ this.componentFacade.layoutManager.layoutData.hasBeenSaved }}</div>
-    <div>{{ this.componentFacade.imageDataUtils.hasBeenSaved }}</div>
 </ng-container>
 <div [style]="getImageUrl()">
     <div  [style]="this.getImageBackgroundStyle()">

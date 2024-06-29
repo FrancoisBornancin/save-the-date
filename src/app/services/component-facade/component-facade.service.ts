@@ -17,6 +17,13 @@ export class ComponentFacadeService {
     public imageDataUtils: ImageDataUtilsService,
   ) { }
 
+  getLayoutForUser(response: any){
+    this.layoutManager.layoutData
+      = this.gitManager.getStringifyResponseContent(response)
+        .filter((element: { key: number; }) => element.key == 1)
+        .at(0)!
+  }
+
   initImplicitDependencies(response: any){
     this.gitManager.sha = response.sha;
     this.layoutManager.layoutDataTabFromDb = this.gitManager.getStringifyResponseContent(response);

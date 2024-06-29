@@ -71,10 +71,113 @@ export class BaseBodyComponent implements OnInit{
     public adminManager: AdminManagerService,
     public databaseManager: DatabaseManagerService
   ){
-    console.log("");
     this.initLoadButtons();
-    console.log("");
   } 
+
+  ngOnInit(): void {
+    if(this.adminManager.isAdminModeActive){
+      this.initForAdmin();
+    }else{
+      this.initForUser();
+    }
+  }
+
+  initForUser(){
+    this.componentFacade.loadData(this.layoutJsonName)
+    .subscribe({
+      next: (response: any) => {
+        this.componentFacade.getLayoutForUser(response);
+        this.setLayoutElementsForUser();
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
+    this.componentFacade.imageDataUtils
+    .loadImageForUser(this.imageFolder)
+    .subscribe({
+      next: (response: any) => {
+        this.imageUrl = response;
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
+  }
+
+  initForAdmin(){
+    this.policeTab = this.initPoliceTab();
+
+    this.componentFacade.loadData(this.layoutJsonName)
+    .subscribe({
+      next: (response: any) => {
+        this.componentFacade.initImplicitDependencies(response);
+        this.setLayoutElements(1);
+        this.wrapForkJoin()
+        .subscribe({
+          next: (results) => {
+            console.log("Toutes les images ont été chargées", results);
+            this.imageUrl = this.componentFacade.getImageUrl(1);
+
+            this.selectedIndex = 1;
+
+            this.uiButtons = [
+              ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer, 'ui'),
+              ...this.initButton('Border', this.borderDataRenderedContainer, 'ui'),
+              ...this.initButton('Text', this.textDataRenderedContainer, 'ui'),
+            ];
+        
+            this.initSaveUploadButtons()
+          },
+          error: (error) => {
+            console.error("Erreur lors du chargement des images", error);
+          }
+        });
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
+  }
+
+  setLayoutElementsForUser(){
+    const layoutData = this.componentFacade.layoutManager.layoutData;
+
+    this.backgroundColor = layoutData.backgroundData.color;
+    this.backgroundHeight = layoutData.backgroundData.height;
+    this.backgroundWidth = layoutData.backgroundData.width;
+    this.backgroundOpacity = layoutData.backgroundData.opacity;
+    this.backgroundPaddingTop = layoutData.backgroundData.paddingTop
+
+    this.borderColor = layoutData.borderData.color
+    this.borderRadius = layoutData.borderData.radius
+    this.borderSize = layoutData.borderData.size
+
+    this.textValue = layoutData.textData.value;
+    this.textColor = layoutData.textData.color;
+    this.textSize = layoutData.textData.size;
+    this.textPolice = layoutData.textData.police;
+  }
+
+  setLayoutElements(index: number){
+    const element = this.componentFacade.getLayoutElements(index);
+    this.imageUrl = element.imageUrl;
+
+    this.backgroundColor = element.layoutData.backgroundData.color;
+    this.backgroundHeight = element.layoutData.backgroundData.height;
+    this.backgroundWidth = element.layoutData.backgroundData.width;
+    this.backgroundOpacity = element.layoutData.backgroundData.opacity;
+    this.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
+
+    this.borderColor = element.layoutData.borderData.color
+    this.borderRadius = element.layoutData.borderData.radius
+    this.borderSize = element.layoutData.borderData.size
+
+    this.textValue = element.layoutData.textData.value;
+    this.textColor = element.layoutData.textData.color;
+    this.textSize = element.layoutData.textData.size;
+    this.textPolice = element.layoutData.textData.police;
+  }
 
   doActionForLayout(index: number){
     this.loadLayoutDataDropdown(index);
@@ -177,41 +280,6 @@ export class BaseBodyComponent implements OnInit{
       ...this.initSaveLayout(),
       ...this.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
     ]
-  }
-
-  ngOnInit(): void {
-    this.policeTab = this.initPoliceTab();
-
-    this.componentFacade.loadData(this.layoutJsonName)
-    .subscribe({
-      next: (response: any) => {
-        this.componentFacade.initImplicitDependencies(response);
-        this.setLayoutElements(1);
-        this.wrapForkJoin()
-        .subscribe({
-          next: (results) => {
-            console.log("Toutes les images ont été chargées", results);
-            this.imageUrl = this.componentFacade.getImageUrl(1);
-
-            this.selectedIndex = 1;
-
-            this.uiButtons = [
-              ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer, 'ui'),
-              ...this.initButton('Border', this.borderDataRenderedContainer, 'ui'),
-              ...this.initButton('Text', this.textDataRenderedContainer, 'ui'),
-            ];
-        
-            this.initSaveUploadButtons()
-          },
-          error: (error) => {
-            console.error("Erreur lors du chargement des images", error);
-          }
-        });
-      },
-      error: e => {
-        console.log(e);
-      },
-    });
   }
 
   initPoliceTab(): string[]{
@@ -345,26 +413,6 @@ export class BaseBodyComponent implements OnInit{
 
   saveImage(){
     this.componentFacade.saveImage(this.imageUrl, this.imageFolder, this.selectedIndex);
-  }
-
-  setLayoutElements(index: number){
-    const element = this.componentFacade.getLayoutElements(index);
-    this.imageUrl = element.imageUrl;
-
-    this.backgroundColor = element.layoutData.backgroundData.color;
-    this.backgroundHeight = element.layoutData.backgroundData.height;
-    this.backgroundWidth = element.layoutData.backgroundData.width;
-    this.backgroundOpacity = element.layoutData.backgroundData.opacity;
-    this.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
-
-    this.borderColor = element.layoutData.borderData.color
-    this.borderRadius = element.layoutData.borderData.radius
-    this.borderSize = element.layoutData.borderData.size
-
-    this.textValue = element.layoutData.textData.value;
-    this.textColor = element.layoutData.textData.color;
-    this.textSize = element.layoutData.textData.size;
-    this.textPolice = element.layoutData.textData.police;
   }
 
   setLayoutData(){
