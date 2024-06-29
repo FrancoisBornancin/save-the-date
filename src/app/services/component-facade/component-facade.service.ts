@@ -64,6 +64,12 @@ export class ComponentFacadeService {
         return {key: element.key}
       })
 
+    this.imageDataUtils.bigImageTabFromDb =
+    this.layoutManager.layoutDataTabFromDb
+      .map(element => {
+        return {key: element.key}
+      })
+
     return this.imageDataUtils.bigImageTab.map(element => this.imageDataUtils.fillBigImageTab(element.key, imageFolder));
   }
 

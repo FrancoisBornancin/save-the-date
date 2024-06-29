@@ -16,12 +16,27 @@ export class ImageDataUtilsService {
   finalPath!: string;
   hasBeenSaved!: string;
   bigImageTab!: BigImageData[];
+  bigImageTabFromDb!: BigImageData[];
 
   constructor(
     public gitManager: GitManagerService,
     public http: HttpClient,
   ){
 
+  }
+
+  private updateImageDataFromDb(index: number){
+    const bigImageUrl: string = 
+      this.bigImageTab
+      .filter(element => element.key == index)
+      .at(0)!
+      .imageUrlContent!
+
+    this.bigImageTabFromDb
+        .filter(element => element.key == index)
+        .at(0)!
+        .imageUrlContent = bigImageUrl;
+        ;
   }
 
   saveImageData(index: number, imageData: CustomImageData, folder: string){
@@ -33,6 +48,7 @@ export class ImageDataUtilsService {
         .subscribe({
           next: e => {
             this.hasBeenSaved = 'ImageSave has succeed';
+            this.updateImageDataFromDb(index);
           },
           error: e => {
             this.hasBeenSaved = 'ImageSave has failed';
@@ -78,6 +94,10 @@ export class ImageDataUtilsService {
         const element = this.bigImageTab.find(el => el.key === index);
         if (element) {
           element.imageUrlContent = imageContent;
+        }
+        const elementFromDb = this.bigImageTabFromDb.find(el => el.key === index);
+        if (elementFromDb) {
+          elementFromDb.imageUrlContent = imageContent;
         }
         return element; 
       }),

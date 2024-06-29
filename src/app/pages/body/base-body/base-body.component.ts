@@ -139,20 +139,13 @@ export class BaseBodyComponent implements OnInit{
   initSaveLoadButtons(){
     this.setLayoutData()
     this.saveLoadButtons = [
-      {
-        label: 'save current Image',
-        command: () => {
-          this.saveImage();
-        }
-      },
-      // { separator: true },
       // {
-      //   label: 'save current Layout',
+      //   label: 'save current Image',
       //   command: () => {
-      //     this.saveLayout();
+      //     this.saveImage();
       //   }
       // },
-      // { separator: true },
+      ...this.initSaveImage(),
       ...this.initSaveLayout(),
       ...this.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
       {
@@ -195,6 +188,8 @@ export class BaseBodyComponent implements OnInit{
           next: (results) => {
             console.log("Toutes les images ont été chargées", results);
             this.imageUrl = this.componentFacade.getImageUrl(1);
+
+            this.selectedIndex = 1;
 
             this.uiButtons = [
               ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer, 'ui'),
@@ -245,6 +240,19 @@ export class BaseBodyComponent implements OnInit{
         { separator: true },
       ]
     }else return [{ separator: true },]
+  }
+
+  initSaveImage(): MenuItem[]{
+    if(!this.isImageDataSaved()){
+      return [
+        {
+          label: 'save current Image',
+          command: () => {
+            this.saveImage();
+          }
+        },
+      ]
+    }else return []
   }
 
   getImageUrl(){
@@ -319,7 +327,11 @@ export class BaseBodyComponent implements OnInit{
     const layoutData: LayoutData =
       this.componentFacade.layoutManager.layoutData;
 
-    return  this.databaseManager.isLayoutInDb(layoutData);  
+    return this.databaseManager.isLayoutInDb(layoutData);  
+  }
+
+  private isImageDataSaved(): boolean{
+    return this.databaseManager.isImageInDb(this.selectedIndex);  
   }
 
   saveLayout(){
