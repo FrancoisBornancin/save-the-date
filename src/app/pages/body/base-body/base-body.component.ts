@@ -37,7 +37,8 @@ export class BaseBodyComponent implements OnInit{
   generalInfoModalRendered: boolean = false;
 
   uiButtons!: MenuItem[];
-  saveLoadButtons!: MenuItem[];
+  saveUploadButtons!: MenuItem[];
+  loadButtons!: MenuItem[];
 
   backgroundColor!: string;
   backgroundPaddingTop!: number;
@@ -69,13 +70,17 @@ export class BaseBodyComponent implements OnInit{
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
     public databaseManager: DatabaseManagerService
-  ){}
+  ){
+    console.log("");
+    this.initLoadButtons();
+    console.log("");
+  } 
 
   doActionForLayout(index: number){
     this.loadLayoutDataDropdown(index);
 
     const loadButtonToNotPrintStrong: MenuItem[] =
-      this.saveLoadButtons
+      this.loadButtons
         .filter(element => element.label != undefined)
         .filter(element => element.label?.includes("<strong>"))
 
@@ -86,7 +91,7 @@ export class BaseBodyComponent implements OnInit{
       })
 
     const loadButtonToPrintStrong: MenuItem =
-      this.saveLoadButtons
+      this.loadButtons
         .filter(element => element.label != undefined)
         .filter(element => element.label?.includes("" + index))
         .at(0)!
@@ -110,7 +115,7 @@ export class BaseBodyComponent implements OnInit{
 
             if(menuOptionCategory == 'upload'){
               const uploadButton: MenuItem =
-                this.saveLoadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+                this.saveUploadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uploadButton.label = '<strong>' + buttonName + '</strong>'
             } 
 
@@ -126,7 +131,7 @@ export class BaseBodyComponent implements OnInit{
 
             if(menuOptionCategory == 'upload'){
               const uploadButton: MenuItem =
-                this.saveLoadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+                this.saveUploadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uploadButton.label = buttonName
             } 
           } 
@@ -136,18 +141,8 @@ export class BaseBodyComponent implements OnInit{
     ]    
   }
 
-  initSaveLoadButtons(){
-    this.setLayoutData()
-    this.saveLoadButtons = [
-      // {
-      //   label: 'save current Image',
-      //   command: () => {
-      //     this.saveImage();
-      //   }
-      // },
-      ...this.initSaveImage(),
-      ...this.initSaveLayout(),
-      ...this.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
+  initLoadButtons(){
+    this.loadButtons = [
       {
         label: '<strong>load layout1</strong>',
         command: () => {
@@ -161,7 +156,7 @@ export class BaseBodyComponent implements OnInit{
 
     indexes
     .forEach(element => {
-      this.saveLoadButtons.push(
+      this.loadButtons.push(
         {
           label: ('load layout' + element),
           command: () => {
@@ -169,10 +164,19 @@ export class BaseBodyComponent implements OnInit{
           }
         }
       )
-      this.saveLoadButtons.push(
+      this.loadButtons.push(
         { separator: true }
       )
     })
+  }
+
+  initSaveUploadButtons(){
+    this.setLayoutData()
+    this.saveUploadButtons = [
+      ...this.initSaveImage(),
+      ...this.initSaveLayout(),
+      ...this.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
+    ]
   }
 
   ngOnInit(): void {
@@ -197,7 +201,7 @@ export class BaseBodyComponent implements OnInit{
               ...this.initButton('Text', this.textDataRenderedContainer, 'ui'),
             ];
         
-            this.initSaveLoadButtons()
+            this.initSaveUploadButtons()
           },
           error: (error) => {
             console.error("Erreur lors du chargement des images", error);
