@@ -6,7 +6,7 @@
 </ng-container>
 <ng-container *ngIf="!this.adminManager.isPreviewActive">
     <p-splitButton label="actions" [model]="uiButtons"></p-splitButton>
-    <p-splitButton label="save/load" [model]="saveLoadButtons"></p-splitButton>
+    <p-splitButton label="save/load" [model]="saveLoadButtons" (onDropdownClick)="initSaveLoadButtons()"></p-splitButton>
     <p-button (onClick)="this.printGeneralInfoModal()">GeneralInfo</p-button>
     <ng-container *ngIf="this.generalInfoModalRendered">
         <div style="background-color: #d3d3d3; margin: 10px; padding: 10px;">

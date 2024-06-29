@@ -15,7 +15,7 @@ export class DatabaseManagerService {
     private layoutManager: LayoutManagerService
   ) { }
 
-  isInDb(layoutData: LayoutData): boolean{
+  isLayoutInDb(layoutData: LayoutData): boolean{
     this.layoutDataFromDb 
       = this.layoutManager.layoutDataTabFromDb
           .filter(element => element.key == layoutData.key)

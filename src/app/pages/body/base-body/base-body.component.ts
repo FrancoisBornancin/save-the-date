@@ -69,16 +69,7 @@ export class BaseBodyComponent implements OnInit{
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
     public databaseManager: DatabaseManagerService
-  ){
-    this.uiButtons = [
-      ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer, 'ui'),
-      ...this.initButton('Border', this.borderDataRenderedContainer, 'ui'),
-      ...this.initButton('Text', this.textDataRenderedContainer, 'ui'),
-    ];
-
-    this.initSaveLoadButtons()
-
-  }
+  ){}
 
   doActionForLayout(index: number){
     this.loadLayoutDataDropdown(index);
@@ -146,6 +137,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   initSaveLoadButtons(){
+    this.setLayoutData()
     this.saveLoadButtons = [
       {
         label: 'save current Image',
@@ -153,14 +145,15 @@ export class BaseBodyComponent implements OnInit{
           this.saveImage();
         }
       },
-      { separator: true },
-      {
-        label: 'save current Layout',
-        command: () => {
-          this.saveLayout();
-        }
-      },
-      { separator: true },
+      // { separator: true },
+      // {
+      //   label: 'save current Layout',
+      //   command: () => {
+      //     this.saveLayout();
+      //   }
+      // },
+      // { separator: true },
+      ...this.initSaveLayout(),
       ...this.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
       {
         label: '<strong>load layout1</strong>',
@@ -202,6 +195,14 @@ export class BaseBodyComponent implements OnInit{
           next: (results) => {
             console.log("Toutes les images ont été chargées", results);
             this.imageUrl = this.componentFacade.getImageUrl(1);
+
+            this.uiButtons = [
+              ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer, 'ui'),
+              ...this.initButton('Border', this.borderDataRenderedContainer, 'ui'),
+              ...this.initButton('Text', this.textDataRenderedContainer, 'ui'),
+            ];
+        
+            this.initSaveLoadButtons()
           },
           error: (error) => {
             console.error("Erreur lors du chargement des images", error);
@@ -229,6 +230,21 @@ export class BaseBodyComponent implements OnInit{
                 policeName.includes("+") ? policeName.split("+").join(" ") : policeName
               return policeName
             })
+  }
+
+  initSaveLayout(): MenuItem[]{
+    if(!this.isLayoutDataSaved()){
+      return [
+        { separator: true },
+        {
+          label: 'save current Layout',
+          command: () => {
+            this.saveLayout();
+          }
+        },
+        { separator: true },
+      ]
+    }else return [{ separator: true },]
   }
 
   getImageUrl(){
@@ -299,11 +315,11 @@ export class BaseBodyComponent implements OnInit{
     reader.readAsDataURL(file);
   }
 
-  isSaved(): boolean{
+  private isLayoutDataSaved(): boolean{
     const layoutData: LayoutData =
       this.componentFacade.layoutManager.layoutData;
 
-    return this.databaseManager.isInDb(layoutData);
+    return  this.databaseManager.isLayoutInDb(layoutData);  
   }
 
   saveLayout(){
