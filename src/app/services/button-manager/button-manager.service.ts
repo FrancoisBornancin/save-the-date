@@ -3,6 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { DataRenderedContainer } from '../../model/data-rendered-container';
 import { AdminFacadeService } from '../admin-facade/admin-facade.service';
 import { ImageDaoService } from '../image-dao/image-dao.service';
+import { LayoutDaoService } from '../layout-dao/layout-dao.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class ButtonManagerService {
   constructor(
     public adminFacade: AdminFacadeService,
     public imageDao: ImageDaoService,
+    public layoutDao: LayoutDaoService
   ) { }
 
   initUiButtons(){
@@ -160,7 +162,7 @@ export class ButtonManagerService {
   }
 
   initSaveLayout(): MenuItem[]{
-    if(!this.adminFacade.isLayoutDataSaved()){
+    if(!this.layoutDao.isLayoutInDb()){
       return [
         { separator: true },
         {

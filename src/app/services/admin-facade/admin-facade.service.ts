@@ -56,13 +56,6 @@ export class AdminFacadeService {
     this.commonFacade.textPolice = element.layoutData.textData.police;
   }
 
-  isLayoutDataSaved(): boolean{
-    const layoutData: LayoutData =
-      this.layoutManager.layoutData;
-
-    return this.layoutDao.isLayoutInDb(layoutData);
-  }
-
   setLayoutData(){
     const layoutData: LayoutData = {
       key: 0,

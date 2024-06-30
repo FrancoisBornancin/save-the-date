@@ -13,13 +13,13 @@ export class LayoutDaoService {
     private layoutManager: LayoutManagerService,
   ) { }
 
-  isLayoutInDb(layoutData: LayoutData): boolean{
+  isLayoutInDb(): boolean{
     this.layoutDataFromDb 
       = this.layoutManager.layoutDataTabFromDb
-          .filter(element => element.key == layoutData.key)
+          .filter(element => element.key == this.layoutManager.layoutData.key)
           .at(0)!;
 
-    this.layoutData = layoutData;
+    this.layoutData = this.layoutManager.layoutData;
 
     for (const [layoutDataFromDbKey, layoutDataFromDbValue] of Object.entries(this.layoutDataFromDb)) {
       for (const [layoutDataKey, layoutDataValue] of Object.entries(this.layoutData)) {
