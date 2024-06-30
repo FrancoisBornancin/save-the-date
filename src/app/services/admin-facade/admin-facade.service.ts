@@ -12,6 +12,7 @@ import { StringContainer } from '../../model/string-container';
 import { CommonFacadeService } from '../common-facade/common-facade.service';
 import { DatabaseManagerService } from '../database-manager/database-manager.service';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
+import { LayoutDaoService } from '../layout-dao/layout-dao.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class AdminFacadeService {
     public imageDataUtils: ImageDataUtilsService,
     public commonFacade: CommonFacadeService,
     public databaseManager: DatabaseManagerService,
+    public layoutDao: LayoutDaoService,
     public selectedIndexService: SelectedIndexService
   ) { }
 
@@ -58,7 +60,7 @@ export class AdminFacadeService {
     const layoutData: LayoutData =
       this.layoutManager.layoutData;
 
-    return this.databaseManager.isLayoutInDb(layoutData);
+    return this.layoutDao.isLayoutInDb(layoutData);
   }
 
   isImageDataSaved(): boolean{
