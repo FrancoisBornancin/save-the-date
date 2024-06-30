@@ -11,6 +11,7 @@ import { CommonFacadeService } from '../../../services/common-facade/common-faca
 import { DatabaseManagerService } from '../../../services/database-manager/database-manager.service';
 import { UserFacadeService } from '../../../services/user-facade/user-facade.service';
 import { fontFamily } from '../../font-family';
+import { ButtonManagerService } from '../../../services/button-manager/button-manager.service';
 
 @Component({
   selector: 'app-base-body',
@@ -18,33 +19,9 @@ import { fontFamily } from '../../font-family';
   styleUrl: './base-body.component.scss'
 })
 export class BaseBodyComponent implements OnInit{
-
-  insideBackgroundDataRenderedContainer: DataRenderedContainer = {
-    dataRendered: false
-  }
-
-  borderDataRenderedContainer: DataRenderedContainer = {
-    dataRendered: false
-  }
-
-  textDataRenderedContainer: DataRenderedContainer = {
-    dataRendered: false
-  }
-
-  uploadImageDataRenderedContainer: DataRenderedContainer = {
-    dataRendered: false
-  }
-
   generalInfoModalRendered: boolean = false;
 
-  uiButtons!: MenuItem[];
-  saveUploadButtons!: MenuItem[];
-  loadButtons!: MenuItem[];
-
   policeTab!: string[];
-
-  selectedIndex!: number;
-  imageUrl!: string;
 
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
@@ -55,8 +32,9 @@ export class BaseBodyComponent implements OnInit{
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
     public databaseManager: DatabaseManagerService,
+    public buttonManager: ButtonManagerService,
   ){
-    this.initLoadButtons();
+    this.buttonManager.initLoadButtons();
   }
 
   ngOnInit(): void {
@@ -82,7 +60,7 @@ export class BaseBodyComponent implements OnInit{
     .loadImageForUser(this.commonFacade.imageFolder)
     .subscribe({
       next: (response: any) => {
-        this.imageUrl = response;
+        this.commonFacade.imageUrl = response;
       },
       error: e => {
         console.log(e);
@@ -97,22 +75,18 @@ export class BaseBodyComponent implements OnInit{
     .subscribe({
       next: (response: any) => {
         this.adminFacade.initImplicitDependencies(response);
-        this.setLayoutElements(1);
+        this.adminFacade.setLayoutElements(1);
         this.wrapForkJoin()
         .subscribe({
           next: (results) => {
             console.log("Toutes les images ont été chargées", results);
-            this.imageUrl = this.adminFacade.getImageUrl(1);
+            this.commonFacade.imageUrl = this.adminFacade.getImageUrl(1);
 
-            this.selectedIndex = 1;
+            this.adminFacade.selectedIndex = 1;
 
-            this.uiButtons = this.adminFacade.initUiButtons(
-              this.insideBackgroundDataRenderedContainer,
-              this.borderDataRenderedContainer,
-              this.textDataRenderedContainer
-            );
+            this.buttonManager.initUiButtons();
 
-            this.initSaveUploadButtons()
+            this.buttonManager.initSaveUploadButtons()
           },
           error: (error) => {
             console.error("Erreur lors du chargement des images", error);
@@ -144,87 +118,6 @@ export class BaseBodyComponent implements OnInit{
     this.commonFacade.textPolice = layoutData.textData.police;
   }
 
-  setLayoutElements(index: number){
-    const element = this.adminFacade.getLayoutElements(index);
-    this.imageUrl = element.imageUrl;
-
-    this.commonFacade.backgroundColor = element.layoutData.backgroundData.color;
-    this.commonFacade.backgroundHeight = element.layoutData.backgroundData.height;
-    this.commonFacade.backgroundWidth = element.layoutData.backgroundData.width;
-    this.commonFacade.backgroundOpacity = element.layoutData.backgroundData.opacity;
-    this.commonFacade.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
-
-    this.commonFacade.borderColor = element.layoutData.borderData.color
-    this.commonFacade.borderRadius = element.layoutData.borderData.radius
-    this.commonFacade.borderSize = element.layoutData.borderData.size
-
-    this.commonFacade.textValue = element.layoutData.textData.value;
-    this.commonFacade.textColor = element.layoutData.textData.color;
-    this.commonFacade.textSize = element.layoutData.textData.size;
-    this.commonFacade.textPolice = element.layoutData.textData.police;
-  }
-
-  doActionForLayout(index: number){
-    this.loadLayoutDataDropdown(index);
-
-    const loadButtonToNotPrintStrong: MenuItem[] =
-      this.loadButtons
-        .filter(element => element.label != undefined)
-        .filter(element => element.label?.includes("<strong>"))
-
-    loadButtonToNotPrintStrong
-      .forEach(element => {
-        element.label = element.label?.split("<strong>").at(1);
-        element.label = element.label?.split("</strong>").at(0);
-      })
-
-    const loadButtonToPrintStrong: MenuItem =
-      this.loadButtons
-        .filter(element => element.label != undefined)
-        .filter(element => element.label?.includes("" + index))
-        .at(0)!
-
-    loadButtonToPrintStrong.label = '<strong>' + loadButtonToPrintStrong.label + '<strong>'
-  }
-
-  initLoadButtons(){
-    this.loadButtons = [
-      {
-        label: '<strong>load layout1</strong>',
-        command: () => {
-          this.doActionForLayout(1);
-        }
-      },
-      { separator: true }
-    ]
-
-    const indexes: number[] = [2, 3, 4, 5];
-
-    indexes
-    .forEach(element => {
-      this.loadButtons.push(
-        {
-          label: ('load layout' + element),
-          command: () => {
-            this.doActionForLayout(element)
-          }
-        }
-      )
-      this.loadButtons.push(
-        { separator: true }
-      )
-    })
-  }
-
-  initSaveUploadButtons(){
-    this.adminFacade.setLayoutData()
-    this.saveUploadButtons = [
-      ...this.initSaveImage(),
-      ...this.initSaveLayout(),
-      ...this.adminFacade.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
-    ]
-  }
-
   initPoliceTab(): string[]{
     return fontFamily
             .split("?")[1]
@@ -242,36 +135,8 @@ export class BaseBodyComponent implements OnInit{
             })
   }
 
-  initSaveLayout(): MenuItem[]{
-    if(!this.isLayoutDataSaved()){
-      return [
-        { separator: true },
-        {
-          label: 'save current Layout',
-          command: () => {
-            this.saveLayout();
-          }
-        },
-        { separator: true },
-      ]
-    }else return [{ separator: true },]
-  }
-
-  initSaveImage(): MenuItem[]{
-    if(!this.isImageDataSaved()){
-      return [
-        {
-          label: 'save current Image',
-          command: () => {
-            this.saveImage();
-          }
-        },
-      ]
-    }else return []
-  }
-
   getImageUrl(){
-    return "background-image: url(" + this.imageUrl + ");"
+    return "background-image: url(" + this.commonFacade.imageUrl + ");"
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
          + "padding-top: " + this.commonFacade.backgroundPaddingTop + "%;"
@@ -312,14 +177,6 @@ export class BaseBodyComponent implements OnInit{
     }
   }
 
-  loadLayoutDataDropdown(index: number){
-    this.adminFacade.setLayoutData();
-    this.selectedIndex = index
-    this.adminFacade.updateCurrentLayoutDataTab()
-    this.setLayoutElements(index);
-    this.imageUrl = this.adminFacade.getImageUrl(index);
-  }
-
   upload(event: any){
     if (event.files.length == 0) {
       console.log('No file selected.');
@@ -330,31 +187,11 @@ export class BaseBodyComponent implements OnInit{
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      this.imageUrl = e.target.result;
-      this.adminFacade.setImageContent(this.imageUrl, this.selectedIndex);
+      this.commonFacade.imageUrl = e.target.result;
+      this.adminFacade.setImageContent(this.commonFacade.imageUrl, this.adminFacade.selectedIndex);
       this.fileUpload.clear();
     };
 
     reader.readAsDataURL(file);
-  }
-
-  private isLayoutDataSaved(): boolean{
-    const layoutData: LayoutData =
-      this.adminFacade.layoutManager.layoutData;
-
-    return this.databaseManager.isLayoutInDb(layoutData);
-  }
-
-  private isImageDataSaved(): boolean{
-    return this.databaseManager.isImageInDb(this.selectedIndex);
-  }
-
-  saveLayout(){
-    this.adminFacade.setLayoutData();
-    this.adminFacade.saveLayout(this.selectedIndex, this.commonFacade.layoutJsonName);
-  }
-
-  saveImage(){
-    this.adminFacade.saveImage(this.imageUrl, this.commonFacade.imageFolder, this.selectedIndex);
   }
 }

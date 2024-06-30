@@ -10,75 +10,61 @@ import { DataRenderedContainer } from '../../model/data-rendered-container';
 import { NumberContainer } from '../../model/number-container';
 import { StringContainer } from '../../model/string-container';
 import { CommonFacadeService } from '../common-facade/common-facade.service';
+import { DatabaseManagerService } from '../database-manager/database-manager.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminFacadeService {
-  uiButtons!: MenuItem[];
-  saveUploadButtons!: MenuItem[];
-  loadButtons!: MenuItem[];
+  selectedIndex!: number;
 
   constructor(
     public layoutManager: LayoutManagerService,
     public gitManager: GitManagerService,
     public imageDataUtils: ImageDataUtilsService,
     public commonFacade: CommonFacadeService,
+    public databaseManager: DatabaseManagerService,
   ) { }
 
-  initUiButtons(insideBackgroundDataRenderedContainer: DataRenderedContainer, borderDataRenderedContainer: DataRenderedContainer, textDataRenderedContainer: DataRenderedContainer): MenuItem[]{
-    const menuOptionCategory: string  = 'ui';
-
-    this.uiButtons = [
-      ...this.initButton('InsideBackground', insideBackgroundDataRenderedContainer, menuOptionCategory),
-      ...this.initButton('Border', borderDataRenderedContainer, menuOptionCategory),
-      ...this.initButton('Text', textDataRenderedContainer, menuOptionCategory),
-    ]
-
-    return this.uiButtons;
+  loadLayoutDataDropdown(index: number){
+    this.setLayoutData();
+    this.selectedIndex = index
+    this.updateCurrentLayoutDataTab()
+    this.setLayoutElements(index);
+    this.commonFacade.imageUrl = this.getImageUrl(index);
   }
 
-  initButton(buttonName: string, dataRenderedContainer: DataRenderedContainer, menuOptionCategory: string){
-    return [
-      {
-        label: buttonName,
-        command: () => {
-          if(!dataRenderedContainer.dataRendered) {
-            dataRenderedContainer.dataRendered = true;
+  setLayoutElements(index: number){
+    const element = this.getLayoutElements(index);
+    this.commonFacade.imageUrl = element.imageUrl;
 
-            if(menuOptionCategory == 'ui'){
-              const uiButton: MenuItem =
-                this.uiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
-              uiButton.label = '<strong>' + buttonName + '</strong>'
-            } 
+    this.commonFacade.backgroundColor = element.layoutData.backgroundData.color;
+    this.commonFacade.backgroundHeight = element.layoutData.backgroundData.height;
+    this.commonFacade.backgroundWidth = element.layoutData.backgroundData.width;
+    this.commonFacade.backgroundOpacity = element.layoutData.backgroundData.opacity;
+    this.commonFacade.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
 
-            if(menuOptionCategory == 'upload'){
-              const uploadButton: MenuItem =
-                this.saveUploadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
-              uploadButton.label = '<strong>' + buttonName + '</strong>'
-            } 
+    this.commonFacade.borderColor = element.layoutData.borderData.color
+    this.commonFacade.borderRadius = element.layoutData.borderData.radius
+    this.commonFacade.borderSize = element.layoutData.borderData.size
 
-          }
-          else{
-            dataRenderedContainer.dataRendered = false;
-
-            if(menuOptionCategory == 'ui'){
-              const uiButton: MenuItem =
-                this.uiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
-              uiButton.label = buttonName
-            } 
-
-            if(menuOptionCategory == 'upload'){
-              const uploadButton: MenuItem =
-                this.saveUploadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
-              uploadButton.label = buttonName
-            } 
-          } 
-        }
-      },
-      { separator: true },
-    ]    
+    this.commonFacade.textValue = element.layoutData.textData.value;
+    this.commonFacade.textColor = element.layoutData.textData.color;
+    this.commonFacade.textSize = element.layoutData.textData.size;
+    this.commonFacade.textPolice = element.layoutData.textData.police;
   }
+
+  isLayoutDataSaved(): boolean{
+    const layoutData: LayoutData =
+      this.layoutManager.layoutData;
+
+    return this.databaseManager.isLayoutInDb(layoutData);
+  }
+
+  isImageDataSaved(): boolean{
+    return this.databaseManager.isImageInDb(this.selectedIndex);
+  }
+
 
   setLayoutData(){
     const layoutData: LayoutData = {
@@ -123,9 +109,9 @@ export class AdminFacadeService {
     this.layoutManager.layoutData.textData = layoutData.textData;
   }
 
-  saveImage(imageUrl: string, imageFolder: string, index: number){
-    const imageData: CustomImageData = this.imageDataUtils.getImageData(imageUrl);
-    this.imageDataUtils.saveImageData(index, imageData, imageFolder);
+  saveImage(){
+    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.commonFacade.imageUrl);
+    this.imageDataUtils.saveImageData(this.selectedIndex, imageData, this.commonFacade.imageFolder);
   }
 
   setImageContent(imageUrl: string, index: number){
@@ -172,7 +158,8 @@ export class AdminFacadeService {
     return [...new Set(numberTab)];
   }
 
-  saveLayout(selectedIndex: number, layoutJsonName: string){
-    this.layoutManager.saveData(selectedIndex, layoutJsonName);
+  saveLayout(){
+    this.setLayoutData()
+    this.layoutManager.saveData(this.selectedIndex, this.commonFacade.layoutJsonName);
   }
 }

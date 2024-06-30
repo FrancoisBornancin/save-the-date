@@ -11,6 +11,8 @@ export class CommonFacadeService {
   imageFolder!: string
   layoutJsonName!: string
 
+  imageUrl!: string;
+
   backgroundPaddingTop: number = 0;
   backgroundHeight: number = 0;
   backgroundWidth: number = 0;

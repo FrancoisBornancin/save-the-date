@@ -6,9 +6,9 @@
         <p-button (click)="this.adminManager.activatePreview()">Activate Preview</p-button>
     </ng-container>
     <ng-container *ngIf="!this.adminManager.isPreviewActive">
-        <p-splitButton label="actions" [model]="uiButtons"></p-splitButton>
-        <p-splitButton label="save/upload" [model]="saveUploadButtons" (onDropdownClick)="initSaveUploadButtons()"></p-splitButton>
-        <p-splitButton label="load" [model]="loadButtons"></p-splitButton>
+        <p-splitButton label="actions" [model]="buttonManager.uiButtons"></p-splitButton>
+        <p-splitButton label="save/upload" [model]="buttonManager.saveUploadButtons" (onDropdownClick)="buttonManager.initSaveUploadButtons()"></p-splitButton>
+        <p-splitButton label="load" [model]="buttonManager.loadButtons"></p-splitButton>
         <p-button (onClick)="this.printGeneralInfoModal()">GeneralInfo</p-button>
         <ng-container *ngIf="this.generalInfoModalRendered">
             <div style="background-color: #d3d3d3; margin: 10px; padding: 10px;">
@@ -32,7 +32,7 @@
                 <p><strong>Enjoy chaton!</strong></p>
             </div>
         </ng-container>
-            <ng-container *ngIf="this.borderDataRenderedContainer.dataRendered">
+            <ng-container *ngIf="buttonManager.borderDataRenderedContainer.dataRendered">
                 <strong>Manage Border:</strong>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
@@ -46,7 +46,7 @@
                     <p-colorPicker [(ngModel)]="this.commonFacade.borderColor"></p-colorPicker>
                 </div>
             </ng-container>
-            <ng-container *ngIf="this.insideBackgroundDataRenderedContainer.dataRendered">
+            <ng-container *ngIf="buttonManager.insideBackgroundDataRenderedContainer.dataRendered">
                 <strong>Manage InsideBackround:</strong>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </ng-container>
-        <ng-container *ngIf="this.textDataRenderedContainer.dataRendered">
+        <ng-container *ngIf="buttonManager.textDataRenderedContainer.dataRendered">
             <strong>Manage TextData:</strong>
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
@@ -87,7 +87,7 @@
                 <p-editor [(ngModel)]="commonFacade.textValue" />
             </div>
         </ng-container>
-        <ng-container *ngIf="this.uploadImageDataRenderedContainer.dataRendered">
+        <ng-container *ngIf="buttonManager.uploadImageDataRenderedContainer.dataRendered">
             <p-fileUpload #fileUploader
             mode="basic"
             customUpload="true"
