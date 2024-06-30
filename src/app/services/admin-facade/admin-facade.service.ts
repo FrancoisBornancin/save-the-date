@@ -11,24 +11,24 @@ import { NumberContainer } from '../../model/number-container';
 import { StringContainer } from '../../model/string-container';
 import { CommonFacadeService } from '../common-facade/common-facade.service';
 import { DatabaseManagerService } from '../database-manager/database-manager.service';
+import { SelectedIndexService } from '../selected-index/selected-index.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminFacadeService {
-  selectedIndex!: number;
-
   constructor(
     public layoutManager: LayoutManagerService,
     public gitManager: GitManagerService,
     public imageDataUtils: ImageDataUtilsService,
     public commonFacade: CommonFacadeService,
     public databaseManager: DatabaseManagerService,
+    public selectedIndexService: SelectedIndexService
   ) { }
 
   loadLayoutDataDropdown(index: number){
     this.setLayoutData();
-    this.selectedIndex = index
+    this.selectedIndexService.index = index
     this.updateCurrentLayoutDataTab()
     this.setLayoutElements(index);
     this.commonFacade.imageUrl = this.getImageUrl(index);
@@ -62,7 +62,7 @@ export class AdminFacadeService {
   }
 
   isImageDataSaved(): boolean{
-    return this.databaseManager.isImageInDb(this.selectedIndex);
+    return this.databaseManager.isImageInDb(this.selectedIndexService.index);
   }
 
   setLayoutData(){
@@ -110,7 +110,7 @@ export class AdminFacadeService {
 
   saveImage(){
     const imageData: CustomImageData = this.imageDataUtils.getImageData(this.commonFacade.imageUrl);
-    this.imageDataUtils.saveImageData(this.selectedIndex, imageData, this.commonFacade.imageFolder);
+    this.imageDataUtils.saveImageData(this.selectedIndexService.index, imageData, this.commonFacade.imageFolder);
   }
 
   setImageContent(imageUrl: string, index: number){
@@ -149,6 +149,6 @@ export class AdminFacadeService {
 
   saveLayout(){
     this.setLayoutData()
-    this.layoutManager.saveData(this.selectedIndex, this.commonFacade.layoutJsonName);
+    this.layoutManager.saveData(this.selectedIndexService.index, this.commonFacade.layoutJsonName);
   }
 }

@@ -12,6 +12,7 @@ import { DatabaseManagerService } from '../../../services/database-manager/datab
 import { UserFacadeService } from '../../../services/user-facade/user-facade.service';
 import { fontFamily } from '../../font-family';
 import { ButtonManagerService } from '../../../services/button-manager/button-manager.service';
+import { SelectedIndexService } from '../../../services/selected-index/selected-index.service';
 
 @Component({
   selector: 'app-base-body',
@@ -33,6 +34,7 @@ export class BaseBodyComponent implements OnInit{
     public adminManager: AdminManagerService,
     public databaseManager: DatabaseManagerService,
     public buttonManager: ButtonManagerService,
+    public selectedIndex: SelectedIndexService
   ){
     this.buttonManager.initLoadButtons();
   }
@@ -82,7 +84,7 @@ export class BaseBodyComponent implements OnInit{
             console.log("Toutes les images ont été chargées", results);
             this.commonFacade.imageUrl = this.adminFacade.getImageUrl(1);
 
-            this.adminFacade.selectedIndex = 1;
+            this.selectedIndex.index = 1;
 
             this.buttonManager.initUiButtons();
 
@@ -188,7 +190,7 @@ export class BaseBodyComponent implements OnInit{
 
     reader.onload = (e: any) => {
       this.commonFacade.imageUrl = e.target.result;
-      this.adminFacade.setImageContent(this.commonFacade.imageUrl, this.adminFacade.selectedIndex);
+      this.adminFacade.setImageContent(this.commonFacade.imageUrl, this.selectedIndex.index);
       this.fileUpload.clear();
     };
 
