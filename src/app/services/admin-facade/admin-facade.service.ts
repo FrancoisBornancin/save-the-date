@@ -10,9 +10,9 @@ import { DataRenderedContainer } from '../../model/data-rendered-container';
 import { NumberContainer } from '../../model/number-container';
 import { StringContainer } from '../../model/string-container';
 import { CommonFacadeService } from '../common-facade/common-facade.service';
-import { DatabaseManagerService } from '../database-manager/database-manager.service';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
 import { LayoutDaoService } from '../layout-dao/layout-dao.service';
+import { ImageDaoService } from '../image-dao/image-dao.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +23,8 @@ export class AdminFacadeService {
     public gitManager: GitManagerService,
     public imageDataUtils: ImageDataUtilsService,
     public commonFacade: CommonFacadeService,
-    public databaseManager: DatabaseManagerService,
     public layoutDao: LayoutDaoService,
+    public imageDao: ImageDaoService,
     public selectedIndexService: SelectedIndexService
   ) { }
 
@@ -61,10 +61,6 @@ export class AdminFacadeService {
       this.layoutManager.layoutData;
 
     return this.layoutDao.isLayoutInDb(layoutData);
-  }
-
-  isImageDataSaved(): boolean{
-    return this.databaseManager.isImageInDb(this.selectedIndexService.index);
   }
 
   setLayoutData(){
@@ -108,11 +104,6 @@ export class AdminFacadeService {
     this.layoutManager.layoutData.backgroundData = layoutData.backgroundData
     this.layoutManager.layoutData.borderData = layoutData.borderData
     this.layoutManager.layoutData.textData = layoutData.textData;
-  }
-
-  saveImage(){
-    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.commonFacade.imageUrl);
-    this.imageDataUtils.saveImageData(this.selectedIndexService.index, imageData, this.commonFacade.imageFolder);
   }
 
   setImageContent(imageUrl: string, index: number){

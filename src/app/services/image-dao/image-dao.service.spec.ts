@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DatabaseManagerService } from './database-manager.service';
+import { ImageDaoService } from './image-dao.service';
 
-describe('DatabaseManagerService', () => {
-  let service: DatabaseManagerService;
+describe('ImageDaoService', () => {
+  let service: ImageDaoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DatabaseManagerService);
+    service = TestBed.inject(ImageDaoService);
   });
 
   it('should be created', () => {

@@ -8,7 +8,6 @@ import { AdminFacadeService } from '../../../services/admin-facade/admin-facade.
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
 import { CommonFacadeService } from '../../../services/common-facade/common-facade.service';
-import { DatabaseManagerService } from '../../../services/database-manager/database-manager.service';
 import { UserFacadeService } from '../../../services/user-facade/user-facade.service';
 import { fontFamily } from '../../font-family';
 import { ButtonManagerService } from '../../../services/button-manager/button-manager.service';
@@ -32,7 +31,6 @@ export class BaseBodyComponent implements OnInit{
     public commonFacade: CommonFacadeService,
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
-    public databaseManager: DatabaseManagerService,
     public buttonManager: ButtonManagerService,
     public selectedIndex: SelectedIndexService
   ){

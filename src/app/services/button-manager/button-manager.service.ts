@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DataRenderedContainer } from '../../model/data-rendered-container';
 import { AdminFacadeService } from '../admin-facade/admin-facade.service';
+import { ImageDaoService } from '../image-dao/image-dao.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,8 @@ export class ButtonManagerService {
   loadButtons!: MenuItem[];
 
   constructor(
-    public adminFacade: AdminFacadeService
+    public adminFacade: AdminFacadeService,
+    public imageDao: ImageDaoService,
   ) { }
 
   initUiButtons(){
@@ -145,12 +147,12 @@ export class ButtonManagerService {
   }
 
   initSaveImage(): MenuItem[]{
-    if(!this.adminFacade.isImageDataSaved()){
+    if(!this.imageDao.isImageInDb()){
       return [
         {
           label: 'save current Image',
           command: () => {
-            this.adminFacade.saveImage();
+            this.imageDao.saveImage();
           }
         },
       ]
