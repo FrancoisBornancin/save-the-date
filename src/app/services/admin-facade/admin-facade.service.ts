@@ -65,7 +65,6 @@ export class AdminFacadeService {
     return this.databaseManager.isImageInDb(this.selectedIndex);
   }
 
-
   setLayoutData(){
     const layoutData: LayoutData = {
       key: 0,
@@ -146,16 +145,6 @@ export class AdminFacadeService {
 
   getImageUrl(index: number){
     return this.imageDataUtils.loadIndexedImageUrl(index);
-  }
-
-  getDropdownIndexes(){
-    const numberTab: number[] =
-     this.layoutManager.layoutDataTabFromDb
-      .map(element => element.key)
-      .sort((a, b) => (a - b))
-      ;
-
-    return [...new Set(numberTab)];
   }
 
   saveLayout(){
