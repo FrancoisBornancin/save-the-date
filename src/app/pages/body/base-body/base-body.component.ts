@@ -41,21 +41,6 @@ export class BaseBodyComponent implements OnInit{
   saveUploadButtons!: MenuItem[];
   loadButtons!: MenuItem[];
 
-  backgroundColor!: string;
-  backgroundPaddingTop!: number;
-  backgroundHeight!: number;
-  backgroundWidth!: number;
-  backgroundOpacity!: number;
-
-  borderRadius!: number;
-  borderSize!: number;
-  borderColor!: string;
-
-  textValue!: string;
-  textColor!: string;
-  textSize!: number;
-  textPolice!: string;
-
   policeTab!: string[];
 
   selectedIndex!: number;
@@ -143,40 +128,40 @@ export class BaseBodyComponent implements OnInit{
   setLayoutElementsForUser(){
     const layoutData = this.adminFacade.layoutManager.layoutData;
 
-    this.backgroundColor = layoutData.backgroundData.color;
-    this.backgroundHeight = layoutData.backgroundData.height;
-    this.backgroundWidth = layoutData.backgroundData.width;
-    this.backgroundOpacity = layoutData.backgroundData.opacity;
-    this.backgroundPaddingTop = layoutData.backgroundData.paddingTop
+    this.commonFacade.backgroundColor = layoutData.backgroundData.color;
+    this.commonFacade.backgroundHeight = layoutData.backgroundData.height;
+    this.commonFacade.backgroundWidth = layoutData.backgroundData.width;
+    this.commonFacade.backgroundOpacity = layoutData.backgroundData.opacity;
+    this.commonFacade.backgroundPaddingTop = layoutData.backgroundData.paddingTop
 
-    this.borderColor = layoutData.borderData.color
-    this.borderRadius = layoutData.borderData.radius
-    this.borderSize = layoutData.borderData.size
+    this.commonFacade.borderColor = layoutData.borderData.color
+    this.commonFacade.borderRadius = layoutData.borderData.radius
+    this.commonFacade.borderSize = layoutData.borderData.size
 
-    this.textValue = layoutData.textData.value;
-    this.textColor = layoutData.textData.color;
-    this.textSize = layoutData.textData.size;
-    this.textPolice = layoutData.textData.police;
+    this.commonFacade.textValue = layoutData.textData.value;
+    this.commonFacade.textColor = layoutData.textData.color;
+    this.commonFacade.textSize = layoutData.textData.size;
+    this.commonFacade.textPolice = layoutData.textData.police;
   }
 
   setLayoutElements(index: number){
     const element = this.adminFacade.getLayoutElements(index);
     this.imageUrl = element.imageUrl;
 
-    this.backgroundColor = element.layoutData.backgroundData.color;
-    this.backgroundHeight = element.layoutData.backgroundData.height;
-    this.backgroundWidth = element.layoutData.backgroundData.width;
-    this.backgroundOpacity = element.layoutData.backgroundData.opacity;
-    this.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
+    this.commonFacade.backgroundColor = element.layoutData.backgroundData.color;
+    this.commonFacade.backgroundHeight = element.layoutData.backgroundData.height;
+    this.commonFacade.backgroundWidth = element.layoutData.backgroundData.width;
+    this.commonFacade.backgroundOpacity = element.layoutData.backgroundData.opacity;
+    this.commonFacade.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
 
-    this.borderColor = element.layoutData.borderData.color
-    this.borderRadius = element.layoutData.borderData.radius
-    this.borderSize = element.layoutData.borderData.size
+    this.commonFacade.borderColor = element.layoutData.borderData.color
+    this.commonFacade.borderRadius = element.layoutData.borderData.radius
+    this.commonFacade.borderSize = element.layoutData.borderData.size
 
-    this.textValue = element.layoutData.textData.value;
-    this.textColor = element.layoutData.textData.color;
-    this.textSize = element.layoutData.textData.size;
-    this.textPolice = element.layoutData.textData.police;
+    this.commonFacade.textValue = element.layoutData.textData.value;
+    this.commonFacade.textColor = element.layoutData.textData.color;
+    this.commonFacade.textSize = element.layoutData.textData.size;
+    this.commonFacade.textPolice = element.layoutData.textData.police;
   }
 
   doActionForLayout(index: number){
@@ -232,7 +217,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   initSaveUploadButtons(){
-    this.setLayoutData()
+    this.adminFacade.setLayoutData()
     this.saveUploadButtons = [
       ...this.initSaveImage(),
       ...this.initSaveLayout(),
@@ -289,7 +274,7 @@ export class BaseBodyComponent implements OnInit{
     return "background-image: url(" + this.imageUrl + ");"
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
-         + "padding-top: " + this.backgroundPaddingTop + "%;"
+         + "padding-top: " + this.commonFacade.backgroundPaddingTop + "%;"
          + "height: 100%;"
   }
 
@@ -300,21 +285,21 @@ export class BaseBodyComponent implements OnInit{
   }
 
   textStyle(){
-    return 'color: ' + this.textColor + ";"
-          + 'font-size: ' + this.textSize + "px;"
-          + 'font-family: "Playwrite ' + this.textPolice + '", cursive;'
+    return 'color: ' + this.commonFacade.textColor + ";"
+          + 'font-size: ' + this.commonFacade.textSize + "px;"
+          + 'font-family: "Playwrite ' + this.commonFacade.textPolice + '", cursive;'
   }
 
   getImageBackgroundStyle(): string{
       const backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
-        this.colorConvertor.convertToRgba(this.backgroundColor),
-        (this.backgroundOpacity/100)
+        this.colorConvertor.convertToRgba(this.commonFacade.backgroundColor),
+        (this.commonFacade.backgroundOpacity/100)
        ) + ";"
-    return "height: " + this.backgroundHeight + "%;"
-         + "width: " + this.backgroundWidth + "%;"
-         + "border-radius: " + this.borderRadius + "%;"
-         + "border: " + this.borderSize + "px solid " + this.borderColor + ";"
+    return "height: " + this.commonFacade.backgroundHeight + "%;"
+         + "width: " + this.commonFacade.backgroundWidth + "%;"
+         + "border-radius: " + this.commonFacade.borderRadius + "%;"
+         + "border: " + this.commonFacade.borderSize + "px solid " + this.commonFacade.borderColor + ";"
          + "margin: auto;"
          + backgroundColor
   }
@@ -328,7 +313,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   loadLayoutDataDropdown(index: number){
-    this.setLayoutData();
+    this.adminFacade.setLayoutData();
     this.selectedIndex = index
     this.adminFacade.updateCurrentLayoutDataTab()
     this.setLayoutElements(index);
@@ -371,31 +356,5 @@ export class BaseBodyComponent implements OnInit{
 
   saveImage(){
     this.adminFacade.saveImage(this.imageUrl, this.commonFacade.imageFolder, this.selectedIndex);
-  }
-
-  setLayoutData(){
-    const layoutData: LayoutData = {
-      key: 0,
-      backgroundData: {
-        paddingTop: this.backgroundPaddingTop,
-        height: this.backgroundHeight,
-        width: this.backgroundWidth,
-        color: this.backgroundColor,
-        opacity: this.backgroundOpacity
-      },
-      borderData: {
-        color: this.borderColor,
-        radius: this.borderRadius,
-        size: this.borderSize
-      },
-      textData: {
-        value: this.textValue,
-        color: this.textColor,
-        size: this.textSize,
-        police: this.textPolice,
-      },
-      hasBeenSaved: ''
-    }
-    this.adminFacade.setLayoutDataWithoutNotUiKeys(layoutData);
   }
 }

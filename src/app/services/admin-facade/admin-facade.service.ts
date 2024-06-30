@@ -7,6 +7,9 @@ import { Observable } from 'rxjs/internal/Observable';
 import { LayoutData } from '../../model/layout-data/layout-data';
 import { MenuItem } from 'primeng/api';
 import { DataRenderedContainer } from '../../model/data-rendered-container';
+import { NumberContainer } from '../../model/number-container';
+import { StringContainer } from '../../model/string-container';
+import { CommonFacadeService } from '../common-facade/common-facade.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +23,7 @@ export class AdminFacadeService {
     public layoutManager: LayoutManagerService,
     public gitManager: GitManagerService,
     public imageDataUtils: ImageDataUtilsService,
+    public commonFacade: CommonFacadeService,
   ) { }
 
   initUiButtons(insideBackgroundDataRenderedContainer: DataRenderedContainer, borderDataRenderedContainer: DataRenderedContainer, textDataRenderedContainer: DataRenderedContainer): MenuItem[]{
@@ -33,8 +37,6 @@ export class AdminFacadeService {
 
     return this.uiButtons;
   }
-
-  
 
   initButton(buttonName: string, dataRenderedContainer: DataRenderedContainer, menuOptionCategory: string){
     return [
@@ -76,6 +78,32 @@ export class AdminFacadeService {
       },
       { separator: true },
     ]    
+  }
+
+  setLayoutData(){
+    const layoutData: LayoutData = {
+      key: 0,
+      backgroundData: {
+        paddingTop: this.commonFacade.backgroundPaddingTop,
+        height: this.commonFacade.backgroundHeight,
+        width: this.commonFacade.backgroundWidth,
+        color: this.commonFacade.backgroundColor,
+        opacity: this.commonFacade.backgroundOpacity
+      },
+      borderData: {
+        color: this.commonFacade.backgroundColor,
+        radius: this.commonFacade.borderRadius,
+        size: this.commonFacade.borderSize
+      },
+      textData: {
+        value: this.commonFacade.textValue,
+        color: this.commonFacade.textColor,
+        size: this.commonFacade.textSize,
+        police: this.commonFacade.textPolice,
+      },
+      hasBeenSaved: ''
+    }
+    this.setLayoutDataWithoutNotUiKeys(layoutData);
   }
 
   initImplicitDependencies(response: any){
