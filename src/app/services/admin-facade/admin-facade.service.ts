@@ -23,18 +23,9 @@ export class AdminFacadeService {
     public gitManager: GitManagerService,
     public imageDataUtils: ImageDataUtilsService,
     public commonFacade: CommonFacadeService,
-    public layoutDao: LayoutDaoService,
     public imageDao: ImageDaoService,
     public selectedIndexService: SelectedIndexService
   ) { }
-
-  loadLayoutDataDropdown(index: number){
-    this.setLayoutData();
-    this.selectedIndexService.index = index
-    this.updateCurrentLayoutDataTab()
-    this.setLayoutElements(index);
-    this.commonFacade.imageUrl = this.getImageUrl(index);
-  }
 
   setLayoutElements(index: number){
     const element = this.getLayoutElements(index);
@@ -131,10 +122,5 @@ export class AdminFacadeService {
 
   getImageUrl(index: number){
     return this.imageDataUtils.loadIndexedImageUrl(index);
-  }
-
-  saveLayout(){
-    this.setLayoutData()
-    this.layoutManager.saveData(this.selectedIndexService.index, this.commonFacade.layoutJsonName);
   }
 }

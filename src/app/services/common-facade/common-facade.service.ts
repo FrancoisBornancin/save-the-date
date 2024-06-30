@@ -28,11 +28,5 @@ export class CommonFacadeService {
   textSize: number = 0;
   textPolice: string = '';
 
-  constructor(
-    public layoutManager: LayoutManagerService,
-  ) { }
-
-  loadData(jsonFileName: string): Observable<any>{
-    return this.layoutManager.loadData(jsonFileName);
-  }
+  constructor() { }
 }

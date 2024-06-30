@@ -3,6 +3,8 @@ import { GitManagerService } from '../git-manager/git-manager.service';
 import { LayoutData } from '../../model/layout-data/layout-data';
 import { GitBody } from '../../model/git-body';
 import { Observable } from 'rxjs';
+import { SelectedIndexService } from '../selected-index/selected-index.service';
+import { CommonFacadeService } from '../common-facade/common-facade.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,9 @@ export class LayoutManagerService {
   endSaveMessage!: string;
 
   constructor(
-    public gitManager: GitManagerService
+    public gitManager: GitManagerService,
+    public selectedIndex: SelectedIndexService,
+    public commonFacade: CommonFacadeService
   ) { }
 
   updateCurrentLayoutData(index: number){
@@ -42,9 +46,11 @@ export class LayoutManagerService {
     return this.gitManager.putData(gitBody);
   }
 
-  saveData(index: number, jsonFileName: string){
+  saveData(){
+    const jsonFileName: string = this.commonFacade.layoutJsonName
+
     this.layoutDataTabFromDb 
-      = this.updateLayoutDataTab(this.layoutDataTabFromDb , index);
+      = this.updateLayoutDataTab(this.layoutDataTabFromDb , this.selectedIndex.index);
     this.loadData(jsonFileName)
     .subscribe({
       next: (response: any) => {

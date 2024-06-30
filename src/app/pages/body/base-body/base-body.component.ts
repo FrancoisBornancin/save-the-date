@@ -12,6 +12,7 @@ import { UserFacadeService } from '../../../services/user-facade/user-facade.ser
 import { fontFamily } from '../../font-family';
 import { ButtonManagerService } from '../../../services/button-manager/button-manager.service';
 import { SelectedIndexService } from '../../../services/selected-index/selected-index.service';
+import { LayoutDaoService } from '../../../services/layout-dao/layout-dao.service';
 
 @Component({
   selector: 'app-base-body',
@@ -32,7 +33,8 @@ export class BaseBodyComponent implements OnInit{
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
     public buttonManager: ButtonManagerService,
-    public selectedIndex: SelectedIndexService
+    public selectedIndex: SelectedIndexService,
+    public layoutDao: LayoutDaoService
   ){
     this.buttonManager.initLoadButtons();
   }
@@ -46,7 +48,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   initForUser(){
-    this.commonFacade.loadData(this.commonFacade.layoutJsonName)
+    this.layoutDao.loadData()
     .subscribe({
       next: (response: any) => {
         this.userFacade.getLayout(response);
@@ -71,7 +73,7 @@ export class BaseBodyComponent implements OnInit{
   initForAdmin(){
     this.policeTab = this.initPoliceTab();
 
-    this.commonFacade.loadData(this.commonFacade.layoutJsonName)
+    this.layoutDao.loadData()
     .subscribe({
       next: (response: any) => {
         this.adminFacade.initImplicitDependencies(response);

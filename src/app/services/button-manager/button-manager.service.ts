@@ -88,7 +88,7 @@ export class ButtonManagerService {
   }
 
   doActionForLayout(index: number){
-    this.adminFacade.loadLayoutDataDropdown(index);
+    this.layoutDao.loadLayoutDataDropdown(index);
 
     const loadButtonToNotPrintStrong: MenuItem[] =
       this.loadButtons
@@ -168,7 +168,7 @@ export class ButtonManagerService {
         {
           label: 'save current Layout',
           command: () => {
-            this.adminFacade.saveLayout();
+            this.layoutDao.saveLayout();
           }
         },
         { separator: true },
