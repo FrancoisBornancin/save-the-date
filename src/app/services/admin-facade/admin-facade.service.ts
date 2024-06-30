@@ -5,12 +5,16 @@ import { LayoutManagerService } from '../layout-manager/layout-manager.service';
 import { CustomImageData } from '../../model/image-data';
 import { Observable } from 'rxjs/internal/Observable';
 import { LayoutData } from '../../model/layout-data/layout-data';
+import { MenuItem } from 'primeng/api';
+import { DataRenderedContainer } from '../../model/data-rendered-container';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ComponentFacadeService {
-  readonly userIndex: number = 0;
+export class AdminFacadeService {
+  uiButtons!: MenuItem[];
+  saveUploadButtons!: MenuItem[];
+  loadButtons!: MenuItem[];
 
   constructor(
     public layoutManager: LayoutManagerService,
@@ -18,21 +22,66 @@ export class ComponentFacadeService {
     public imageDataUtils: ImageDataUtilsService,
   ) { }
 
-  getLayoutForUser(response: any){
-    this.layoutManager.layoutData
-      = this.gitManager.getStringifyResponseContent(response)
-        .filter((element: { key: number; }) => element.key == this.userIndex)
-        .at(0)!
+  initUiButtons(insideBackgroundDataRenderedContainer: DataRenderedContainer, borderDataRenderedContainer: DataRenderedContainer, textDataRenderedContainer: DataRenderedContainer): MenuItem[]{
+    const menuOptionCategory: string  = 'ui';
+
+    this.uiButtons = [
+      ...this.initButton('InsideBackground', insideBackgroundDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('Border', borderDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('Text', textDataRenderedContainer, menuOptionCategory),
+    ]
+
+    return this.uiButtons;
+  }
+
+  
+
+  initButton(buttonName: string, dataRenderedContainer: DataRenderedContainer, menuOptionCategory: string){
+    return [
+      {
+        label: buttonName,
+        command: () => {
+          if(!dataRenderedContainer.dataRendered) {
+            dataRenderedContainer.dataRendered = true;
+
+            if(menuOptionCategory == 'ui'){
+              const uiButton: MenuItem =
+                this.uiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uiButton.label = '<strong>' + buttonName + '</strong>'
+            } 
+
+            if(menuOptionCategory == 'upload'){
+              const uploadButton: MenuItem =
+                this.saveUploadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uploadButton.label = '<strong>' + buttonName + '</strong>'
+            } 
+
+          }
+          else{
+            dataRenderedContainer.dataRendered = false;
+
+            if(menuOptionCategory == 'ui'){
+              const uiButton: MenuItem =
+                this.uiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uiButton.label = buttonName
+            } 
+
+            if(menuOptionCategory == 'upload'){
+              const uploadButton: MenuItem =
+                this.saveUploadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uploadButton.label = buttonName
+            } 
+          } 
+        }
+      },
+      { separator: true },
+    ]    
   }
 
   initImplicitDependencies(response: any){
     this.gitManager.sha = response.sha;
     this.layoutManager.layoutDataTabFromDb = this.gitManager.getStringifyResponseContent(response);
     this.layoutManager.layoutDataTabCurrent = this.gitManager.getStringifyResponseContent(response);
-  }
-
-  loadData(jsonFileName: string): Observable<any>{
-    return this.layoutManager.loadData(jsonFileName);
   }
 
   updateCurrentLayoutDataTab(){

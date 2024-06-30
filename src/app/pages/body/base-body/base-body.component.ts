@@ -1,15 +1,16 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MenuItem } from 'primeng/api/menuitem';
 import { FileUpload } from 'primeng/fileupload';
 import { Observable, forkJoin } from 'rxjs';
+import { DataRenderedContainer } from '../../../model/data-rendered-container';
 import { LayoutData } from '../../../model/layout-data/layout-data';
+import { AdminFacadeService } from '../../../services/admin-facade/admin-facade.service';
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
-import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
-import { TextToHtmlRetrieverService } from '../../../services/text-to-html-retriever/text-to-html-retriever.service';
-import { fontFamily } from '../../font-family';
-import { MenuItem } from 'primeng/api/menuitem';
-import { DataRenderedContainer } from '../../../model/data-rendered-container';
+import { CommonFacadeService } from '../../../services/common-facade/common-facade.service';
 import { DatabaseManagerService } from '../../../services/database-manager/database-manager.service';
+import { UserFacadeService } from '../../../services/user-facade/user-facade.service';
+import { fontFamily } from '../../font-family';
 
 @Component({
   selector: 'app-base-body',
@@ -60,19 +61,18 @@ export class BaseBodyComponent implements OnInit{
   selectedIndex!: number;
   imageUrl!: string;
 
-  @Input() imageFolder!: string
-  @Input() layoutJsonName!: string
-
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
   constructor(
-    public componentFacade: ComponentFacadeService,
+    public adminFacade: AdminFacadeService,
+    public userFacade: UserFacadeService,
+    public commonFacade: CommonFacadeService,
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
-    public databaseManager: DatabaseManagerService
+    public databaseManager: DatabaseManagerService,
   ){
     this.initLoadButtons();
-  } 
+  }
 
   ngOnInit(): void {
     if(this.adminManager.isAdminModeActive){
@@ -83,18 +83,18 @@ export class BaseBodyComponent implements OnInit{
   }
 
   initForUser(){
-    this.componentFacade.loadData(this.layoutJsonName)
+    this.commonFacade.loadData(this.commonFacade.layoutJsonName)
     .subscribe({
       next: (response: any) => {
-        this.componentFacade.getLayoutForUser(response);
+        this.userFacade.getLayout(response);
         this.setLayoutElementsForUser();
       },
       error: e => {
         console.log(e);
       },
     });
-    this.componentFacade.imageDataUtils
-    .loadImageForUser(this.imageFolder)
+    this.adminFacade.imageDataUtils
+    .loadImageForUser(this.commonFacade.imageFolder)
     .subscribe({
       next: (response: any) => {
         this.imageUrl = response;
@@ -108,25 +108,25 @@ export class BaseBodyComponent implements OnInit{
   initForAdmin(){
     this.policeTab = this.initPoliceTab();
 
-    this.componentFacade.loadData(this.layoutJsonName)
+    this.commonFacade.loadData(this.commonFacade.layoutJsonName)
     .subscribe({
       next: (response: any) => {
-        this.componentFacade.initImplicitDependencies(response);
+        this.adminFacade.initImplicitDependencies(response);
         this.setLayoutElements(1);
         this.wrapForkJoin()
         .subscribe({
           next: (results) => {
             console.log("Toutes les images ont été chargées", results);
-            this.imageUrl = this.componentFacade.getImageUrl(1);
+            this.imageUrl = this.adminFacade.getImageUrl(1);
 
             this.selectedIndex = 1;
 
-            this.uiButtons = [
-              ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer, 'ui'),
-              ...this.initButton('Border', this.borderDataRenderedContainer, 'ui'),
-              ...this.initButton('Text', this.textDataRenderedContainer, 'ui'),
-            ];
-        
+            this.uiButtons = this.adminFacade.initUiButtons(
+              this.insideBackgroundDataRenderedContainer,
+              this.borderDataRenderedContainer,
+              this.textDataRenderedContainer
+            );
+
             this.initSaveUploadButtons()
           },
           error: (error) => {
@@ -141,7 +141,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   setLayoutElementsForUser(){
-    const layoutData = this.componentFacade.layoutManager.layoutData;
+    const layoutData = this.adminFacade.layoutManager.layoutData;
 
     this.backgroundColor = layoutData.backgroundData.color;
     this.backgroundHeight = layoutData.backgroundData.height;
@@ -160,7 +160,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   setLayoutElements(index: number){
-    const element = this.componentFacade.getLayoutElements(index);
+    const element = this.adminFacade.getLayoutElements(index);
     this.imageUrl = element.imageUrl;
 
     this.backgroundColor = element.layoutData.backgroundData.color;
@@ -199,49 +199,7 @@ export class BaseBodyComponent implements OnInit{
         .filter(element => element.label?.includes("" + index))
         .at(0)!
 
-    loadButtonToPrintStrong.label = '<strong>' + loadButtonToPrintStrong.label + '<strong>' 
-  }
-
-  initButton(buttonName: string, dataRenderedContainer: DataRenderedContainer, menuOptionCategory: string){
-    return [
-      {
-        label: buttonName,
-        command: () => {
-          if(!dataRenderedContainer.dataRendered) {
-            dataRenderedContainer.dataRendered = true;
-
-            if(menuOptionCategory == 'ui'){
-              const uiButton: MenuItem =
-                this.uiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
-              uiButton.label = '<strong>' + buttonName + '</strong>'
-            } 
-
-            if(menuOptionCategory == 'upload'){
-              const uploadButton: MenuItem =
-                this.saveUploadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
-              uploadButton.label = '<strong>' + buttonName + '</strong>'
-            } 
-
-          }
-          else{
-            dataRenderedContainer.dataRendered = false;
-
-            if(menuOptionCategory == 'ui'){
-              const uiButton: MenuItem =
-                this.uiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
-              uiButton.label = buttonName
-            } 
-
-            if(menuOptionCategory == 'upload'){
-              const uploadButton: MenuItem =
-                this.saveUploadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
-              uploadButton.label = buttonName
-            } 
-          } 
-        }
-      },
-      { separator: true },
-    ]    
+    loadButtonToPrintStrong.label = '<strong>' + loadButtonToPrintStrong.label + '<strong>'
   }
 
   initLoadButtons(){
@@ -278,7 +236,7 @@ export class BaseBodyComponent implements OnInit{
     this.saveUploadButtons = [
       ...this.initSaveImage(),
       ...this.initSaveLayout(),
-      ...this.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
+      ...this.adminFacade.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
     ]
   }
 
@@ -337,7 +295,7 @@ export class BaseBodyComponent implements OnInit{
 
   wrapForkJoin(): Observable<any[]>{
     return forkJoin(
-      this.componentFacade.initTasks(this.imageFolder)
+      this.adminFacade.initTasks(this.commonFacade.imageFolder)
     )
   }
 
@@ -372,9 +330,9 @@ export class BaseBodyComponent implements OnInit{
   loadLayoutDataDropdown(index: number){
     this.setLayoutData();
     this.selectedIndex = index
-    this.componentFacade.updateCurrentLayoutDataTab()
+    this.adminFacade.updateCurrentLayoutDataTab()
     this.setLayoutElements(index);
-    this.imageUrl = this.componentFacade.getImageUrl(index);
+    this.imageUrl = this.adminFacade.getImageUrl(index);
   }
 
   upload(event: any){
@@ -388,7 +346,7 @@ export class BaseBodyComponent implements OnInit{
 
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result;
-      this.componentFacade.setImageContent(this.imageUrl, this.selectedIndex);
+      this.adminFacade.setImageContent(this.imageUrl, this.selectedIndex);
       this.fileUpload.clear();
     };
 
@@ -397,22 +355,22 @@ export class BaseBodyComponent implements OnInit{
 
   private isLayoutDataSaved(): boolean{
     const layoutData: LayoutData =
-      this.componentFacade.layoutManager.layoutData;
+      this.adminFacade.layoutManager.layoutData;
 
-    return this.databaseManager.isLayoutInDb(layoutData);  
+    return this.databaseManager.isLayoutInDb(layoutData);
   }
 
   private isImageDataSaved(): boolean{
-    return this.databaseManager.isImageInDb(this.selectedIndex);  
+    return this.databaseManager.isImageInDb(this.selectedIndex);
   }
 
   saveLayout(){
-    this.setLayoutData();
-    this.componentFacade.saveLayout(this.selectedIndex, this.layoutJsonName);
+    this.adminFacade.setLayoutData();
+    this.adminFacade.saveLayout(this.selectedIndex, this.commonFacade.layoutJsonName);
   }
 
   saveImage(){
-    this.componentFacade.saveImage(this.imageUrl, this.imageFolder, this.selectedIndex);
+    this.adminFacade.saveImage(this.imageUrl, this.commonFacade.imageFolder, this.selectedIndex);
   }
 
   setLayoutData(){
@@ -438,6 +396,6 @@ export class BaseBodyComponent implements OnInit{
       },
       hasBeenSaved: ''
     }
-    this.componentFacade.setLayoutDataWithoutNotUiKeys(layoutData);
+    this.adminFacade.setLayoutDataWithoutNotUiKeys(layoutData);
   }
 }

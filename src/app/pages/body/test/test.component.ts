@@ -6,7 +6,8 @@ import { CustomImageData } from '../../../model/image-data';
 import { GitManagerService } from '../../../services/git-manager/git-manager.service';
 import { ImageDataUtilsService } from '../../../services/image-data-utils/image-data-utils.service';
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
-import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
+import { AdminFacadeService } from '../../../services/admin-facade/admin-facade.service';
+import { CommonFacadeService } from '../../../services/common-facade/common-facade.service';
 
 @Component({
   selector: 'app-test',
@@ -14,5 +15,10 @@ import { ComponentFacadeService } from '../../../services/component-facade/compo
   styleUrl: './test.component.scss'
 })
 export class TestComponent {
-
+  constructor(
+    public commonFacade: CommonFacadeService,
+  ){
+    this.commonFacade.imageFolder = 'repository/test-images-repository';
+    this.commonFacade.layoutJsonName = 'json-layout/test-component-layout.json';
+  } 
 }

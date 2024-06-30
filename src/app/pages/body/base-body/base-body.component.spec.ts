@@ -8,13 +8,13 @@ import { GitBody } from "../../../model/git-body";
 import { LayoutData } from "../../../model/layout-data/layout-data";
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
-import { ComponentFacadeService } from '../../../services/component-facade/component-facade.service';
+import { AdminFacadeService } from '../../../services/admin-facade/admin-facade.service';
 import { BaseBodyComponent } from './base-body.component';
 
 describe('BaseBodyComponent', () => {
   let component: BaseBodyComponent;
   let fixture: ComponentFixture<BaseBodyComponent>;
-  let componentFacade: ComponentFacadeService
+  let componentFacade: AdminFacadeService
   let colorConvertor: ColorConvertorService
   let adminManager: AdminManagerService
 
@@ -31,7 +31,7 @@ describe('BaseBodyComponent', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(BaseBodyComponent);
-    componentFacade = TestBed.inject(ComponentFacadeService);
+    componentFacade = TestBed.inject(AdminFacadeService);
     colorConvertor = TestBed.inject(ColorConvertorService);
     adminManager = TestBed.inject(AdminManagerService);
     component = fixture.componentInstance;
