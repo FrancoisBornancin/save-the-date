@@ -10,6 +10,7 @@ import { LayoutData } from '../../model/layout-data/layout-data';
   providedIn: 'root'
 })
 export class ComponentFacadeService {
+  readonly userIndex: number = 0;
 
   constructor(
     public layoutManager: LayoutManagerService,
@@ -20,7 +21,7 @@ export class ComponentFacadeService {
   getLayoutForUser(response: any){
     this.layoutManager.layoutData
       = this.gitManager.getStringifyResponseContent(response)
-        .filter((element: { key: number; }) => element.key == 1)
+        .filter((element: { key: number; }) => element.key == this.userIndex)
         .at(0)!
   }
 

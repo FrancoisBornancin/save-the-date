@@ -17,6 +17,7 @@ export class ImageDataUtilsService {
   hasBeenSaved!: string;
   bigImageTab!: BigImageData[];
   bigImageTabFromDb!: BigImageData[];
+  readonly userIndex: number = 0;
 
   constructor(
     public gitManager: GitManagerService,
@@ -87,7 +88,7 @@ export class ImageDataUtilsService {
   }
 
   loadImageForUser(folder: string): Observable<any> {
-    return this.loadImageData(1, folder).pipe(
+    return this.loadImageData(this.userIndex, folder).pipe(
       switchMap(response => this.getBlobContent(response)),
       map(data => {
         const imageContent = "data:image/jpeg;base64," + atob(data.content);
