@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GitManagerService } from '../git-manager/git-manager.service';
-import { ImageDataUtilsService } from '../image-data-utils/image-data-utils.service';
+import { ImageManagerService } from '../image-manager/image-manager.service';
 import { LayoutManagerService } from '../layout-manager/layout-manager.service';
 import { CustomImageData } from '../../model/image-data';
 import { Observable } from 'rxjs/internal/Observable';
@@ -21,15 +21,11 @@ export class AdminFacadeService {
   constructor(
     public layoutManager: LayoutManagerService,
     public gitManager: GitManagerService,
-    public imageDataUtils: ImageDataUtilsService,
+    public imageDataUtils: ImageManagerService,
     public commonFacade: CommonFacadeService,
     public imageDao: ImageDaoService,
     public selectedIndexService: SelectedIndexService
   ) { }
-
-  setImageContent(imageUrl: string, index: number){
-    this.imageDataUtils.setImageContent(imageUrl, index);
-  }
 
   initTasks(imageFolder: string){
     this.imageDataUtils.bigImageTab =
@@ -45,9 +41,5 @@ export class AdminFacadeService {
       })
 
     return this.imageDataUtils.bigImageTab.map(element => this.imageDataUtils.fillBigImageTab(element.key, imageFolder));
-  }
-
-  getImageUrl(index: number){
-    return this.imageDataUtils.loadIndexedImageUrl(index);
   }
 }

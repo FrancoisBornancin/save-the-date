@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ImageDataUtilsService } from './image-data-utils.service';
+import { ImageManagerService } from './image-manager.service';
 
 // describe('ImageDataUtilsService', () => {
 //   let service: ImageDataUtilsService;

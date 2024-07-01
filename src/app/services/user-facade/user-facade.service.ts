@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GitManagerService } from '../git-manager/git-manager.service';
-import { ImageDataUtilsService } from '../image-data-utils/image-data-utils.service';
+import { ImageManagerService } from '../image-manager/image-manager.service';
 import { LayoutManagerService } from '../layout-manager/layout-manager.service';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class UserFacadeService {
   constructor(
     public layoutManager: LayoutManagerService,
     public gitManager: GitManagerService,
-    public imageDataUtils: ImageDataUtilsService,
+    public imageDataUtils: ImageManagerService,
   ) { }
 
   getLayout(response: any){

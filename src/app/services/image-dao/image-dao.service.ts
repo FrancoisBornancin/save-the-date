@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ImageDataUtilsService } from '../image-data-utils/image-data-utils.service';
+import { ImageManagerService } from '../image-manager/image-manager.service';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
 import { CustomImageData } from '../../model/image-data';
 import { CommonFacadeService } from '../common-facade/common-facade.service';
@@ -10,9 +10,9 @@ import { CommonFacadeService } from '../common-facade/common-facade.service';
 export class ImageDaoService {
 
   constructor(
-    private imageManager: ImageDataUtilsService,
+    private imageManager: ImageManagerService,
     private selectedIndex: SelectedIndexService,
-    private imageDataUtils: ImageDataUtilsService,
+    private imageDataUtils: ImageManagerService,
     private commonFacade: CommonFacadeService,
   ) { }
 
@@ -35,5 +35,13 @@ export class ImageDaoService {
   saveImage(){
     const imageData: CustomImageData = this.imageDataUtils.getImageData(this.commonFacade.imageUrl);
     this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, this.commonFacade.imageFolder);
+  }
+
+  getImageUrl(): string{
+    return this.imageManager.bigImageTab
+    .filter(element => element.key == this.selectedIndex.index)
+    .map(element => element.imageUrlContent)
+    .at(0)!
+    ;
   }
 }

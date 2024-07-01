@@ -5,11 +5,13 @@ import { BigImageData } from '../../model/big-image-data';
 import { GitBody } from '../../model/git-body';
 import { CustomImageData } from '../../model/image-data';
 import { GitManagerService } from '../git-manager/git-manager.service';
+import { SelectedIndexService } from '../selected-index/selected-index.service';
+import { CommonFacadeService } from '../common-facade/common-facade.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ImageDataUtilsService {
+export class ImageManagerService {
   imageUrl!: string;
   startFinalPath: string = 'image-content-';
   endFinalPath: string = '.txt'
@@ -22,6 +24,8 @@ export class ImageDataUtilsService {
   constructor(
     public gitManager: GitManagerService,
     public http: HttpClient,
+    public selectedIndex: SelectedIndexService,
+    public commonFacade: CommonFacadeService
   ){
 
   }
@@ -71,19 +75,11 @@ export class ImageDataUtilsService {
     }
   }
 
-  setImageContent(imageUrl: string, index: number){
+  setImageContent(){
     this.bigImageTab
-    .filter(element => element.key == index)
+    .filter(element => element.key == this.selectedIndex.index)
     .at(0)!
-    .imageUrlContent = imageUrl
-    ;
-  }
-
-  loadIndexedImageUrl(index: number): string{
-    return this.bigImageTab
-    .filter(element => element.key == index)
-    .map(element => element.imageUrlContent)
-    .at(0)!
+    .imageUrlContent = this.commonFacade.imageUrl
     ;
   }
 

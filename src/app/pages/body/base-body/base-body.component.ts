@@ -14,6 +14,8 @@ import { ButtonManagerService } from '../../../services/button-manager/button-ma
 import { SelectedIndexService } from '../../../services/selected-index/selected-index.service';
 import { LayoutDaoService } from '../../../services/layout-dao/layout-dao.service';
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
+import { ImageManagerService } from '../../../services/image-manager/image-manager.service';
+import { ImageDaoService } from '../../../services/image-dao/image-dao.service';
 
 @Component({
   selector: 'app-base-body',
@@ -35,8 +37,10 @@ export class BaseBodyComponent implements OnInit{
     public adminManager: AdminManagerService,
     public buttonManager: ButtonManagerService,
     public layoutManager: LayoutManagerService,
+    public imageManager: ImageManagerService,
     public selectedIndex: SelectedIndexService,
-    public layoutDao: LayoutDaoService
+    public layoutDao: LayoutDaoService,
+    public imageDao: ImageDaoService
   ){
     this.buttonManager.initLoadButtons();
   }
@@ -84,9 +88,9 @@ export class BaseBodyComponent implements OnInit{
         .subscribe({
           next: (results) => {
             console.log("Toutes les images ont été chargées", results);
-            this.commonFacade.imageUrl = this.adminFacade.getImageUrl(1);
 
             this.selectedIndex.index = 1;
+            this.commonFacade.imageUrl = this.imageDao.getImageUrl();
 
             this.buttonManager.initUiButtons();
 
@@ -192,7 +196,7 @@ export class BaseBodyComponent implements OnInit{
 
     reader.onload = (e: any) => {
       this.commonFacade.imageUrl = e.target.result;
-      this.adminFacade.setImageContent(this.commonFacade.imageUrl, this.selectedIndex.index);
+      this.imageManager.setImageContent();
       this.fileUpload.clear();
     };
 
