@@ -13,6 +13,7 @@ import { fontFamily } from '../../font-family';
 import { ButtonManagerService } from '../../../services/button-manager/button-manager.service';
 import { SelectedIndexService } from '../../../services/selected-index/selected-index.service';
 import { LayoutDaoService } from '../../../services/layout-dao/layout-dao.service';
+import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
 
 @Component({
   selector: 'app-base-body',
@@ -33,6 +34,7 @@ export class BaseBodyComponent implements OnInit{
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
     public buttonManager: ButtonManagerService,
+    public layoutManager: LayoutManagerService,
     public selectedIndex: SelectedIndexService,
     public layoutDao: LayoutDaoService
   ){
@@ -76,8 +78,8 @@ export class BaseBodyComponent implements OnInit{
     this.layoutDao.loadData()
     .subscribe({
       next: (response: any) => {
-        this.adminFacade.initImplicitDependencies(response);
-        this.adminFacade.setLayoutElements(1);
+        this.layoutManager.initLayoutDataTabs(response);
+        this.layoutManager.setLayoutElements(1);
         this.wrapForkJoin()
         .subscribe({
           next: (results) => {

@@ -21,16 +21,16 @@ export class LayoutDaoService {
   ) { }
 
   loadLayoutDataDropdown(index: number){
-    this.adminFacade.setLayoutData();
+    this.layoutManager.setLayoutData();
     this.selectedIndex.index = index
-    this.adminFacade.updateCurrentLayoutDataTab()
-    this.adminFacade.setLayoutElements(index);
+    this.layoutManager.updateCurrentLayoutDataTab()
+    this.layoutManager.setLayoutElements(index);
     this.commonFacade.imageUrl = this.adminFacade.getImageUrl(index);
     
   }
 
   saveLayout(){
-    this.adminFacade.setLayoutData()
+    this.layoutManager.setLayoutData()
     this.layoutManager.saveData();
   }
 

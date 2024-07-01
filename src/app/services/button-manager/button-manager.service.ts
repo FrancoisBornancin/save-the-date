@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { DataRenderedContainer } from '../../model/data-rendered-container';
-import { AdminFacadeService } from '../admin-facade/admin-facade.service';
 import { ImageDaoService } from '../image-dao/image-dao.service';
 import { LayoutDaoService } from '../layout-dao/layout-dao.service';
+import { LayoutManagerService } from '../layout-manager/layout-manager.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +30,9 @@ export class ButtonManagerService {
   loadButtons!: MenuItem[];
 
   constructor(
-    public adminFacade: AdminFacadeService,
     public imageDao: ImageDaoService,
-    public layoutDao: LayoutDaoService
+    public layoutDao: LayoutDaoService,
+    public layoutManager: LayoutManagerService
   ) { }
 
   initUiButtons(){
@@ -140,7 +140,7 @@ export class ButtonManagerService {
   }
 
   initSaveUploadButtons(){
-    this.adminFacade.setLayoutData()
+    this.layoutManager.setLayoutData()
     this.saveUploadButtons = [
       ...this.initSaveImage(),
       ...this.initSaveLayout(),
