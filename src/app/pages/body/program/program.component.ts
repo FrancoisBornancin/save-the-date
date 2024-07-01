@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonFacadeService } from '../../../services/common-facade/common-facade.service';
+import { InMemoryRepositoryService } from '../../../services/in-memory-repository/in-memory-repository.service';
 
 @Component({
   selector: 'app-program',
@@ -8,10 +8,10 @@ import { CommonFacadeService } from '../../../services/common-facade/common-faca
 })
 export class ProgramComponent{
   constructor(
-    public commonFacade: CommonFacadeService,
+    public inMemoryRepository: InMemoryRepositoryService,
   ){
-    this.commonFacade.imageFolder = 'repository/program-images-repository';
-    this.commonFacade.layoutJsonName = 'json-layout/page-component-layout.json';
+    this.inMemoryRepository.imageFolder = 'repository/program-images-repository';
+    this.inMemoryRepository.layoutJsonName = 'json-layout/page-component-layout.json';
   } 
 
 }

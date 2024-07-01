@@ -4,7 +4,7 @@ import { LayoutData } from '../../model/layout-data/layout-data';
 import { GitBody } from '../../model/git-body';
 import { Observable } from 'rxjs';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
-import { CommonFacadeService } from '../common-facade/common-facade.service';
+import { InMemoryRepositoryService } from '../in-memory-repository/in-memory-repository.service';
 import { ImageManagerService } from '../image-manager/image-manager.service';
 
 @Injectable({
@@ -36,7 +36,7 @@ export class LayoutManagerService {
     public gitManager: GitManagerService,
     public selectedIndex: SelectedIndexService,
     public imageManager: ImageManagerService,
-    public commonFacade: CommonFacadeService
+    public inMemoryRepository: InMemoryRepositoryService
   ) { }
 
   updateCurrentLayoutData(index: number){
@@ -161,7 +161,7 @@ setLayoutForUser(response: any){
   }
 
   saveData(){
-    const jsonFileName: string = this.commonFacade.layoutJsonName
+    const jsonFileName: string = this.inMemoryRepository.layoutJsonName
 
     this.layoutDataTabFromDb 
       = this.updateLayoutDataTab(this.layoutDataTabFromDb , this.selectedIndex.index);

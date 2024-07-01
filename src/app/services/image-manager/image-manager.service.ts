@@ -6,7 +6,7 @@ import { GitBody } from '../../model/git-body';
 import { CustomImageData } from '../../model/image-data';
 import { GitManagerService } from '../git-manager/git-manager.service';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
-import { CommonFacadeService } from '../common-facade/common-facade.service';
+import { InMemoryRepositoryService } from '../in-memory-repository/in-memory-repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class ImageManagerService {
     public gitManager: GitManagerService,
     public http: HttpClient,
     public selectedIndex: SelectedIndexService,
-    public commonFacade: CommonFacadeService
+    public inMemoryRepository: InMemoryRepositoryService
   ){
 
   }

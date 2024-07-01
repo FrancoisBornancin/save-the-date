@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ImageManagerService } from '../image-manager/image-manager.service';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
 import { CustomImageData } from '../../model/image-data';
-import { CommonFacadeService } from '../common-facade/common-facade.service';
+import { InMemoryRepositoryService } from '../in-memory-repository/in-memory-repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class ImageDaoService {
     private imageManager: ImageManagerService,
     private selectedIndex: SelectedIndexService,
     private imageDataUtils: ImageManagerService,
-    private commonFacade: CommonFacadeService,
+    private inMemoryRepository: InMemoryRepositoryService,
   ) { }
 
   isImageInDb(): boolean{
@@ -34,7 +34,7 @@ export class ImageDaoService {
 
   saveImage(){
     const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.imageUrl);
-    this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, this.commonFacade.imageFolder);
+    this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, this.inMemoryRepository.imageFolder);
   }
 
   getImageUrl(): string{

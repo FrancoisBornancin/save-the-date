@@ -6,7 +6,7 @@ import { CustomImageData } from '../../../model/image-data';
 import { GitManagerService } from '../../../services/git-manager/git-manager.service';
 import { ImageManagerService } from '../../../services/image-manager/image-manager.service';
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
-import { CommonFacadeService } from '../../../services/common-facade/common-facade.service';
+import { InMemoryRepositoryService } from '../../../services/in-memory-repository/in-memory-repository.service';
 
 @Component({
   selector: 'app-test',
@@ -15,9 +15,9 @@ import { CommonFacadeService } from '../../../services/common-facade/common-faca
 })
 export class TestComponent {
   constructor(
-    public commonFacade: CommonFacadeService,
+    public inMemoryRepository: InMemoryRepositoryService,
   ){
-    this.commonFacade.imageFolder = 'repository/test-images-repository';
-    this.commonFacade.layoutJsonName = 'json-layout/test-component-layout.json';
+    this.inMemoryRepository.imageFolder = 'repository/test-images-repository';
+    this.inMemoryRepository.layoutJsonName = 'json-layout/test-component-layout.json';
   } 
 }

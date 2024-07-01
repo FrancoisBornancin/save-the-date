@@ -7,7 +7,7 @@ import { StringContainer } from '../../model/string-container';
 @Injectable({
   providedIn: 'root'
 })
-export class CommonFacadeService {
+export class InMemoryRepositoryService {
   imageFolder!: string
   layoutJsonName!: string
 

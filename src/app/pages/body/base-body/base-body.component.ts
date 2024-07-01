@@ -4,7 +4,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
 import { ButtonManagerService } from '../../../services/button-manager/button-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
-import { CommonFacadeService } from '../../../services/common-facade/common-facade.service';
+import { InMemoryRepositoryService } from '../../../services/in-memory-repository/in-memory-repository.service';
 import { ImageDaoService } from '../../../services/image-dao/image-dao.service';
 import { ImageManagerService } from '../../../services/image-manager/image-manager.service';
 import { LayoutDaoService } from '../../../services/layout-dao/layout-dao.service';
@@ -26,7 +26,7 @@ export class BaseBodyComponent implements OnInit{
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
   constructor(
-    public commonFacade: CommonFacadeService,
+    public inMemoryRepository: InMemoryRepositoryService,
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
     public buttonManager: ButtonManagerService,
@@ -58,7 +58,7 @@ export class BaseBodyComponent implements OnInit{
         console.log(e);
       },
     });
-    this.imageManager.loadImageForUser(this.commonFacade.imageFolder)
+    this.imageManager.loadImageForUser(this.inMemoryRepository.imageFolder)
     .subscribe({
       next: (response: any) => {
         this.imageManager.imageUrl = response;
@@ -127,7 +127,7 @@ export class BaseBodyComponent implements OnInit{
 
   wrapForkJoin(): Observable<any[]>{
     return forkJoin(
-      this.threadPoolExecutor.initTasks(this.commonFacade.imageFolder)
+      this.threadPoolExecutor.initTasks(this.inMemoryRepository.imageFolder)
     )
   }
 

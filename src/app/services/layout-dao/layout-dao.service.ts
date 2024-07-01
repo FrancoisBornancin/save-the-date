@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LayoutData } from '../../model/layout-data/layout-data';
 import { LayoutManagerService } from '../layout-manager/layout-manager.service';
 import { Observable } from 'rxjs';
-import { CommonFacadeService } from '../common-facade/common-facade.service';
+import { InMemoryRepositoryService } from '../in-memory-repository/in-memory-repository.service';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
 import { ImageDaoService } from '../image-dao/image-dao.service';
 import { ImageManagerService } from '../image-manager/image-manager.service';
@@ -16,7 +16,7 @@ export class LayoutDaoService {
 
   constructor(
     private layoutManager: LayoutManagerService,
-    private commonFacade: CommonFacadeService,
+    private inMemoryRepository: InMemoryRepositoryService,
     private selectedIndex: SelectedIndexService,
     private imageDao: ImageDaoService,
     private imageManager: ImageManagerService
@@ -36,7 +36,7 @@ export class LayoutDaoService {
   }
 
   loadData(): Observable<any>{
-    return this.layoutManager.loadData(this.commonFacade.layoutJsonName);
+    return this.layoutManager.loadData(this.inMemoryRepository.layoutJsonName);
   }
 
   isLayoutInDb(): boolean{
