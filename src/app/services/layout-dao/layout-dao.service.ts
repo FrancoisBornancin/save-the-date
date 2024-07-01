@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CommonFacadeService } from '../common-facade/common-facade.service';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
 import { ImageDaoService } from '../image-dao/image-dao.service';
+import { ImageManagerService } from '../image-manager/image-manager.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class LayoutDaoService {
     private layoutManager: LayoutManagerService,
     private commonFacade: CommonFacadeService,
     private selectedIndex: SelectedIndexService,
-    private imageDao: ImageDaoService
+    private imageDao: ImageDaoService,
+    private imageManager: ImageManagerService
   ) { }
 
   loadLayoutDataDropdown(index: number){
@@ -25,7 +27,7 @@ export class LayoutDaoService {
     this.selectedIndex.index = index
     this.layoutManager.updateCurrentLayoutDataTab()
     this.layoutManager.setLayoutElements(index);
-    this.commonFacade.imageUrl = this.imageDao.getImageUrl();
+    this.imageManager.imageUrl = this.imageDao.getImageUrl();
   }
 
   saveLayout(){

@@ -33,7 +33,7 @@ export class ImageDaoService {
   }
 
   saveImage(){
-    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.commonFacade.imageUrl);
+    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.imageUrl);
     this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, this.commonFacade.imageFolder);
   }
 

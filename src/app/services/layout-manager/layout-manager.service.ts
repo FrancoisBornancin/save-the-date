@@ -5,6 +5,7 @@ import { GitBody } from '../../model/git-body';
 import { Observable } from 'rxjs';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
 import { CommonFacadeService } from '../common-facade/common-facade.service';
+import { ImageManagerService } from '../image-manager/image-manager.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,25 @@ export class LayoutManagerService {
 
   endSaveMessage!: string;
 
+  backgroundPaddingTop: number = 0;
+  backgroundHeight: number = 0;
+  backgroundWidth: number = 0;
+  backgroundColor: string = '';
+  backgroundOpacity: number = 0;
+
+  borderColor: string = '';
+  borderRadius: number = 0;
+  borderSize: number = 0;
+
+  textValue: string = '';
+  textColor: string = '';
+  textSize: number = 0;
+  textPolice: string = '';
+
   constructor(
     public gitManager: GitManagerService,
     public selectedIndex: SelectedIndexService,
+    public imageManager: ImageManagerService,
     public commonFacade: CommonFacadeService
   ) { }
 
@@ -34,22 +51,22 @@ export class LayoutManagerService {
     const layoutData: LayoutData = {
       key: 0,
       backgroundData: {
-        paddingTop: this.commonFacade.backgroundPaddingTop,
-        height: this.commonFacade.backgroundHeight,
-        width: this.commonFacade.backgroundWidth,
-        color: this.commonFacade.backgroundColor,
-        opacity: this.commonFacade.backgroundOpacity
+        paddingTop: this.backgroundPaddingTop,
+        height: this.backgroundHeight,
+        width: this.backgroundWidth,
+        color: this.backgroundColor,
+        opacity: this.backgroundOpacity
       },
       borderData: {
-        color: this.commonFacade.backgroundColor,
-        radius: this.commonFacade.borderRadius,
-        size: this.commonFacade.borderSize
+        color: this.backgroundColor,
+        radius: this.borderRadius,
+        size: this.borderSize
       },
       textData: {
-        value: this.commonFacade.textValue,
-        color: this.commonFacade.textColor,
-        size: this.commonFacade.textSize,
-        police: this.commonFacade.textPolice,
+        value: this.textValue,
+        color: this.textColor,
+        size: this.textSize,
+        police: this.textPolice,
       },
       hasBeenSaved: ''
     }
@@ -58,22 +75,22 @@ export class LayoutManagerService {
 
   setLayoutElements(index: number){
     const element = this.getLayoutElements(index);
-    this.commonFacade.imageUrl = element.imageUrl;
+    this.imageManager.imageUrl = element.imageUrl;
 
-    this.commonFacade.backgroundColor = element.layoutData.backgroundData.color;
-    this.commonFacade.backgroundHeight = element.layoutData.backgroundData.height;
-    this.commonFacade.backgroundWidth = element.layoutData.backgroundData.width;
-    this.commonFacade.backgroundOpacity = element.layoutData.backgroundData.opacity;
-    this.commonFacade.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
+    this.backgroundColor = element.layoutData.backgroundData.color;
+    this.backgroundHeight = element.layoutData.backgroundData.height;
+    this.backgroundWidth = element.layoutData.backgroundData.width;
+    this.backgroundOpacity = element.layoutData.backgroundData.opacity;
+    this.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
 
-    this.commonFacade.borderColor = element.layoutData.borderData.color
-    this.commonFacade.borderRadius = element.layoutData.borderData.radius
-    this.commonFacade.borderSize = element.layoutData.borderData.size
+    this.borderColor = element.layoutData.borderData.color
+    this.borderRadius = element.layoutData.borderData.radius
+    this.borderSize = element.layoutData.borderData.size
 
-    this.commonFacade.textValue = element.layoutData.textData.value;
-    this.commonFacade.textColor = element.layoutData.textData.color;
-    this.commonFacade.textSize = element.layoutData.textData.size;
-    this.commonFacade.textPolice = element.layoutData.textData.police;
+    this.textValue = element.layoutData.textData.value;
+    this.textColor = element.layoutData.textData.color;
+    this.textSize = element.layoutData.textData.size;
+    this.textPolice = element.layoutData.textData.police;
   }
 
   updateCurrentLayoutDataTab(){
@@ -105,20 +122,20 @@ setLayoutForUser(response: any){
       .filter((element: { key: number; }) => element.key == userIndex)
       .at(0)!
 
-      this.commonFacade.backgroundColor = this.layoutData.backgroundData.color;
-    this.commonFacade.backgroundHeight = this.layoutData.backgroundData.height;
-    this.commonFacade.backgroundWidth = this.layoutData.backgroundData.width;
-    this.commonFacade.backgroundOpacity = this.layoutData.backgroundData.opacity;
-    this.commonFacade.backgroundPaddingTop = this.layoutData.backgroundData.paddingTop
+    this.backgroundColor = this.layoutData.backgroundData.color;
+    this.backgroundHeight = this.layoutData.backgroundData.height;
+    this.backgroundWidth = this.layoutData.backgroundData.width;
+    this.backgroundOpacity = this.layoutData.backgroundData.opacity;
+    this.backgroundPaddingTop = this.layoutData.backgroundData.paddingTop
 
-    this.commonFacade.borderColor = this.layoutData.borderData.color
-    this.commonFacade.borderRadius = this.layoutData.borderData.radius
-    this.commonFacade.borderSize = this.layoutData.borderData.size
+    this.borderColor = this.layoutData.borderData.color
+    this.borderRadius = this.layoutData.borderData.radius
+    this.borderSize = this.layoutData.borderData.size
 
-    this.commonFacade.textValue = this.layoutData.textData.value;
-    this.commonFacade.textColor = this.layoutData.textData.color;
-    this.commonFacade.textSize = this.layoutData.textData.size;
-    this.commonFacade.textPolice = this.layoutData.textData.police;
+    this.textValue = this.layoutData.textData.value;
+    this.textColor = this.layoutData.textData.color;
+    this.textSize = this.layoutData.textData.size;
+    this.textPolice = this.layoutData.textData.police;
 }
 
   setLayoutDataWithoutNotUiKeys(layoutData: LayoutData){

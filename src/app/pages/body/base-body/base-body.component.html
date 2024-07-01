@@ -37,13 +37,13 @@
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <strong>Angle</strong>
-                        <p-knob [(ngModel)]="this.commonFacade.borderRadius" [min]="0" [max]="100"></p-knob>
+                        <p-knob [(ngModel)]="this.layoutManager.borderRadius" [min]="0" [max]="100"></p-knob>
                     </div>
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <strong>Largeur</strong>
-                        <p-knob [(ngModel)]="this.commonFacade.borderSize" [min]="0" [max]="50"></p-knob>
+                        <p-knob [(ngModel)]="this.layoutManager.borderSize" [min]="0" [max]="50"></p-knob>
                     </div>
-                    <p-colorPicker [(ngModel)]="this.commonFacade.borderColor"></p-colorPicker>
+                    <p-colorPicker [(ngModel)]="this.layoutManager.borderColor"></p-colorPicker>
                 </div>
             </ng-container>
             <ng-container *ngIf="buttonManager.insideBackgroundDataRenderedContainer.dataRendered">
@@ -51,22 +51,22 @@
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <strong>Opacity</strong>
-                        <p-knob [(ngModel)]="this.commonFacade.backgroundOpacity" [min]="0" [max]="100"></p-knob>
+                        <p-knob [(ngModel)]="this.layoutManager.backgroundOpacity" [min]="0" [max]="100"></p-knob>
                     </div>
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <strong>Width</strong>
-                        <p-knob [(ngModel)]="this.commonFacade.backgroundWidth" [min]="0" [max]="100"></p-knob>
+                        <p-knob [(ngModel)]="this.layoutManager.backgroundWidth" [min]="0" [max]="100"></p-knob>
                     </div>
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <strong>Height</strong>
-                        <p-knob [(ngModel)]="this.commonFacade.backgroundHeight" [min]="0" [max]="100"></p-knob>
+                        <p-knob [(ngModel)]="this.layoutManager.backgroundHeight" [min]="0" [max]="100"></p-knob>
                     </div>
-                    <p-colorPicker [(ngModel)]="this.commonFacade.backgroundColor"></p-colorPicker>
+                    <p-colorPicker [(ngModel)]="this.layoutManager.backgroundColor"></p-colorPicker>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <strong>Top/Down</strong>
-                        <p-knob [(ngModel)]="this.commonFacade.backgroundPaddingTop" [min]="0"></p-knob>
+                        <p-knob [(ngModel)]="this.layoutManager.backgroundPaddingTop" [min]="0"></p-knob>
                     </div>
                 </div>
             </ng-container>
@@ -75,16 +75,16 @@
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                     <strong>Police</strong>
-                    <p-dropdown [options]="this.policeTab" [(ngModel)]="this.commonFacade.textPolice">Police</p-dropdown>
+                    <p-dropdown [options]="this.policeTab" [(ngModel)]="this.layoutManager.textPolice">Police</p-dropdown>
                 </div>
-                <p-colorPicker [(ngModel)]="commonFacade.textColor"></p-colorPicker>
+                <p-colorPicker [(ngModel)]="layoutManager.textColor"></p-colorPicker>
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                     <strong>Taille</strong>
-                    <p-knob [(ngModel)]="commonFacade.textSize" [min]="12" [max]="48">textSize</p-knob>
+                    <p-knob [(ngModel)]="layoutManager.textSize" [min]="12" [max]="48">textSize</p-knob>
                 </div>
             </div>
             <div class="card">
-                <p-editor [(ngModel)]="commonFacade.textValue" />
+                <p-editor [(ngModel)]="layoutManager.textValue" />
             </div>
         </ng-container>
         <ng-container *ngIf="buttonManager.uploadImageDataRenderedContainer.dataRendered">
@@ -101,7 +101,7 @@
 <div [style]="getImageUrl()">
     <div  [style]="this.getImageBackgroundStyle()">
         <ng-container *ngIf="this.layoutManager.layoutData">
-            <div [innerHTML]="commonFacade.textValue"  [style]="textStyle()"></div>
+            <div [innerHTML]="layoutManager.textValue"  [style]="textStyle()"></div>
         </ng-container>
     </div>
 </div>

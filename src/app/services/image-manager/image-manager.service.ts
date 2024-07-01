@@ -79,7 +79,7 @@ export class ImageManagerService {
     this.bigImageTab
     .filter(element => element.key == this.selectedIndex.index)
     .at(0)!
-    .imageUrlContent = this.commonFacade.imageUrl
+    .imageUrlContent = this.imageUrl
     ;
   }
 

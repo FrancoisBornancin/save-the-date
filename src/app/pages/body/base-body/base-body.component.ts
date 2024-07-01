@@ -61,7 +61,7 @@ export class BaseBodyComponent implements OnInit{
     this.imageManager.loadImageForUser(this.commonFacade.imageFolder)
     .subscribe({
       next: (response: any) => {
-        this.commonFacade.imageUrl = response;
+        this.imageManager.imageUrl = response;
       },
       error: e => {
         console.log(e);
@@ -83,7 +83,7 @@ export class BaseBodyComponent implements OnInit{
             console.log("Toutes les images ont été chargées", results);
 
             this.selectedIndex.index = 1;
-            this.commonFacade.imageUrl = this.imageDao.getImageUrl();
+            this.imageManager.imageUrl = this.imageDao.getImageUrl();
 
             this.buttonManager.initUiButtons();
 
@@ -118,10 +118,10 @@ export class BaseBodyComponent implements OnInit{
   }
 
   getImageUrl(){
-    return "background-image: url(" + this.commonFacade.imageUrl + ");"
+    return "background-image: url(" + this.imageManager.imageUrl + ");"
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
-         + "padding-top: " + this.commonFacade.backgroundPaddingTop + "%;"
+         + "padding-top: " + this.layoutManager.backgroundPaddingTop + "%;"
          + "height: 100%;"
   }
 
@@ -132,21 +132,21 @@ export class BaseBodyComponent implements OnInit{
   }
 
   textStyle(){
-    return 'color: ' + this.commonFacade.textColor + ";"
-          + 'font-size: ' + this.commonFacade.textSize + "px;"
-          + 'font-family: "Playwrite ' + this.commonFacade.textPolice + '", cursive;'
+    return 'color: ' + this.layoutManager.textColor + ";"
+          + 'font-size: ' + this.layoutManager.textSize + "px;"
+          + 'font-family: "Playwrite ' + this.layoutManager.textPolice + '", cursive;'
   }
 
   getImageBackgroundStyle(): string{
       const backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
-        this.colorConvertor.convertToRgba(this.commonFacade.backgroundColor),
-        (this.commonFacade.backgroundOpacity/100)
+        this.colorConvertor.convertToRgba(this.layoutManager.backgroundColor),
+        (this.layoutManager.backgroundOpacity/100)
        ) + ";"
-    return "height: " + this.commonFacade.backgroundHeight + "%;"
-         + "width: " + this.commonFacade.backgroundWidth + "%;"
-         + "border-radius: " + this.commonFacade.borderRadius + "%;"
-         + "border: " + this.commonFacade.borderSize + "px solid " + this.commonFacade.borderColor + ";"
+    return "height: " + this.layoutManager.backgroundHeight + "%;"
+         + "width: " + this.layoutManager.backgroundWidth + "%;"
+         + "border-radius: " + this.layoutManager.borderRadius + "%;"
+         + "border: " + this.layoutManager.borderSize + "px solid " + this.layoutManager.borderColor + ";"
          + "margin: auto;"
          + backgroundColor
   }
@@ -169,7 +169,7 @@ export class BaseBodyComponent implements OnInit{
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      this.commonFacade.imageUrl = e.target.result;
+      this.imageManager.imageUrl = e.target.result;
       this.imageManager.setImageContent();
       this.fileUpload.clear();
     };
