@@ -1,21 +1,18 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MenuItem } from 'primeng/api/menuitem';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FileUpload } from 'primeng/fileupload';
 import { Observable, forkJoin } from 'rxjs';
-import { DataRenderedContainer } from '../../../model/data-rendered-container';
-import { LayoutData } from '../../../model/layout-data/layout-data';
-import { AdminFacadeService } from '../../../services/admin-facade/admin-facade.service';
 import { AdminManagerService } from '../../../services/admin-manager/admin-manager.service';
+import { ButtonManagerService } from '../../../services/button-manager/button-manager.service';
 import { ColorConvertorService } from '../../../services/color-to-rgba/color-convertor.service';
 import { CommonFacadeService } from '../../../services/common-facade/common-facade.service';
-import { UserFacadeService } from '../../../services/user-facade/user-facade.service';
-import { fontFamily } from '../../font-family';
-import { ButtonManagerService } from '../../../services/button-manager/button-manager.service';
-import { SelectedIndexService } from '../../../services/selected-index/selected-index.service';
+import { ImageDaoService } from '../../../services/image-dao/image-dao.service';
+import { ImageManagerService } from '../../../services/image-manager/image-manager.service';
 import { LayoutDaoService } from '../../../services/layout-dao/layout-dao.service';
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
-import { ImageManagerService } from '../../../services/image-manager/image-manager.service';
-import { ImageDaoService } from '../../../services/image-dao/image-dao.service';
+import { SelectedIndexService } from '../../../services/selected-index/selected-index.service';
+import { UserFacadeService } from '../../../services/user-facade/user-facade.service';
+import { fontFamily } from '../../font-family';
+import { ThreadPoolExecutorService } from '../../../services/thread-pool-executor/thread-pool-executor.service';
 
 @Component({
   selector: 'app-base-body',
@@ -30,7 +27,6 @@ export class BaseBodyComponent implements OnInit{
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
   constructor(
-    public adminFacade: AdminFacadeService,
     public userFacade: UserFacadeService,
     public commonFacade: CommonFacadeService,
     public colorConvertor: ColorConvertorService,
@@ -40,7 +36,8 @@ export class BaseBodyComponent implements OnInit{
     public imageManager: ImageManagerService,
     public selectedIndex: SelectedIndexService,
     public layoutDao: LayoutDaoService,
-    public imageDao: ImageDaoService
+    public imageDao: ImageDaoService,
+    public threadPoolExecutor: ThreadPoolExecutorService
   ){
     this.buttonManager.initLoadButtons();
   }
@@ -64,8 +61,7 @@ export class BaseBodyComponent implements OnInit{
         console.log(e);
       },
     });
-    this.adminFacade.imageDataUtils
-    .loadImageForUser(this.commonFacade.imageFolder)
+    this.imageManager.loadImageForUser(this.commonFacade.imageFolder)
     .subscribe({
       next: (response: any) => {
         this.commonFacade.imageUrl = response;
@@ -108,7 +104,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   setLayoutElementsForUser(){
-    const layoutData = this.adminFacade.layoutManager.layoutData;
+    const layoutData = this.layoutManager.layoutData;
 
     this.commonFacade.backgroundColor = layoutData.backgroundData.color;
     this.commonFacade.backgroundHeight = layoutData.backgroundData.height;
@@ -153,7 +149,7 @@ export class BaseBodyComponent implements OnInit{
 
   wrapForkJoin(): Observable<any[]>{
     return forkJoin(
-      this.adminFacade.initTasks(this.commonFacade.imageFolder)
+      this.threadPoolExecutor.initTasks(this.commonFacade.imageFolder)
     )
   }
 

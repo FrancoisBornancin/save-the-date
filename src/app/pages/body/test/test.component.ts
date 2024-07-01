@@ -6,7 +6,6 @@ import { CustomImageData } from '../../../model/image-data';
 import { GitManagerService } from '../../../services/git-manager/git-manager.service';
 import { ImageManagerService } from '../../../services/image-manager/image-manager.service';
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
-import { AdminFacadeService } from '../../../services/admin-facade/admin-facade.service';
 import { CommonFacadeService } from '../../../services/common-facade/common-facade.service';
 
 @Component({

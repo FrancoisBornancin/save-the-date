@@ -94,13 +94,13 @@
             (uploadHandler)="upload($event)">
             </p-fileUpload>
         </ng-container>
-        <div>{{ this.adminFacade.layoutManager.layoutData.hasBeenSaved }}</div>
-        <div>{{ this.adminFacade.imageDataUtils.hasBeenSaved }}</div>
+        <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
+        <div>{{ this.imageManager.hasBeenSaved }}</div>
     </ng-container>
 </ng-container>
 <div [style]="getImageUrl()">
     <div  [style]="this.getImageBackgroundStyle()">
-        <ng-container *ngIf="this.adminFacade.layoutManager.layoutData">
+        <ng-container *ngIf="this.layoutManager.layoutData">
             <div [innerHTML]="commonFacade.textValue"  [style]="textStyle()"></div>
         </ng-container>
     </div>

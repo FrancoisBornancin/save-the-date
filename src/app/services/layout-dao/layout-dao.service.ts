@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LayoutData } from '../../model/layout-data/layout-data';
 import { LayoutManagerService } from '../layout-manager/layout-manager.service';
-import { AdminFacadeService } from '../admin-facade/admin-facade.service';
 import { Observable } from 'rxjs';
 import { CommonFacadeService } from '../common-facade/common-facade.service';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
@@ -16,7 +15,6 @@ export class LayoutDaoService {
 
   constructor(
     private layoutManager: LayoutManagerService,
-    private adminFacade: AdminFacadeService,
     private commonFacade: CommonFacadeService,
     private selectedIndex: SelectedIndexService,
     private imageDao: ImageDaoService
