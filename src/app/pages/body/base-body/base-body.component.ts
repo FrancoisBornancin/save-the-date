@@ -12,6 +12,7 @@ import { LayoutManagerService } from '../../../services/layout-manager/layout-ma
 import { SelectedIndexService } from '../../../services/selected-index/selected-index.service';
 import { fontFamily } from '../../font-family';
 import { ThreadPoolExecutorService } from '../../../services/thread-pool-executor/thread-pool-executor.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-base-body',
@@ -35,7 +36,8 @@ export class BaseBodyComponent implements OnInit{
     public selectedIndex: SelectedIndexService,
     public layoutDao: LayoutDaoService,
     public imageDao: ImageDaoService,
-    public threadPoolExecutor: ThreadPoolExecutorService
+    public threadPoolExecutor: ThreadPoolExecutorService,
+    private domSanitizer: DomSanitizer
   ){
     this.buttonManager.initLoadButtons();
   }
@@ -70,38 +72,38 @@ export class BaseBodyComponent implements OnInit{
   }
 
   initForAdmin(){
-    this.buttonManager.initUiButtons();
+    // this.buttonManager.initUiButtons();
 
-    // this.policeTab = this.initPoliceTab();
+    this.policeTab = this.initPoliceTab();
 
-    // this.layoutDao.loadData()
-    // .subscribe({
-    //   next: (response: any) => {
-    //     const imagesIndexes: number[] = [0, 1, 2, 3, 4, 5];
+    this.layoutDao.loadData()
+    .subscribe({
+      next: (response: any) => {
+        const imagesIndexes: number[] = [0, 1, 2, 3, 4, 5];
 
-    //     this.layoutManager.initLayoutDataTabs(response);
-    //     this.layoutManager.setLayoutElements(1);
-    //     this.wrapForkJoin(imagesIndexes)
-    //     .subscribe({
-    //       next: (results) => {
-    //         console.log("Toutes les images ont été chargées", results);
+        this.layoutManager.initLayoutDataTabs(response);
+        this.layoutManager.setLayoutElements(1);
+        this.wrapForkJoin(imagesIndexes)
+        .subscribe({
+          next: (results) => {
+            console.log("Toutes les images ont été chargées", results);
 
-    //         this.selectedIndex.index = 1;
-    //         this.imageManager.imageUrl = this.imageDao.getImageUrl();
+            this.selectedIndex.index = 1;
+            this.imageManager.imageUrl = this.imageDao.getImageUrl();
 
-    //         this.buttonManager.initUiButtons();
+            this.buttonManager.initUiButtons();
 
-    //         this.buttonManager.initSaveUploadButtons()
-    //       },
-    //       error: (error) => {
-    //         console.error("Erreur lors du chargement des images", error);
-    //       }
-    //     });
-    //   },
-    //   error: e => {
-    //     console.log(e);
-    //   },
-    // });
+            this.buttonManager.initSaveUploadButtons()
+          },
+          error: (error) => {
+            console.error("Erreur lors du chargement des images", error);
+          }
+        });
+      },
+      error: e => {
+        console.log(e);
+      },
+    });
   }
 
   initPoliceTab(): string[]{
@@ -122,7 +124,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   getImageUrl(){
-    return "background-image: url(assets/test-wedding.jpg);"
+    return "background-image: url(" + this.imageManager.imageUrl + ");"
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
          + "padding-top: " + this.layoutManager.backgroundPaddingTop + "%;"
@@ -153,6 +155,15 @@ export class BaseBodyComponent implements OnInit{
          + "border: " + this.layoutManager.borderSize + "px solid " + this.layoutManager.borderColor + ";"
          + "margin: auto;"
          + backgroundColor
+  }
+
+  reworkTextValue(): SafeHtml{
+    const textReworked = this.layoutManager.textValue.split('class="ql-align-center"')
+                        .join('style="text-align: center;"');
+
+    return this.domSanitizer.bypassSecurityTrustHtml(
+      textReworked
+    );
   }
 
   printGeneralInfoModal(){

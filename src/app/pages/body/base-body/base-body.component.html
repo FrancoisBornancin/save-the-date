@@ -32,7 +32,7 @@
                 <p><strong>Enjoy chaton!</strong></p>
             </div>
         </ng-container>
-            <!-- <ng-container *ngIf="buttonManager.borderDataRenderedContainer.dataRendered">
+            <ng-container *ngIf="buttonManager.borderDataRenderedContainer.dataRendered">
                 <strong>Manage Border:</strong>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
@@ -69,7 +69,7 @@
                         <p-knob [(ngModel)]="this.layoutManager.backgroundPaddingTop" [min]="0"></p-knob>
                     </div>
                 </div>
-            </ng-container> -->
+            </ng-container>
         <ng-container *ngIf="buttonManager.textDataRenderedContainer.dataRendered">
             <strong>Manage TextData:</strong>
             <div style="display: flex; align-items: center; gap: 1rem;">
@@ -83,32 +83,27 @@
                     <p-knob [(ngModel)]="layoutManager.textSize" [min]="12" [max]="48">textSize</p-knob>
                 </div>
             </div>
-
-            <!-- //////////////////////////////////////////////////////////////////  -->
-
             <input type="text" pInputText [(ngModel)]="layoutManager.textValue" />
             <div class="card">
                 <p-editor [(ngModel)]="layoutManager.textValue" />
             </div>
-
-            <!-- //////////////////////////////////////////////////////////////////  -->
-
+            <!-- <div [innerHTML]="layoutManager.textValue"  ></div> -->
         </ng-container>
-        <!-- <ng-container *ngIf="buttonManager.uploadImageDataRenderedContainer.dataRendered">
+        <ng-container *ngIf="buttonManager.uploadImageDataRenderedContainer.dataRendered">
             <p-fileUpload #fileUploader
             mode="basic"
             customUpload="true"
             (uploadHandler)="upload($event)">
             </p-fileUpload>
-        </ng-container> -->
-        <!-- <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
-        <div>{{ this.imageManager.hasBeenSaved }}</div> -->
+        </ng-container>
+        <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
+        <div>{{ this.imageManager.hasBeenSaved }}</div>
     </ng-container>
 </ng-container>
 <div [style]="getImageUrl()">
     <div  [style]="this.getImageBackgroundStyle()">
-        <!-- <ng-container *ngIf="this.layoutManager.layoutData"> -->
-            <div [innerHTML]="layoutManager.textValue"  [style]="textStyle()"></div>
-        <!-- </ng-container> -->
+        <ng-container *ngIf="this.layoutManager.layoutData">
+            <div [innerHTML]="reworkTextValue()"  [style]="textStyle()"></div>
+        </ng-container>
     </div>
 </div>
