@@ -7,7 +7,6 @@ export class AdminManagerService {
   isPreviewActive!: boolean;
   isAdminModeActive: boolean = true;
 
-
   eventEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   activatePreview(){
@@ -16,6 +15,14 @@ export class AdminManagerService {
 
   disactivatePreview(){
     this.eventEmitter.emit(false)
+  }
+
+  activateAdminMode(){
+    this.isAdminModeActive = true;
+  }
+
+  disactivateAdminMode(){
+    this.isAdminModeActive = false;
   }
 
 

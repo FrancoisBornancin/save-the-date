@@ -20,6 +20,7 @@ import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { ProgramComponent } from './pages/body/program/program.component';
 import { BaseBodyComponent } from './pages/body/base-body/base-body.component';
+import { AdminComponent } from './pages/body/admin/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { BaseBodyComponent } from './pages/body/base-body/base-body.component';
     HeaderComponent,
     FooterComponent,
     ProgramComponent,
-    BaseBodyComponent
+    BaseBodyComponent,
+    AdminComponent
   ],
   imports: [
     ButtonModule,

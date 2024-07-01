@@ -1,0 +1,6 @@
+<ng-container *ngIf="this.adminManager.isAdminModeActive">
+    <p-button (click)="this.adminManager.disactivateAdminMode()">Go User mode</p-button>
+</ng-container>
+<ng-container *ngIf="!this.adminManager.isAdminModeActive">
+    <p-button (click)="this.adminManager.activateAdminMode()">Go Admin mode</p-button>
+</ng-container>

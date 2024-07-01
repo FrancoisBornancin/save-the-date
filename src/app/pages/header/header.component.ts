@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit{
     console.log("");
   }
 
-  headerTab: string[] = ['home', "program", "test"]
+  headerTab: string[] = ['home', "program", "test", "admin"]
 
   returnPage(pageName: string){
     this.pageName = pageName;
