@@ -32,7 +32,12 @@ export class LayoutDaoService {
 
   saveLayout(){
     this.layoutManager.setLayoutData()
-    this.layoutManager.saveData(this.layoutManager.layoutData);
+    this.layoutManager.saveData(this.layoutManager.layoutData, this.selectedIndex.index);
+  }
+
+  saveLayoutToUser(){
+    const userIndex: number = 0;
+    this.layoutManager.saveData(this.layoutManager.getLayoutDataFromView(), userIndex);
   }
 
   loadData(): Observable<any>{

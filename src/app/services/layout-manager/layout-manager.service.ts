@@ -48,7 +48,12 @@ export class LayoutManagerService {
   }
 
   setLayoutData(){
-    const layoutData: LayoutData = {
+    const layoutData = this.getLayoutDataFromView();
+    this.setLayoutDataWithoutNotUiKeys(layoutData);
+  }
+
+  getLayoutDataFromView(): LayoutData{
+    return {
       key: 0,
       backgroundData: {
         paddingTop: this.backgroundPaddingTop,
@@ -70,7 +75,6 @@ export class LayoutManagerService {
       },
       hasBeenSaved: ''
     }
-    this.setLayoutDataWithoutNotUiKeys(layoutData);
   }
 
   setLayoutElements(index: number){
@@ -160,11 +164,11 @@ setLayoutForUser(response: any){
     return this.gitManager.putData(gitBody);
   }
 
-  saveData(layoutData: LayoutData){
+  saveData(layoutData: LayoutData, index: number){
     const jsonFileName: string = this.inMemoryRepository.layoutJsonName
 
     this.layoutDataTabFromDb 
-      = this.updateLayoutDataTab(this.layoutDataTabFromDb , this.selectedIndex.index, layoutData);
+      = this.updateLayoutDataTab(this.layoutDataTabFromDb , index, layoutData);
     this.loadData(jsonFileName)
     .subscribe({
       next: (response: any) => {
