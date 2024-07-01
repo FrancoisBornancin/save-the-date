@@ -70,36 +70,38 @@ export class BaseBodyComponent implements OnInit{
   }
 
   initForAdmin(){
-    this.policeTab = this.initPoliceTab();
+    this.buttonManager.initUiButtons();
 
-    this.layoutDao.loadData()
-    .subscribe({
-      next: (response: any) => {
-        const imagesIndexes: number[] = [0, 1, 2, 3, 4, 5];
+    // this.policeTab = this.initPoliceTab();
 
-        this.layoutManager.initLayoutDataTabs(response);
-        this.layoutManager.setLayoutElements(1);
-        this.wrapForkJoin(imagesIndexes)
-        .subscribe({
-          next: (results) => {
-            console.log("Toutes les images ont été chargées", results);
+    // this.layoutDao.loadData()
+    // .subscribe({
+    //   next: (response: any) => {
+    //     const imagesIndexes: number[] = [0, 1, 2, 3, 4, 5];
 
-            this.selectedIndex.index = 1;
-            this.imageManager.imageUrl = this.imageDao.getImageUrl();
+    //     this.layoutManager.initLayoutDataTabs(response);
+    //     this.layoutManager.setLayoutElements(1);
+    //     this.wrapForkJoin(imagesIndexes)
+    //     .subscribe({
+    //       next: (results) => {
+    //         console.log("Toutes les images ont été chargées", results);
 
-            this.buttonManager.initUiButtons();
+    //         this.selectedIndex.index = 1;
+    //         this.imageManager.imageUrl = this.imageDao.getImageUrl();
 
-            this.buttonManager.initSaveUploadButtons()
-          },
-          error: (error) => {
-            console.error("Erreur lors du chargement des images", error);
-          }
-        });
-      },
-      error: e => {
-        console.log(e);
-      },
-    });
+    //         this.buttonManager.initUiButtons();
+
+    //         this.buttonManager.initSaveUploadButtons()
+    //       },
+    //       error: (error) => {
+    //         console.error("Erreur lors du chargement des images", error);
+    //       }
+    //     });
+    //   },
+    //   error: e => {
+    //     console.log(e);
+    //   },
+    // });
   }
 
   initPoliceTab(): string[]{
@@ -120,7 +122,7 @@ export class BaseBodyComponent implements OnInit{
   }
 
   getImageUrl(){
-    return "background-image: url(" + this.imageManager.imageUrl + ");"
+    return "background-image: url(assets/test-wedding.jpg);"
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
          + "padding-top: " + this.layoutManager.backgroundPaddingTop + "%;"

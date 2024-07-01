@@ -18,18 +18,18 @@ export class LayoutManagerService {
   endSaveMessage!: string;
 
   backgroundPaddingTop: number = 0;
-  backgroundHeight: number = 0;
-  backgroundWidth: number = 0;
+  backgroundHeight: number = 60;
+  backgroundWidth: number = 60;
   backgroundColor: string = '';
   backgroundOpacity: number = 0;
 
-  borderColor: string = '';
+  borderColor: string = 'blue';
   borderRadius: number = 0;
-  borderSize: number = 0;
+  borderSize: number = 10;
 
-  textValue: string = '';
+  textValue: string = '<p class="ql-align-center">toto et tata</p>';
   textColor: string = '';
-  textSize: number = 0;
+  textSize: number = 24;
   textPolice: string = '';
 
   constructor(
