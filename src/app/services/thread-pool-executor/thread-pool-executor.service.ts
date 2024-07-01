@@ -12,17 +12,17 @@ export class ThreadPoolExecutorService {
     public layoutManager: LayoutManagerService
   ) { }
 
-  initTasks(imageFolder: string){
+  initTasks(imageFolder: string, imagesIndexes: number[]){
     this.imageManager.bigImageTab =
-    this.layoutManager.layoutDataTabFromDb
+    imagesIndexes
       .map(element => {
-        return {key: element.key}
+        return {key: element}
       })
 
     this.imageManager.bigImageTabFromDb =
-    this.layoutManager.layoutDataTabFromDb
+    imagesIndexes
       .map(element => {
-        return {key: element.key}
+        return {key: element}
       })
 
     return this.imageManager.bigImageTab.map(element => this.imageManager.fillBigImageTab(element.key, imageFolder));

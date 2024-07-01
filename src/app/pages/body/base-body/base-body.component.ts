@@ -75,9 +75,11 @@ export class BaseBodyComponent implements OnInit{
     this.layoutDao.loadData()
     .subscribe({
       next: (response: any) => {
+        const imagesIndexes: number[] = [0, 1, 2, 3, 4, 5];
+
         this.layoutManager.initLayoutDataTabs(response);
         this.layoutManager.setLayoutElements(1);
-        this.wrapForkJoin()
+        this.wrapForkJoin(imagesIndexes)
         .subscribe({
           next: (results) => {
             console.log("Toutes les images ont été chargées", results);
@@ -125,9 +127,9 @@ export class BaseBodyComponent implements OnInit{
          + "height: 100%;"
   }
 
-  wrapForkJoin(): Observable<any[]>{
+  wrapForkJoin(imagesIndexes: number[]): Observable<any[]>{
     return forkJoin(
-      this.threadPoolExecutor.initTasks(this.inMemoryRepository.imageFolder)
+      this.threadPoolExecutor.initTasks(this.inMemoryRepository.imageFolder, imagesIndexes)
     )
   }
 
