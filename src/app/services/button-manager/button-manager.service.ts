@@ -142,7 +142,8 @@ export class ButtonManagerService {
   initSaveUploadButtons(){
     this.layoutManager.setLayoutData()
     this.saveUploadButtons = [
-      ...this.initSaveToUserRepository(),
+      ...this.initPrintImageToUser(),
+      // ...this.initSaveToUserRepository(),
       ...this.initSaveImage(),
       ...this.initSaveLayout(),
       ...this.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
@@ -159,6 +160,22 @@ export class ButtonManagerService {
           label: 'print to User',
           command: () => {
             this.imageDao.saveImage();
+          }
+        },
+      ]
+    } 
+  }
+
+  initPrintImageToUser(): MenuItem[]{
+    if(this.imageDao.isImagePrintedToUser()){
+      return []
+    }
+    else {
+      return [
+        {
+          label: 'print image to User',
+          command: () => {
+            this.imageDao.saveImageToUser();
           }
         },
       ]

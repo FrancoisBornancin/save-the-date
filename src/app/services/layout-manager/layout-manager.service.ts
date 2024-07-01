@@ -95,7 +95,7 @@ export class LayoutManagerService {
 
   updateCurrentLayoutDataTab(){
     this.layoutDataTabCurrent 
-      = this.updateLayoutDataTab(this.layoutDataTabCurrent, this.layoutData.key);
+      = this.updateLayoutDataTab(this.layoutDataTabCurrent, this.layoutData.key, this.layoutData);
   }
 
   getLayoutElements(index: number){
@@ -144,13 +144,13 @@ setLayoutForUser(response: any){
     this.layoutData.textData = layoutData.textData;
   }
 
-  updateLayoutDataTab(layoutDataTab: LayoutData[], index: number): LayoutData[]{
+  updateLayoutDataTab(layoutDataTab: LayoutData[], index: number, layoutData: LayoutData): LayoutData[]{
     layoutDataTab =
     layoutDataTab
         .filter(element => element.key != index)
         ;
 
-    layoutDataTab.push(this.layoutData);
+    layoutDataTab.push(layoutData);
     return layoutDataTab;
   }
 
@@ -160,11 +160,11 @@ setLayoutForUser(response: any){
     return this.gitManager.putData(gitBody);
   }
 
-  saveData(){
+  saveData(layoutData: LayoutData){
     const jsonFileName: string = this.inMemoryRepository.layoutJsonName
 
     this.layoutDataTabFromDb 
-      = this.updateLayoutDataTab(this.layoutDataTabFromDb , this.selectedIndex.index);
+      = this.updateLayoutDataTab(this.layoutDataTabFromDb , this.selectedIndex.index, layoutData);
     this.loadData(jsonFileName)
     .subscribe({
       next: (response: any) => {

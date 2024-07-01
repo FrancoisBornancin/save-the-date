@@ -55,6 +55,12 @@ export class ImageDaoService {
     this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, this.inMemoryRepository.imageFolder);
   }
 
+  saveImageToUser(){
+    const userIndex: number = 0;
+    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.imageUrl);
+    this.imageDataUtils.saveImageData(userIndex, imageData, this.inMemoryRepository.imageFolder);
+  }
+
   getImageUrl(): string{
     return this.imageManager.bigImageTab
     .filter(element => element.key == this.selectedIndex.index)

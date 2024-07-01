@@ -32,7 +32,7 @@ export class LayoutDaoService {
 
   saveLayout(){
     this.layoutManager.setLayoutData()
-    this.layoutManager.saveData();
+    this.layoutManager.saveData(this.layoutManager.layoutData);
   }
 
   loadData(): Observable<any>{
