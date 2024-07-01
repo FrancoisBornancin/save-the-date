@@ -32,6 +32,24 @@ export class ImageDaoService {
     return (imageUrl == imageUrlFromDb) ? true : false;
   }
 
+  isImagePrintedToUser(): boolean{
+    const userIndex: number = 0;
+
+    const imageUrlFromDb = 
+      this.imageManager.bigImageTabFromDb
+        .filter(image => image.key == userIndex)
+        .at(0)!
+        .imageUrlContent;
+
+    const imageUrl = 
+      this.imageManager.bigImageTab
+        .filter(image => image.key == this.selectedIndex.index)
+        .at(0)!
+        .imageUrlContent;
+
+    return (imageUrl == imageUrlFromDb) ? true : false;
+  }
+
   saveImage(){
     const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.imageUrl);
     this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, this.inMemoryRepository.imageFolder);
