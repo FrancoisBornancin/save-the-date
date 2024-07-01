@@ -5,7 +5,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class AdminManagerService {
   isPreviewActive!: boolean;
-  isAdminModeActive: boolean = true;
+  isAdminModeActive: boolean = false;
 
 
   eventEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();

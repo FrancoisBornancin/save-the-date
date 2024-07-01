@@ -97,6 +97,30 @@ initLayoutDataTabs(response: any){
   this.layoutDataTabCurrent = this.gitManager.getStringifyResponseContent(response);
 }
 
+setLayoutForUser(response: any){
+  const userIndex: number = 0;
+
+  this.layoutData
+    = this.gitManager.getStringifyResponseContent(response)
+      .filter((element: { key: number; }) => element.key == userIndex)
+      .at(0)!
+
+      this.commonFacade.backgroundColor = this.layoutData.backgroundData.color;
+    this.commonFacade.backgroundHeight = this.layoutData.backgroundData.height;
+    this.commonFacade.backgroundWidth = this.layoutData.backgroundData.width;
+    this.commonFacade.backgroundOpacity = this.layoutData.backgroundData.opacity;
+    this.commonFacade.backgroundPaddingTop = this.layoutData.backgroundData.paddingTop
+
+    this.commonFacade.borderColor = this.layoutData.borderData.color
+    this.commonFacade.borderRadius = this.layoutData.borderData.radius
+    this.commonFacade.borderSize = this.layoutData.borderData.size
+
+    this.commonFacade.textValue = this.layoutData.textData.value;
+    this.commonFacade.textColor = this.layoutData.textData.color;
+    this.commonFacade.textSize = this.layoutData.textData.size;
+    this.commonFacade.textPolice = this.layoutData.textData.police;
+}
+
   setLayoutDataWithoutNotUiKeys(layoutData: LayoutData){
     this.layoutData.backgroundData = layoutData.backgroundData
     this.layoutData.borderData = layoutData.borderData

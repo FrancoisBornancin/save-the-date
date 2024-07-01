@@ -10,7 +10,6 @@ import { ImageManagerService } from '../../../services/image-manager/image-manag
 import { LayoutDaoService } from '../../../services/layout-dao/layout-dao.service';
 import { LayoutManagerService } from '../../../services/layout-manager/layout-manager.service';
 import { SelectedIndexService } from '../../../services/selected-index/selected-index.service';
-import { UserFacadeService } from '../../../services/user-facade/user-facade.service';
 import { fontFamily } from '../../font-family';
 import { ThreadPoolExecutorService } from '../../../services/thread-pool-executor/thread-pool-executor.service';
 
@@ -27,7 +26,6 @@ export class BaseBodyComponent implements OnInit{
   @ViewChild('fileUploader') fileUpload!: FileUpload;
 
   constructor(
-    public userFacade: UserFacadeService,
     public commonFacade: CommonFacadeService,
     public colorConvertor: ColorConvertorService,
     public adminManager: AdminManagerService,
@@ -54,8 +52,7 @@ export class BaseBodyComponent implements OnInit{
     this.layoutDao.loadData()
     .subscribe({
       next: (response: any) => {
-        this.userFacade.getLayout(response);
-        this.setLayoutElementsForUser();
+        this.layoutManager.setLayoutForUser(response);
       },
       error: e => {
         console.log(e);
@@ -101,25 +98,6 @@ export class BaseBodyComponent implements OnInit{
         console.log(e);
       },
     });
-  }
-
-  setLayoutElementsForUser(){
-    const layoutData = this.layoutManager.layoutData;
-
-    this.commonFacade.backgroundColor = layoutData.backgroundData.color;
-    this.commonFacade.backgroundHeight = layoutData.backgroundData.height;
-    this.commonFacade.backgroundWidth = layoutData.backgroundData.width;
-    this.commonFacade.backgroundOpacity = layoutData.backgroundData.opacity;
-    this.commonFacade.backgroundPaddingTop = layoutData.backgroundData.paddingTop
-
-    this.commonFacade.borderColor = layoutData.borderData.color
-    this.commonFacade.borderRadius = layoutData.borderData.radius
-    this.commonFacade.borderSize = layoutData.borderData.size
-
-    this.commonFacade.textValue = layoutData.textData.value;
-    this.commonFacade.textColor = layoutData.textData.color;
-    this.commonFacade.textSize = layoutData.textData.size;
-    this.commonFacade.textPolice = layoutData.textData.police;
   }
 
   initPoliceTab(): string[]{
