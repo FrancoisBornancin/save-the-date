@@ -28,7 +28,7 @@ export class LayoutManagerService {
   borderSize: number = 0;
 
   textValue: string = '';
-  textColor: string = '';
+  textColor: string = 'blue';
   textSize: number = 0;
   textPolice: string = '';
 

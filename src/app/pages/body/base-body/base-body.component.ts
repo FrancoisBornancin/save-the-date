@@ -72,8 +72,6 @@ export class BaseBodyComponent implements OnInit{
   }
 
   initForAdmin(){
-    // this.buttonManager.initUiButtons();
-
     this.policeTab = this.initPoliceTab();
 
     this.layoutDao.loadData()

@@ -1,7 +1,15 @@
-<div style="height: 20%; background-color: aqua;">
-    <ng-container *ngFor="let element of headerTab">
-        <p-button (click)="returnPage(element)">{{ element }}</p-button>
+<div [style]="globalHeaderStyle()">
+    <div [style]="textStyle()">
+        <!-- <p>Bienvenu</p> -->
+        <p>Alexandra et François</p>
+    </div>
+
+    <ng-container *ngFor="let headerTitle of getTitles()">
+        <p-button (click)="returnPage(headerTitle)" [style]="buttonsClass()">
+            <i [ngClass]="getButtonClass(headerTitle)" [style]="getButtonStyle()">
+                {{ headerTitle }}
+            </i>
+        </p-button>
     </ng-container>
-    <h2>{{ pageName }} Page</h2>
 </div>
 

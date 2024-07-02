@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminManagerService } from '../../services/admin-manager/admin-manager.service';
+import { KeyValues } from '../../model/keyValues';
+import { LayoutManagerService } from '../../services/layout-manager/layout-manager.service';
+import { ColorConvertorService } from '../../services/color-to-rgba/color-convertor.service';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +12,18 @@ import { AdminManagerService } from '../../services/admin-manager/admin-manager.
 })
 export class HeaderComponent implements OnInit{
   pageName!: string;
+  headerTab: KeyValues[] = [
+    {key: 'acceuil', value: 'pi pi-user'},
+    {key: 'programme', value: 'pi pi-book'},
+    {key: 'transport', value: 'pi pi-car'},
+    {key: 'hébergement', value: 'pi pi-building-columns'},
+    {key: 'réponse', value: 'pi pi-address-book'},
+  ]
 
   constructor(
     public adminManager: AdminManagerService,
+    private layoutManager: LayoutManagerService,
+    private colorConvertor: ColorConvertorService,
     private router: Router
   ){
     
@@ -21,19 +33,65 @@ export class HeaderComponent implements OnInit{
     this.adminManager.eventEmitter
     .subscribe({
       next: (results: any) => {
-        const toto = results;
         this.adminManager.isPreviewActive = results;
         console.log("");
       },
       error: (error: any) => {
-        const tata = error;
         console.error("");
       }
     });
     console.log("");
   }
 
-  headerTab: string[] = ['home', "program", "test", "admin"]
+  getTitles(): string[]{
+    return this.headerTab
+        .map(element => element.key)
+  }
+
+  getButtonClass(buttonTitle: string){
+
+    return this.headerTab
+      .filter(header => header.key == buttonTitle)
+      .map(header => header.value)
+      .at(0)!
+  }
+
+  getButtonStyle(){
+    return {
+      'color': this.layoutManager.textColor, 
+    }
+  }
+
+  globalHeaderStyle(){
+    const backgroundColorValue = 
+    this.colorConvertor.addOpacity(
+      this.colorConvertor.convertToRgba(this.layoutManager.textColor),
+      (this.layoutManager.backgroundOpacity/100)
+     )
+
+    return {
+      'height': '30%',
+      'background-color': backgroundColorValue,
+    };    
+  }
+
+
+  buttonsClass(){
+    const buttonWidth = (100/this.headerTab.length); 
+    return {
+      'width': buttonWidth + '%', 
+      'height': '30%',
+      'background-color': 'transparent',
+    };
+  }
+
+  textStyle(){
+    return 'color: ' + this.layoutManager.textColor + ";"
+          + 'font-family: "Playwrite ' + this.layoutManager.textPolice + '", cursive;'
+          + "height: 70%;"
+          + "text-align: center;"
+          + "padding: 40px"
+  }
 
   returnPage(pageName: string){
     this.pageName = pageName;

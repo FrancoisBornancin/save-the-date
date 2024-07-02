@@ -6,10 +6,10 @@ import { ProgramComponent } from './pages/body/program/program.component';
 import { AdminComponent } from './pages/body/admin/admin/admin.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'program', component: ProgramComponent },
-  { path: 'test', component: TestComponent },
-  { path: 'admin', component: AdminComponent }
+  { path: 'accueil', component: HomeComponent },
+  { path: 'programme', component: ProgramComponent },
+  { path: 'transport', component: TestComponent },
+  { path: 'réponse', component: AdminComponent }
 ];
 
 @NgModule({
