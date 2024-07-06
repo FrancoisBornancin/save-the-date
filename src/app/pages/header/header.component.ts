@@ -4,6 +4,7 @@ import { AdminManagerService } from '../../services/admin-manager/admin-manager.
 import { KeyValues } from '../../model/keyValues';
 import { LayoutManagerService } from '../../services/layout-manager/layout-manager.service';
 import { ColorConvertorService } from '../../services/color-to-rgba/color-convertor.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-header',
@@ -22,11 +23,21 @@ export class HeaderComponent implements OnInit{
 
   constructor(
     public adminManager: AdminManagerService,
-    private layoutManager: LayoutManagerService,
+    public layoutManager: LayoutManagerService,
     private colorConvertor: ColorConvertorService,
+    private domSanitizer: DomSanitizer,
     private router: Router
   ){
     
+  }
+
+  reworkTextValue(): SafeHtml{
+    const textReworked = this.layoutManager.textValue.split('class="ql-align-center"')
+                        .join('style="text-align: center;"');
+
+    return this.domSanitizer.bypassSecurityTrustHtml(
+      textReworked
+    );
   }
 
   ngOnInit(): void {
@@ -87,6 +98,7 @@ export class HeaderComponent implements OnInit{
 
   textStyle(){
     return 'color: ' + this.layoutManager.textColor + ";"
+          + 'font-size: ' + this.layoutManager.textSize + "px;"
           + 'font-family: "Playwrite ' + this.layoutManager.textPolice + '", cursive;'
           + "height: 70%;"
           + "text-align: center;"

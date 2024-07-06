@@ -1,7 +1,7 @@
 <div [style]="globalHeaderStyle()">
-    <div [style]="textStyle()">
+    <div [innerHTML]="reworkTextValue()" [style]="textStyle()">
         <!-- <p>Bienvenu</p> -->
-        <p>Alexandra et François</p>
+        <!-- <p>Alexandra et François</p> -->
     </div>
 
     <ng-container *ngFor="let headerTitle of getTitles()">
