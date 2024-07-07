@@ -11,7 +11,7 @@ export class ProgramComponent{
     public inMemoryRepository: InMemoryRepositoryService,
   ){
     this.inMemoryRepository.imageFolder = 'repository/program-images-repository';
-    this.inMemoryRepository.layoutJsonName = 'json-layout/page-component-layout.json';
+    this.inMemoryRepository.layoutJsonName = 'json-layout/program-component-layout.json';
   } 
 
 }

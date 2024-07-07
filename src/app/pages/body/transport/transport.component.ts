@@ -10,14 +10,14 @@ import { InMemoryRepositoryService } from '../../../services/in-memory-repositor
 
 @Component({
   selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrl: './test.component.scss'
+  templateUrl: './transport.component.html',
+  styleUrl: './transport.component.scss'
 })
-export class TestComponent {
+export class TransportComponent {
   constructor(
     public inMemoryRepository: InMemoryRepositoryService,
   ){
-    this.inMemoryRepository.imageFolder = 'repository/test-images-repository';
-    this.inMemoryRepository.layoutJsonName = 'json-layout/test-component-layout.json';
+    this.inMemoryRepository.imageFolder = 'repository/transport-images-repository';
+    this.inMemoryRepository.layoutJsonName = 'json-layout/transport-component-layout.json';
   } 
 }

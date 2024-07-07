@@ -15,23 +15,25 @@ import { EditorModule } from 'primeng/editor';
 import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
 import { HomeComponent } from './pages/body/home/home.component';
-import { TestComponent } from './pages/body/test/test.component';
+import { TransportComponent } from './pages/body/transport/transport.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { ProgramComponent } from './pages/body/program/program.component';
 import { BaseBodyComponent } from './pages/body/base-body/base-body.component';
 import { AdminComponent } from './pages/body/admin/admin/admin.component';
+import { AccomodationComponent } from './pages/body/accomodation/accomodation/accomodation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    TestComponent,
+    TransportComponent,
     HeaderComponent,
     FooterComponent,
     ProgramComponent,
     BaseBodyComponent,
-    AdminComponent
+    AdminComponent,
+    AccomodationComponent
   ],
   imports: [
     ButtonModule,
