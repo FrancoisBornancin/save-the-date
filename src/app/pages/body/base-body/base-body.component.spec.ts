@@ -57,14 +57,14 @@ describe('BaseBodyComponent', () => {
     expect(component.backgroundWidth).toBe(layoutData.backgroundData.width);
     expect(component.backgroundOpacity).toBe(layoutData.backgroundData.opacity);
 
-    expect(component.borderColor).toBe(layoutData.borderData.color);
-    expect(component.borderRadius).toBe(layoutData.borderData.radius);
-    expect(component.borderSize).toBe(layoutData.borderData.size);
+    expect(component.borderColor).toBe(layoutData.insideImageBorderData.color);
+    expect(component.borderRadius).toBe(layoutData.insideImageBorderData.radius);
+    expect(component.borderSize).toBe(layoutData.insideImageBorderData.size);
 
-    expect(component.textValue).toBe(layoutData.textData.value);
-    expect(component.textColor).toBe(layoutData.textData.color);
-    expect(component.textSize).toBe(layoutData.textData.size);
-    expect(component.textPolice).toBe(layoutData.textData.police);
+    expect(component.textValue).toBe(layoutData.insideImageTextData.value);
+    expect(component.textColor).toBe(layoutData.insideImageTextData.color);
+    expect(component.textSize).toBe(layoutData.insideImageTextData.size);
+    expect(component.textPolice).toBe(layoutData.insideImageTextData.police);
   });
 
   it('onInit, imageUrl should be set', () => {
@@ -142,12 +142,12 @@ describe('BaseBodyComponent', () => {
         paddingTop: 90,
         color: 'toto',
       },
-      borderData: {
+      insideImageBorderData: {
         radius: 90,
         size: 90,
         color: 'toto',
       },
-      textData: {
+      insideImageTextData: {
         value: 'toto',
         color: 'toto',
         size: 12,
@@ -205,10 +205,10 @@ describe('BaseBodyComponent', () => {
     expect(componentFacade.layoutManager.layoutData.borderData.radius).toEqual(component.borderRadius);
     expect(componentFacade.layoutManager.layoutData.borderData.size).toEqual(component.borderSize);
 
-    expect(component.textValue).toBe(expectedlayoutDataSet.textData.value)
-    expect(component.textColor).toBe(expectedlayoutDataSet.textData.color)
-    expect(component.textPolice).toBe(expectedlayoutDataSet.textData.police)
-    expect(component.textSize).toBe(expectedlayoutDataSet.textData.size)
+    expect(component.textValue).toBe(expectedlayoutDataSet.insideImageTextData.value)
+    expect(component.textColor).toBe(expectedlayoutDataSet.insideImageTextData.color)
+    expect(component.textPolice).toBe(expectedlayoutDataSet.insideImageTextData.police)
+    expect(component.textSize).toBe(expectedlayoutDataSet.insideImageTextData.size)
   });
 
   it('on loadLayoutDataDropdown, layoutData should be set without not ui keys', () => {
@@ -592,12 +592,12 @@ function getInitialTab(): LayoutData[]{
         paddingTop: 20,
         color: '#1E90FF',
       },
-      borderData: {
+      insideImageBorderData: {
         radius: 52,
         size: 48,
         color: '#1E90FF',
       },
-      textData: {
+      insideImageTextData: {
         value: 'fakeImageText_1',
         color: '#1E90FF',
         size: 12,
@@ -614,12 +614,12 @@ function getInitialTab(): LayoutData[]{
         paddingTop: 20,
         color: '#1E90FF',
       },
-      borderData: {
+      insideImageBorderData: {
         radius: 52,
         size: 48,
         color: '#1E90FF',
       },
-      textData: {
+      insideImageTextData: {
         value: 'fakeImageText_2',
         color: '#1E90FF',
         size: 12,

@@ -17,20 +17,35 @@ export class LayoutManagerService {
 
   endSaveMessage!: string;
 
-  backgroundPaddingTop: number = 0;
-  backgroundHeight: number = 0;
-  backgroundWidth: number = 0;
-  backgroundColor: string = '';
-  backgroundOpacity: number = 0;
+  insideImageBackgroundPaddingTop: number = 0;
+  insideImageBackgroundHeight: number = 0;
+  insideImageBackgroundWidth: number = 0;
+  insideImageBackgroundColor: string = '';
+  insideImageBackgroundOpacity: number = 0;
 
-  borderColor: string = '';
-  borderRadius: number = 0;
-  borderSize: number = 0;
+  insideImageBorderColor: string = '';
+  insideImageBorderRadius: number = 0;
+  insideImageBorderSize: number = 0;
 
-  textValue: string = '';
-  textColor: string = 'blue';
-  textSize: number = 0;
-  textPolice: string = '';
+  insideImageTextValue: string = '';
+  insideImageTextColor: string = 'blue';
+  insideImageTextSize: number = 0;
+  insideImageTextPolice: string = '';
+
+  belowImageBackgroundPaddingTop: number = 0;
+  belowImageBackgroundHeight: number = 0;
+  belowImageBackgroundWidth: number = 0;
+  belowImageBackgroundColor: string = '';
+  belowImageBackgroundOpacity: number = 0;
+
+  belowImageBorderColor: string = '';
+  belowImageBorderRadius: number = 0;
+  belowImageBorderSize: number = 0;
+
+  belowImageTextValue: string = '';
+  belowImageTextColor: string = 'blue';
+  belowImageTextSize: number = 0;
+  belowImageTextPolice: string = '';
 
   constructor(
     public gitManager: GitManagerService,
@@ -55,23 +70,45 @@ export class LayoutManagerService {
   getLayoutDataFromView(): LayoutData{
     return {
       key: 0,
-      backgroundData: {
-        paddingTop: this.backgroundPaddingTop,
-        height: this.backgroundHeight,
-        width: this.backgroundWidth,
-        color: this.backgroundColor,
-        opacity: this.backgroundOpacity
+      insideImage: {
+        backgroundData: {
+          paddingTop: this.insideImageBackgroundPaddingTop,
+          height: this.insideImageBackgroundHeight,
+          width: this.insideImageBackgroundWidth,
+          color: this.insideImageBackgroundColor,
+          opacity: this.insideImageBackgroundOpacity
+        },
+        borderData: {
+          color: this.insideImageBackgroundColor,
+          radius: this.insideImageBorderRadius,
+          size: this.insideImageBorderSize
+        },
+        textData: {
+          value: this.insideImageTextValue,
+          color: this.insideImageTextColor,
+          size: this.insideImageTextSize,
+          police: this.insideImageTextPolice,
+        },
       },
-      borderData: {
-        color: this.backgroundColor,
-        radius: this.borderRadius,
-        size: this.borderSize
-      },
-      textData: {
-        value: this.textValue,
-        color: this.textColor,
-        size: this.textSize,
-        police: this.textPolice,
+      belowImage: {
+        backgroundData: {
+          paddingTop: this.belowImageBackgroundPaddingTop,
+          height: this.belowImageBackgroundHeight,
+          width: this.belowImageBackgroundWidth,
+          color: this.belowImageBackgroundColor,
+          opacity: this.belowImageBackgroundOpacity
+        },
+        borderData: {
+          color: this.belowImageBackgroundColor,
+          radius: this.belowImageBorderRadius,
+          size: this.belowImageBorderSize
+        },
+        textData: {
+          value: this.belowImageTextValue,
+          color: this.belowImageTextColor,
+          size: this.belowImageTextSize,
+          police: this.belowImageTextPolice,
+        },
       },
       hasBeenSaved: ''
     }
@@ -81,20 +118,35 @@ export class LayoutManagerService {
     const element = this.getLayoutElements(index);
     this.imageManager.imageUrl = element.imageUrl;
 
-    this.backgroundColor = element.layoutData.backgroundData.color;
-    this.backgroundHeight = element.layoutData.backgroundData.height;
-    this.backgroundWidth = element.layoutData.backgroundData.width;
-    this.backgroundOpacity = element.layoutData.backgroundData.opacity;
-    this.backgroundPaddingTop = element.layoutData.backgroundData.paddingTop
+    this.insideImageBackgroundColor = element.layoutData.insideImage.backgroundData.color;
+    this.insideImageBackgroundHeight = element.layoutData.insideImage.backgroundData.height;
+    this.insideImageBackgroundWidth = element.layoutData.insideImage.backgroundData.width;
+    this.insideImageBackgroundOpacity = element.layoutData.insideImage.backgroundData.opacity;
+    this.insideImageBackgroundPaddingTop = element.layoutData.insideImage.backgroundData.paddingTop
 
-    this.borderColor = element.layoutData.borderData.color
-    this.borderRadius = element.layoutData.borderData.radius
-    this.borderSize = element.layoutData.borderData.size
+    this.insideImageBorderColor = element.layoutData.insideImage.borderData.color
+    this.insideImageBorderRadius = element.layoutData.insideImage.borderData.radius
+    this.insideImageBorderSize = element.layoutData.insideImage.borderData.size
 
-    this.textValue = element.layoutData.textData.value;
-    this.textColor = element.layoutData.textData.color;
-    this.textSize = element.layoutData.textData.size;
-    this.textPolice = element.layoutData.textData.police;
+    this.insideImageTextValue = element.layoutData.insideImage.textData.value;
+    this.insideImageTextColor = element.layoutData.insideImage.textData.color;
+    this.insideImageTextSize = element.layoutData.insideImage.textData.size;
+    this.insideImageTextPolice = element.layoutData.insideImage.textData.police;
+
+    this.belowImageBackgroundColor = element.layoutData.belowImage.backgroundData.color;
+    this.belowImageBackgroundHeight = element.layoutData.belowImage.backgroundData.height;
+    this.belowImageBackgroundWidth = element.layoutData.belowImage.backgroundData.width;
+    this.belowImageBackgroundOpacity = element.layoutData.belowImage.backgroundData.opacity;
+    this.belowImageBackgroundPaddingTop = element.layoutData.belowImage.backgroundData.paddingTop
+
+    this.belowImageBorderColor = element.layoutData.belowImage.borderData.color
+    this.belowImageBorderRadius = element.layoutData.belowImage.borderData.radius
+    this.belowImageBorderSize = element.layoutData.belowImage.borderData.size
+
+    this.belowImageTextValue = element.layoutData.belowImage.textData.value;
+    this.belowImageTextColor = element.layoutData.belowImage.textData.color;
+    this.belowImageTextSize = element.layoutData.belowImage.textData.size;
+    this.belowImageTextPolice = element.layoutData.belowImage.textData.police;
   }
 
   updateCurrentLayoutDataTab(){
@@ -126,26 +178,41 @@ setLayoutForUser(response: any){
       .filter((element: { key: number; }) => element.key == userIndex)
       .at(0)!
 
-    this.backgroundColor = this.layoutData.backgroundData.color;
-    this.backgroundHeight = this.layoutData.backgroundData.height;
-    this.backgroundWidth = this.layoutData.backgroundData.width;
-    this.backgroundOpacity = this.layoutData.backgroundData.opacity;
-    this.backgroundPaddingTop = this.layoutData.backgroundData.paddingTop
+    this.insideImageBackgroundColor = this.layoutData.insideImage.backgroundData.color;
+    this.insideImageBackgroundHeight = this.layoutData.insideImage.backgroundData.height;
+    this.insideImageBackgroundWidth = this.layoutData.insideImage.backgroundData.width;
+    this.insideImageBackgroundOpacity = this.layoutData.insideImage.backgroundData.opacity;
+    this.insideImageBackgroundPaddingTop = this.layoutData.insideImage.backgroundData.paddingTop
 
-    this.borderColor = this.layoutData.borderData.color
-    this.borderRadius = this.layoutData.borderData.radius
-    this.borderSize = this.layoutData.borderData.size
+    this.insideImageBorderColor = this.layoutData.insideImage.borderData.color
+    this.insideImageBorderRadius = this.layoutData.insideImage.borderData.radius
+    this.insideImageBorderSize = this.layoutData.insideImage.borderData.size
 
-    this.textValue = this.layoutData.textData.value;
-    this.textColor = this.layoutData.textData.color;
-    this.textSize = this.layoutData.textData.size;
-    this.textPolice = this.layoutData.textData.police;
+    this.insideImageTextValue = this.layoutData.insideImage.textData.value;
+    this.insideImageTextColor = this.layoutData.insideImage.textData.color;
+    this.insideImageTextSize = this.layoutData.insideImage.textData.size;
+    this.insideImageTextPolice = this.layoutData.insideImage.textData.police;
+
+    this.belowImageBackgroundColor = this.layoutData.belowImage.backgroundData.color;
+    this.belowImageBackgroundHeight = this.layoutData.belowImage.backgroundData.height;
+    this.belowImageBackgroundWidth = this.layoutData.belowImage.backgroundData.width;
+    this.belowImageBackgroundOpacity = this.layoutData.belowImage.backgroundData.opacity;
+    this.belowImageBackgroundPaddingTop = this.layoutData.belowImage.backgroundData.paddingTop
+
+    this.belowImageBorderColor = this.layoutData.belowImage.borderData.color
+    this.belowImageBorderRadius = this.layoutData.belowImage.borderData.radius
+    this.belowImageBorderSize = this.layoutData.belowImage.borderData.size
+
+    this.belowImageTextValue = this.layoutData.belowImage.textData.value;
+    this.belowImageTextColor = this.layoutData.belowImage.textData.color;
+    this.belowImageTextSize = this.layoutData.belowImage.textData.size;
+    this.belowImageTextPolice = this.layoutData.belowImage.textData.police;
 }
 
   setLayoutDataWithoutNotUiKeys(layoutData: LayoutData){
-    this.layoutData.backgroundData = layoutData.backgroundData
-    this.layoutData.borderData = layoutData.borderData
-    this.layoutData.textData = layoutData.textData;
+    this.layoutData.insideImage.backgroundData = layoutData.insideImage.backgroundData
+    this.layoutData.insideImage.borderData = layoutData.insideImage.borderData
+    this.layoutData.insideImage.textData = layoutData.insideImage.textData;
   }
 
   updateLayoutDataTab(layoutDataTab: LayoutData[], index: number, layoutData: LayoutData): LayoutData[]{

@@ -125,7 +125,7 @@ export class BaseBodyComponent implements OnInit{
     return "background-image: url(" + this.imageManager.imageUrl + ");"
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
-         + "padding-top: " + this.layoutManager.backgroundPaddingTop + "%;"
+         + "padding-top: " + this.layoutManager.insideImageBackgroundPaddingTop + "%;"
          + "height: 100%;"
   }
 
@@ -136,27 +136,27 @@ export class BaseBodyComponent implements OnInit{
   }
 
   textStyle(){
-    return 'color: ' + this.layoutManager.textColor + ";"
-          + 'font-size: ' + this.layoutManager.textSize + "px;"
-          + 'font-family: "Playwrite ' + this.layoutManager.textPolice + '", cursive;'
+    return 'color: ' + this.layoutManager.insideImageTextColor + ";"
+          + 'font-size: ' + this.layoutManager.insideImageTextSize + "px;"
+          + 'font-family: "Playwrite ' + this.layoutManager.insideImageTextPolice + '", cursive;'
   }
 
   getImageBackgroundStyle(): string{
       const backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
-        this.colorConvertor.convertToRgba(this.layoutManager.backgroundColor),
-        (this.layoutManager.backgroundOpacity/100)
+        this.colorConvertor.convertToRgba(this.layoutManager.insideImageBackgroundColor),
+        (this.layoutManager.insideImageBackgroundOpacity/100)
        ) + ";"
-    return "height: " + this.layoutManager.backgroundHeight + "%;"
-         + "width: " + this.layoutManager.backgroundWidth + "%;"
-         + "border-radius: " + this.layoutManager.borderRadius + "%;"
-         + "border: " + this.layoutManager.borderSize + "px solid " + this.layoutManager.borderColor + ";"
+    return "height: " + this.layoutManager.insideImageBackgroundHeight + "%;"
+         + "width: " + this.layoutManager.insideImageBackgroundWidth + "%;"
+         + "border-radius: " + this.layoutManager.insideImageBorderRadius + "%;"
+         + "border: " + this.layoutManager.insideImageBorderSize + "px solid " + this.layoutManager.insideImageBorderColor + ";"
          + "margin: auto;"
          + backgroundColor
   }
 
   reworkTextValue(): SafeHtml{
-    const textReworked = this.layoutManager.textValue.split('class="ql-align-center"')
+    const textReworked = this.layoutManager.insideImageTextValue.split('class="ql-align-center"')
                         .join('style="text-align: center;"');
 
     return this.domSanitizer.bypassSecurityTrustHtml(

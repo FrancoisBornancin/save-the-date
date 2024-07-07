@@ -4,8 +4,15 @@ import { TextData } from "./text-data";
 
 export interface LayoutData {
     key: number;
-    backgroundData: BackgroundData,
-    textData: TextData,  
-    borderData: BorderData,
+    insideImage: {
+        backgroundData: BackgroundData,
+        textData: TextData,  
+        borderData: BorderData,
+    },
+    belowImage: {
+        backgroundData: BackgroundData,
+        textData: TextData,  
+        borderData: BorderData,  
+    }
     hasBeenSaved: string;
 }
