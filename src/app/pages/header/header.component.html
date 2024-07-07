@@ -1,14 +1,7 @@
 <div [style]="globalHeaderStyle()">
-    <div [innerHTML]="reworkTextValue()" [style]="textStyle()">
-        <!-- <p>Bienvenu</p> -->
-        <!-- <p>Alexandra et François</p> -->
-    </div>
-
     <ng-container *ngFor="let headerTitle of getTitles()">
         <p-button (click)="returnPage(headerTitle)" [style]="buttonsClass()">
-            <i [ngClass]="getButtonClass(headerTitle)" [style]="getButtonStyle()">
-                {{ headerTitle }}
-            </i>
+            <i [ngClass]="getButtonClass(headerTitle)" [style]="getButtonStyle()"></i>
         </p-button>
     </ng-container>
 </div>

@@ -14,7 +14,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class HeaderComponent implements OnInit{
   pageName!: string;
   headerTab: KeyValues[] = [
-    {key: 'acceuil', value: 'pi pi-user'},
+    {key: 'acceuil', value: 'pi pi-home'},
     {key: 'programme', value: 'pi pi-book'},
     {key: 'transport', value: 'pi pi-car'},
     {key: 'hébergement', value: 'pi pi-building-columns'},
@@ -69,7 +69,8 @@ export class HeaderComponent implements OnInit{
 
   getButtonStyle(){
     return {
-      'color': this.layoutManager.textColor, 
+        'color': this.layoutManager.textColor, 
+        'font-size': 2 + 'rem',
     }
   }
 
@@ -81,7 +82,7 @@ export class HeaderComponent implements OnInit{
      )
 
     return {
-      'height': '30%',
+      'height': '10%',
       'background-color': backgroundColorValue,
     };    
   }
@@ -91,19 +92,11 @@ export class HeaderComponent implements OnInit{
     const buttonWidth = (100/this.headerTab.length); 
     return {
       'width': buttonWidth + '%', 
-      'height': '30%',
+      'height': '100%',
       'background-color': 'transparent',
     };
   }
 
-  textStyle(){
-    return 'color: ' + this.layoutManager.textColor + ";"
-          + 'font-size: ' + this.layoutManager.textSize + "px;"
-          + 'font-family: "Playwrite ' + this.layoutManager.textPolice + '", cursive;'
-          + "height: 70%;"
-          + "text-align: center;"
-          + "padding: 40px"
-  }
 
   returnPage(pageName: string){
     this.pageName = pageName;
