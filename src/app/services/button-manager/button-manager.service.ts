@@ -37,7 +37,7 @@ export class ButtonManagerService {
     dataRendered: false
   }
 
-  uiButtons!: MenuItem[];
+  upperImageUiButtons!: MenuItem[];
   saveUploadButtons!: MenuItem[];
   loadButtons!: MenuItem[];
 
@@ -50,10 +50,10 @@ export class ButtonManagerService {
   initUiButtons(){
     const menuOptionCategory: string  = 'ui';
 
-    this.uiButtons = [
-      ...this.initButton('haute image InsideBorder', this.upperImageInsideBackgroundDataRenderedContainer, menuOptionCategory),
-      ...this.initButton('haute image Border', this.upperImageBorderDataRenderedContainer, menuOptionCategory),
-      ...this.initButton('haute image Text', this.upperImageTextDataRenderedContainer, menuOptionCategory),
+    this.upperImageUiButtons = [
+      ...this.initButton('InsideBorder', this.upperImageInsideBackgroundDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('Border', this.upperImageBorderDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('Text', this.upperImageTextDataRenderedContainer, menuOptionCategory),
     ]
   }
 
@@ -67,7 +67,7 @@ export class ButtonManagerService {
 
             if(menuOptionCategory == 'ui'){
               const uiButton: MenuItem =
-                this.uiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+                this.upperImageUiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uiButton.label = '<strong>' + buttonName + '</strong>'
             } 
 
@@ -83,7 +83,7 @@ export class ButtonManagerService {
 
             if(menuOptionCategory == 'ui'){
               const uiButton: MenuItem =
-                this.uiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+                this.upperImageUiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uiButton.label = buttonName
             } 
 

@@ -6,7 +6,7 @@
         <p-button (click)="this.adminManager.activatePreview()">Activate Preview</p-button>
     </ng-container>
     <ng-container *ngIf="!this.adminManager.isPreviewActive">
-        <p-splitButton label="actions" [model]="buttonManager.uiButtons"></p-splitButton>
+        <p-splitButton label="actions (image haute)" [model]="buttonManager.upperImageUiButtons"></p-splitButton>
         <p-splitButton label="save/upload" [model]="buttonManager.saveUploadButtons" (onDropdownClick)="buttonManager.initSaveUploadButtons()"></p-splitButton>
         <p-splitButton label="load" [model]="buttonManager.loadButtons"></p-splitButton>
         <p-button (onClick)="this.printGeneralInfoModal()">GeneralInfo</p-button>
