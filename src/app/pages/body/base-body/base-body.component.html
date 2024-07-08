@@ -7,7 +7,7 @@
     </ng-container>
     <ng-container *ngIf="!this.adminManager.isPreviewActive">
         <p-splitButton label="actions (image haute)" [model]="buttonManager.upperImageUiButtons"></p-splitButton>
-        <p-splitButton label="save/upload" [model]="buttonManager.saveUploadButtons" (onDropdownClick)="buttonManager.initSaveUploadButtons()"></p-splitButton>
+        <p-splitButton label="save/upload (image haute)" [model]="buttonManager.saveUploadUpperButtons" (onDropdownClick)="buttonManager.initSaveUploadUpperButtons()"></p-splitButton>
         <p-splitButton label="load" [model]="buttonManager.loadButtons"></p-splitButton>
         <p-button (onClick)="this.printGeneralInfoModal()">GeneralInfo</p-button>
         <ng-container *ngIf="this.generalInfoModalRendered">
@@ -88,11 +88,11 @@
                 <p-editor [(ngModel)]="layoutManager.upperImageTextValue" />
             </div>
         </ng-container>
-        <ng-container *ngIf="buttonManager.uploadImageDataRenderedContainer.dataRendered">
+        <ng-container *ngIf="buttonManager.uploadUpperImageDataRenderedContainer.dataRendered">
             <p-fileUpload #fileUploader
             mode="basic"
             customUpload="true"
-            (uploadHandler)="upload($event)">
+            (uploadHandler)="uploadUpper($event)">
             </p-fileUpload>
         </ng-container>
         <div>{{ this.layoutManager.layoutData.hasBeenSaved }}</div>
@@ -109,6 +109,7 @@
 <ng-container *ngIf="this.adminManager.isAdminModeActive">
     <ng-container *ngIf="!this.adminManager.isPreviewActive">
         <p-splitButton label="actions (image basse)" [model]="buttonManager.belowImageUiButtons"></p-splitButton>
+        <p-splitButton label="save/upload (image basse)" [model]="buttonManager.saveUploadBelowButtons" (onDropdownClick)="buttonManager.initSaveUploadBelowButtons()"></p-splitButton>
         <ng-container *ngIf="buttonManager.belowImageBorderDataRenderedContainer.dataRendered">
             <strong>Manage Border: (image basse)</strong>
             <div style="display: flex; align-items: center; gap: 1rem;">
@@ -164,6 +165,13 @@
             <div class="card">
                 <p-editor [(ngModel)]="layoutManager.belowImageTextValue" />
             </div>
+        </ng-container>
+        <ng-container *ngIf="buttonManager.uploadBelowImageDataRenderedContainer.dataRendered">
+            <p-fileUpload #fileUploader
+            mode="basic"
+            customUpload="true"
+            (uploadHandler)="uploadBelow($event)">
+            </p-fileUpload>
         </ng-container>
     </ng-container>
 </ng-container>

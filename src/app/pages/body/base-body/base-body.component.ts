@@ -95,7 +95,7 @@ export class BaseBodyComponent implements OnInit{
     
                 this.buttonManager.initUiButtons();
     
-                this.buttonManager.initSaveUploadButtons()
+                this.buttonManager.initSaveUploadUpperButtons()
               },
               error: (error) => {
                 console.error("Erreur lors du chargement des images", error);
@@ -218,7 +218,7 @@ export class BaseBodyComponent implements OnInit{
     }
   }
 
-  upload(event: any){
+  uploadUpper(event: any){
     if (event.files.length == 0) {
       console.log('No file selected.');
       return;
@@ -229,7 +229,25 @@ export class BaseBodyComponent implements OnInit{
 
     reader.onload = (e: any) => {
       this.imageManager.upperImageUrl = e.target.result;
-      this.imageManager.setImageContent();
+      this.imageManager.setImageContent('upper');
+      this.fileUpload.clear();
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  uploadBelow(event: any){
+    if (event.files.length == 0) {
+      console.log('No file selected.');
+      return;
+    }
+
+    let file = event.files[0];
+    let reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      this.imageManager.belowImageUrl = e.target.result;
+      this.imageManager.setImageContent('below');
       this.fileUpload.clear();
     };
 

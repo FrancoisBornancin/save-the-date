@@ -33,13 +33,18 @@ export class ButtonManagerService {
     dataRendered: false
   }
 
-  uploadImageDataRenderedContainer: DataRenderedContainer = {
+  uploadUpperImageDataRenderedContainer: DataRenderedContainer = {
+    dataRendered: false
+  }
+
+  uploadBelowImageDataRenderedContainer: DataRenderedContainer = {
     dataRendered: false
   }
 
   upperImageUiButtons!: MenuItem[];
   belowImageUiButtons!: MenuItem[];
-  saveUploadButtons!: MenuItem[];
+  saveUploadUpperButtons!: MenuItem[];
+  saveUploadBelowButtons!: MenuItem[];
   loadButtons!: MenuItem[];
 
   constructor(
@@ -77,20 +82,25 @@ export class ButtonManagerService {
               const uiButton: MenuItem =
                 this.upperImageUiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uiButton.label = '<strong>' + buttonName + '</strong>'
-            } 
+            }
 
             if(menuOptionCategory == 'below ui'){
               const uiButton: MenuItem =
                 this.belowImageUiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uiButton.label = '<strong>' + buttonName + '</strong>'
-            } 
+            }
 
-            if(menuOptionCategory == 'upload'){
+            if(menuOptionCategory == 'upload upper'){
               const uploadButton: MenuItem =
-                this.saveUploadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+                this.saveUploadUpperButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uploadButton.label = '<strong>' + buttonName + '</strong>'
-            } 
+            }
 
+            if(menuOptionCategory == 'upload below'){
+              const uploadButton: MenuItem =
+                this.saveUploadBelowButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uploadButton.label = '<strong>' + buttonName + '</strong>'
+            }
           }
           else{
             dataRenderedContainer.dataRendered = false;
@@ -99,24 +109,24 @@ export class ButtonManagerService {
               const uiButton: MenuItem =
                 this.upperImageUiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uiButton.label = buttonName
-            } 
+            }
 
             if(menuOptionCategory == 'below ui'){
               const uiButton: MenuItem =
                 this.belowImageUiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uiButton.label = buttonName
-            } 
+            }
 
             if(menuOptionCategory == 'upload'){
               const uploadButton: MenuItem =
-                this.saveUploadButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+                this.saveUploadUpperButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uploadButton.label = buttonName
-            } 
-          } 
+            }
+          }
         }
       },
       { separator: true },
-    ]    
+    ]
   }
 
   doActionForLayout(index: number){
@@ -171,15 +181,22 @@ export class ButtonManagerService {
     })
   }
 
-  initSaveUploadButtons(){
+  initSaveUploadUpperButtons(){
     this.layoutManager.setLayoutData()
-    this.saveUploadButtons = [
-      ...this.initPrintImageToUser(),
+    this.saveUploadUpperButtons = [
+      ...this.initPrintImageToUser('upper'),
       ...this.initPrintLayoutToUser(),
-      // ...this.initSaveToUserRepository(),
-      ...this.initSaveImage(),
+      ...this.initSaveImage('upper'),
       ...this.initSaveLayout(),
-      ...this.initButton('Upload Image', this.uploadImageDataRenderedContainer, 'upload'),
+      ...this.initButton('Upload Image', this.uploadUpperImageDataRenderedContainer, 'upload upper'),
+    ]
+  }
+
+  initSaveUploadBelowButtons(){
+    this.saveUploadBelowButtons = [
+      ...this.initPrintImageToUser('below'),
+      ...this.initSaveImage('below'),
+      ...this.initButton('Upload Image', this.uploadBelowImageDataRenderedContainer, 'upload below'),
     ]
   }
 
@@ -197,7 +214,7 @@ export class ButtonManagerService {
           }
         },
       ]
-    } 
+    }
   }
 
   initPrintLayoutToUser(): MenuItem[]{
@@ -214,7 +231,7 @@ export class ButtonManagerService {
           }
         },
       ]
-    } 
+    }
   }
 
   initPrintImageToUser(): MenuItem[]{
@@ -230,14 +247,14 @@ export class ButtonManagerService {
           }
         },
       ]
-    } 
+    }
   }
 
   initSaveImage(): MenuItem[]{
     if(!this.imageDao.isImageInDb()){
       return [
         {
-          label: 'save current Image',
+          label: 'save Image',
           command: () => {
             this.imageDao.saveImage();
           }

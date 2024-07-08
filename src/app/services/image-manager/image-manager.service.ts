@@ -78,12 +78,20 @@ export class ImageManagerService {
     }
   }
 
-  setImageContent(){
-    this.upperBigImageTab
-    .filter(element => element.key == this.selectedIndex.index)
-    .at(0)!
-    .imageUrlContent = this.upperImageUrl
-    ;
+  setImageContent(prefix: string){
+    if(prefix == 'upper'){
+      this.upperBigImageTab
+      .filter(element => element.key == this.selectedIndex.index)
+      .at(0)!
+      .imageUrlContent = this.upperImageUrl
+      ;
+    }else{
+      this.belowBigImageTab
+      .filter(element => element.key == this.selectedIndex.index)
+      .at(0)!
+      .imageUrlContent = this.belowImageUrl
+      ;
+    }
   }
 
   loadImageForUser(folder: string): Observable<any> {
