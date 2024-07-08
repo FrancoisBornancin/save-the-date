@@ -3,6 +3,7 @@ import { ImageManagerService } from '../image-manager/image-manager.service';
 import { SelectedIndexService } from '../selected-index/selected-index.service';
 import { CustomImageData } from '../../model/image-data';
 import { InMemoryRepositoryService } from '../in-memory-repository/in-memory-repository.service';
+import { BigImageData } from '../../model/big-image-data';
 
 @Injectable({
   providedIn: 'root'
@@ -17,105 +18,70 @@ export class ImageDaoService {
   ) { }
 
   isImageInDb(prefix: string): boolean{
-    let imageUrlFromDb;
-    let imageUrl;
-
-    if(prefix == 'upper'){
-      imageUrlFromDb = 
-      this.imageManager.upperBigImageTabFromDb
-        .filter(image => image.key == this.selectedIndex.index)
-        .at(0)!
-        .imageUrlContent;
-
-      imageUrl = 
-        this.imageManager.upperBigImageTab
-          .filter(image => image.key == this.selectedIndex.index)
-          .at(0)!
-          .imageUrlContent;
-    }else{
-      imageUrlFromDb = 
-      this.imageManager.belowBigImageTabFromDb
-        .filter(image => image.key == this.selectedIndex.index)
-        .at(0)!
-        .imageUrlContent;
-
-      imageUrl = 
-        this.imageManager.belowBigImageTab
-          .filter(image => image.key == this.selectedIndex.index)
-          .at(0)!
-          .imageUrlContent;
-    }
-
-
-    return (imageUrl == imageUrlFromDb) ? true : false;
+    return this.checkInDb(prefix, false)
   }
 
   isImagePrintedToUser(prefix: string): boolean{
-    const userIndex: number = 0;
+    return this.checkInDb(prefix, true)
+  }
+
+  private checkInDb(prefix: string, forUser: boolean){
     let imageUrlFromDb;
     let imageUrl;
 
+    let imageTab;
+    let imageTabFromDb;
+
     if(prefix == 'upper'){
-      imageUrlFromDb = 
-      this.imageManager.upperBigImageTabFromDb
-        .filter(image => image.key == userIndex)
-        .at(0)!
-        .imageUrlContent;
-
-      imageUrl = 
-      this.imageManager.upperBigImageTab
-        .filter(image => image.key == this.selectedIndex.index)
-        .at(0)!
-        .imageUrlContent;
+      imageTab = this.imageManager.upperBigImageTab
+      imageTabFromDb = this.imageManager.upperBigImageTabFromDb
     }else{
-      imageUrlFromDb = 
-      this.imageManager.belowBigImageTabFromDb
-        .filter(image => image.key == userIndex)
-        .at(0)!
-        .imageUrlContent;
-
-      imageUrl = 
-      this.imageManager.belowBigImageTab
-        .filter(image => image.key == this.selectedIndex.index)
-        .at(0)!
-        .imageUrlContent;
+      imageTab = this.imageManager.belowBigImageTab
+      imageTabFromDb = this.imageManager.belowBigImageTabFromDb
     }
+
+    imageUrlFromDb = this.getUrlContent(
+      imageTabFromDb, 
+      forUser ? 0 : this.selectedIndex.index
+    );
+    imageUrl = this.getUrlContent(imageTab, this.selectedIndex.index); 
 
     return (imageUrl == imageUrlFromDb) ? true : false;
   }
 
-  saveImage(prefix: string){
+  private getUrlContent(imageTab: BigImageData[], index: number): string{
+    return imageTab
+    .filter(image => image.key == index)
+    .at(0)!
+    .imageUrlContent!;
+  }
+
+  private save(prefix: string, toUser: boolean){
     let folder = '';
     let imageUrl = '';
 
-    prefix == 'upper' ? 
-    folder = this.inMemoryRepository.upperImageFolder 
-    : folder = this.inMemoryRepository.belowImageFolder   
-
-    prefix == 'upper' ? 
-    imageUrl = this.imageManager.upperImageUrl 
-    : imageUrl = this.imageManager.belowImageUrl  
+    prefix == 'upper' ? (
+      folder = this.inMemoryRepository.upperImageFolder,
+      imageUrl = this.imageManager.upperImageUrl  
+    ) : (
+      folder = this.inMemoryRepository.belowImageFolder,
+      imageUrl = this.imageManager.belowImageUrl
+    )
 
     const imageData: CustomImageData = this.imageDataUtils.getImageData(imageUrl);
-    this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, folder);
+    this.imageDataUtils.saveImageData(
+      toUser ? 0 : this.selectedIndex.index, 
+      imageData, 
+      folder
+    );
+  }
+
+  saveImage(prefix: string){
+    this.save(prefix, false)
   }
 
   saveImageToUser(prefix: string){
-    const userIndex: number = 0;
-
-    let folder = '';
-    let imageUrl = '';
-
-    prefix == 'upper' ? 
-    folder = this.inMemoryRepository.upperImageFolder 
-    : folder = this.inMemoryRepository.belowImageFolder  
-    
-    prefix == 'upper' ? 
-    imageUrl = this.imageManager.upperImageUrl 
-    : imageUrl = this.imageManager.belowImageUrl  
-
-    const imageData: CustomImageData = this.imageDataUtils.getImageData(imageUrl);
-    this.imageDataUtils.saveImageData(userIndex, imageData, folder);
+    this.save(prefix, true)
   }
 
   getImageUrl(prefix: string): string{

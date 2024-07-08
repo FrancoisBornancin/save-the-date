@@ -45,10 +45,10 @@ export class LayoutDaoService {
     return this.layoutManager.loadData(this.inMemoryRepository.layoutJsonName);
   }
 
-  isLayoutInDb(): boolean{
+  private checkLayoutInDb(withUser: boolean){
     this.layoutDataFromDb
       = this.layoutManager.layoutDataTabFromDb
-          .filter(element => element.key == this.layoutManager.layoutData.key)
+          .filter(element => element.key == (withUser ? 0 : this.layoutManager.layoutData.key))
           .at(0)!;
 
     this.layoutData = this.layoutManager.layoutData;
@@ -70,34 +70,13 @@ export class LayoutDaoService {
   }
 
     return true;
+  }
+
+  isLayoutInDb(): boolean{
+    return this.checkLayoutInDb(false);
   }
 
   isLayoutPrintedToUser(): boolean{
-    const userIndex: number = 0;
-
-    this.layoutDataFromDb
-      = this.layoutManager.layoutDataTabFromDb
-          .filter(element => element.key == userIndex)
-          .at(0)!;
-
-    this.layoutData = this.layoutManager.layoutData;
-
-    for (const [layoutDataFromDbKey, layoutDataFromDbValue] of Object.entries(this.layoutDataFromDb)) {
-      for (const [layoutDataKey, layoutDataValue] of Object.entries(this.layoutData)) {
-          if (layoutDataFromDbKey == layoutDataKey) {
-              for(const [layoutDataFromDbValueKey, layoutDataFromDbValueValue] of Object.entries(layoutDataFromDbValue)){
-                for(const [layoutDataValueKey, layoutDataValueValue] of Object.entries(layoutDataValue)){
-                  if(layoutDataValueKey == layoutDataFromDbValueKey){
-                    const layoutDataFinalValue = layoutDataValueValue;
-                    const layoutDataFromDBFinalValue = layoutDataFromDbValueValue;
-                    if(layoutDataFinalValue != layoutDataFromDBFinalValue) return false;
-                  }
-                }
-              }
-          }
-      }
-  }
-
-    return true;
+    return this.checkLayoutInDb(true);
   }
 }

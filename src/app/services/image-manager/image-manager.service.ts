@@ -114,14 +114,17 @@ export class ImageManagerService {
     let bigImageTabFromDb: BigImageData[]; 
 
     prefix == 'upper' ? 
-    folder = this.inMemoryRepository.upperImageFolder : folder = this.inMemoryRepository.belowImageFolder;
-
-    prefix == 'upper' ? 
-    bigImageTab = this.upperBigImageTab : bigImageTab = this.belowBigImageTab;
-
-    prefix == 'upper' ? 
-    bigImageTabFromDb = this.upperBigImageTabFromDb : bigImageTabFromDb = this.belowBigImageTabFromDb;
-
+    (
+      folder = this.inMemoryRepository.upperImageFolder,
+      bigImageTab = this.upperBigImageTab,
+      bigImageTabFromDb = this.upperBigImageTabFromDb 
+    ) : 
+    (
+      folder = this.inMemoryRepository.belowImageFolder,
+      bigImageTab = this.belowBigImageTab,
+      bigImageTabFromDb = this.belowBigImageTabFromDb
+    )
+    
     return this.loadImageData(index, folder).pipe(
       switchMap(response => this.getBlobContent(response)),
       map(data => {
