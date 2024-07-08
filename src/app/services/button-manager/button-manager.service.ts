@@ -200,23 +200,6 @@ export class ButtonManagerService {
     ]
   }
 
-  initSaveToUserRepository(): MenuItem[]{
-    if(this.imageDao.isImagePrintedToUser() && this.layoutDao.isLayoutPrintedToUser()){
-      return []
-    }
-    else {
-      return [
-        { separator: true },
-        {
-          label: 'print to User',
-          command: () => {
-            this.imageDao.saveImage();
-          }
-        },
-      ]
-    }
-  }
-
   initPrintLayoutToUser(): MenuItem[]{
     if(this.layoutDao.isLayoutPrintedToUser()){
       return []
@@ -234,8 +217,8 @@ export class ButtonManagerService {
     }
   }
 
-  initPrintImageToUser(): MenuItem[]{
-    if(this.imageDao.isImagePrintedToUser()){
+  initPrintImageToUser(prefix: string): MenuItem[]{
+    if(this.imageDao.isImagePrintedToUser(prefix)){
       return []
     }
     else {
@@ -243,20 +226,20 @@ export class ButtonManagerService {
         {
           label: 'print image to User',
           command: () => {
-            this.imageDao.saveImageToUser();
+            // this.imageDao.saveImageToUser(prefix);
           }
         },
       ]
     }
   }
 
-  initSaveImage(): MenuItem[]{
-    if(!this.imageDao.isImageInDb()){
+  initSaveImage(prefix: string): MenuItem[]{
+    if(!this.imageDao.isImageInDb(prefix)){
       return [
         {
           label: 'save Image',
           command: () => {
-            this.imageDao.saveImage();
+            // this.imageDao.saveImage(prefix);
           }
         },
       ]

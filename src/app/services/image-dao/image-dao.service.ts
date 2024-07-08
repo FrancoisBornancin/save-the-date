@@ -16,36 +16,70 @@ export class ImageDaoService {
     private inMemoryRepository: InMemoryRepositoryService,
   ) { }
 
-  isImageInDb(): boolean{
-    const imageUrlFromDb = 
+  isImageInDb(prefix: string): boolean{
+    let imageUrlFromDb;
+    let imageUrl;
+
+    if(prefix == 'upper'){
+      imageUrlFromDb = 
       this.imageManager.upperBigImageTabFromDb
         .filter(image => image.key == this.selectedIndex.index)
         .at(0)!
         .imageUrlContent;
 
-    const imageUrl = 
-      this.imageManager.upperBigImageTab
+      imageUrl = 
+        this.imageManager.upperBigImageTab
+          .filter(image => image.key == this.selectedIndex.index)
+          .at(0)!
+          .imageUrlContent;
+    }else{
+      imageUrlFromDb = 
+      this.imageManager.belowBigImageTabFromDb
         .filter(image => image.key == this.selectedIndex.index)
         .at(0)!
         .imageUrlContent;
 
+      imageUrl = 
+        this.imageManager.belowBigImageTab
+          .filter(image => image.key == this.selectedIndex.index)
+          .at(0)!
+          .imageUrlContent;
+    }
+
+
     return (imageUrl == imageUrlFromDb) ? true : false;
   }
 
-  isImagePrintedToUser(): boolean{
+  isImagePrintedToUser(prefix: string): boolean{
     const userIndex: number = 0;
+    let imageUrlFromDb;
+    let imageUrl;
 
-    const imageUrlFromDb = 
+    if(prefix == 'upper'){
+      imageUrlFromDb = 
       this.imageManager.upperBigImageTabFromDb
         .filter(image => image.key == userIndex)
         .at(0)!
         .imageUrlContent;
 
-    const imageUrl = 
+      imageUrl = 
       this.imageManager.upperBigImageTab
         .filter(image => image.key == this.selectedIndex.index)
         .at(0)!
         .imageUrlContent;
+    }else{
+      imageUrlFromDb = 
+      this.imageManager.belowBigImageTabFromDb
+        .filter(image => image.key == userIndex)
+        .at(0)!
+        .imageUrlContent;
+
+      imageUrl = 
+      this.imageManager.belowBigImageTab
+        .filter(image => image.key == this.selectedIndex.index)
+        .at(0)!
+        .imageUrlContent;
+    }
 
     return (imageUrl == imageUrlFromDb) ? true : false;
   }
