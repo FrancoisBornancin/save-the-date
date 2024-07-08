@@ -106,3 +106,10 @@
         </ng-container>
     </div>
 </div>
+<!-- <div [style]="getImageUrl()"> -->
+    <div  [style]="this.getBelowImageBackgroundStyle()">
+        <ng-container *ngIf="this.layoutManager.layoutData">
+            <div [innerHTML]="reworkBelowTextValue()"  [style]="textBelowStyle()"></div>
+        </ng-container>
+    </div>
+<!-- </div> -->

@@ -141,6 +141,12 @@ export class BaseBodyComponent implements OnInit{
           + 'font-family: "Playwrite ' + this.layoutManager.insideImageTextPolice + '", cursive;'
   }
 
+  textBelowStyle(){
+    return 'color: ' + this.layoutManager.belowImageTextColor + ";"
+          + 'font-size: ' + this.layoutManager.belowImageTextSize + "px;"
+          + 'font-family: "Playwrite ' + this.layoutManager.belowImageTextPolice + '", cursive;'
+  }
+
   getImageBackgroundStyle(): string{
       const backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
@@ -155,8 +161,31 @@ export class BaseBodyComponent implements OnInit{
          + backgroundColor
   }
 
+  getBelowImageBackgroundStyle(): string{
+    const backgroundColor =
+     "background-color: " + this.colorConvertor.addOpacity(
+      this.colorConvertor.convertToRgba(this.layoutManager.belowImageBackgroundColor),
+      (this.layoutManager.belowImageBackgroundOpacity/100)
+     ) + ";"
+  return "height: " + this.layoutManager.belowImageBackgroundHeight + "%;"
+       + "width: " + this.layoutManager.belowImageBackgroundWidth + "%;"
+       + "border-radius: " + this.layoutManager.belowImageBorderRadius + "%;"
+       + "border: " + this.layoutManager.belowImageBorderSize + "px solid " + this.layoutManager.belowImageBorderColor + ";"
+       + "margin: auto;"
+       + backgroundColor
+}
+
   reworkTextValue(): SafeHtml{
     const textReworked = this.layoutManager.insideImageTextValue.split('class="ql-align-center"')
+                        .join('style="text-align: center;"');
+
+    return this.domSanitizer.bypassSecurityTrustHtml(
+      textReworked
+    );
+  }
+
+  reworkBelowTextValue(): SafeHtml{
+    const textReworked = this.layoutManager.belowImageTextValue.split('class="ql-align-center"')
                         .join('style="text-align: center;"');
 
     return this.domSanitizer.bypassSecurityTrustHtml(
