@@ -63,7 +63,7 @@ export class BaseBodyComponent implements OnInit{
     this.imageManager.loadImageForUser(this.inMemoryRepository.upperImageFolder)
     .subscribe({
       next: (response: any) => {
-        this.imageManager.imageUrl = response;
+        this.imageManager.upperImageUrl = response;
       },
       error: e => {
         console.log(e);
@@ -81,17 +81,26 @@ export class BaseBodyComponent implements OnInit{
 
         this.layoutManager.initLayoutDataTabs(response);
         this.layoutManager.setLayoutElements(1);
-        this.wrapForkJoin(imagesIndexes)
+        this.wrapForkJoin(imagesIndexes, 'upper')
         .subscribe({
           next: (results) => {
-            console.log("Toutes les images ont été chargées", results);
-
-            this.selectedIndex.index = 1;
-            this.imageManager.imageUrl = this.imageDao.getImageUrl();
-
-            this.buttonManager.initUiButtons();
-
-            this.buttonManager.initSaveUploadButtons()
+            this.wrapForkJoin(imagesIndexes, 'below')
+            .subscribe({
+              next: (results) => {
+                console.log("Toutes les images ont été chargées", results);
+    
+                this.selectedIndex.index = 1;
+                this.imageManager.upperImageUrl = this.imageDao.getImageUrl('upper');
+                this.imageManager.belowImageUrl = this.imageDao.getImageUrl('below');
+    
+                this.buttonManager.initUiButtons();
+    
+                this.buttonManager.initSaveUploadButtons()
+              },
+              error: (error) => {
+                console.error("Erreur lors du chargement des images", error);
+              }
+            });
           },
           error: (error) => {
             console.error("Erreur lors du chargement des images", error);
@@ -121,17 +130,25 @@ export class BaseBodyComponent implements OnInit{
             })
   }
 
-  getImageUrl(){
-    return "background-image: url(" + this.imageManager.imageUrl + ");"
+  getBelowImageUrl(){
+    return "background-image: url(" + this.imageManager.belowImageUrl + ");"
+         + "background-size: contain;"
+         + "background-repeat: no-repeat;"
+         + "padding-top: " + this.layoutManager.belowImageBackgroundPaddingTop + "%;"
+         + "height: 100%;"
+  }
+
+  getUpperImageUrl(){
+    return "background-image: url(" + this.imageManager.upperImageUrl + ");"
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
          + "padding-top: " + this.layoutManager.upperImageBackgroundPaddingTop + "%;"
          + "height: 60%;"
   }
 
-  wrapForkJoin(imagesIndexes: number[]): Observable<any[]>{
+  wrapForkJoin(imagesIndexes: number[], prefix: string): Observable<any[]>{
     return forkJoin(
-      this.threadPoolExecutor.initTasks(this.inMemoryRepository.upperImageFolder, imagesIndexes)
+      this.threadPoolExecutor.initTasks(imagesIndexes, prefix)
     )
   }
 
@@ -147,7 +164,7 @@ export class BaseBodyComponent implements OnInit{
           + 'font-family: "Playwrite ' + this.layoutManager.belowImageTextPolice + '", cursive;'
   }
 
-  getImageBackgroundStyle(): string{
+  getUpperImageBackgroundStyle(): string{
       const backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
         this.colorConvertor.convertToRgba(this.layoutManager.upperImageBackgroundColor),
@@ -175,7 +192,7 @@ export class BaseBodyComponent implements OnInit{
        + backgroundColor
 }
 
-  reworkTextValue(): SafeHtml{
+  reworkUpperTextValue(): SafeHtml{
     const textReworked = this.layoutManager.upperImageTextValue.split('class="ql-align-center"')
                         .join('style="text-align: center;"');
 
@@ -211,7 +228,7 @@ export class BaseBodyComponent implements OnInit{
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      this.imageManager.imageUrl = e.target.result;
+      this.imageManager.upperImageUrl = e.target.result;
       this.imageManager.setImageContent();
       this.fileUpload.clear();
     };

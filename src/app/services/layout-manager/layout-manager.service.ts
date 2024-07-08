@@ -116,7 +116,7 @@ export class LayoutManagerService {
 
   setLayoutElements(index: number){
     const element = this.getLayoutElements(index);
-    this.imageManager.imageUrl = element.imageUrl;
+    this.imageManager.upperImageUrl = element.imageUrl;
 
     this.upperImageBackgroundColor = element.layoutData.upperImage.backgroundData.color;
     this.upperImageBackgroundHeight = element.layoutData.upperImage.backgroundData.height;

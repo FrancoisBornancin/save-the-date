@@ -99,10 +99,10 @@
         <div>{{ this.imageManager.hasBeenSaved }}</div>
     </ng-container>
 </ng-container>
-<div [style]="getImageUrl()">
-    <div  [style]="this.getImageBackgroundStyle()">
+<div [style]="getUpperImageUrl()">
+    <div  [style]="this.getUpperImageBackgroundStyle()">
         <ng-container *ngIf="this.layoutManager.layoutData">
-            <div [innerHTML]="reworkTextValue()"  [style]="textStyle()"></div>
+            <div [innerHTML]="reworkUpperTextValue()"  [style]="textStyle()"></div>
         </ng-container>
     </div>
 </div>
@@ -167,10 +167,10 @@
         </ng-container>
     </ng-container>
 </ng-container>
-<!-- <div [style]="getImageUrl()"> -->
+<div [style]="getBelowImageUrl()">
     <div  [style]="this.getBelowImageBackgroundStyle()">
         <ng-container *ngIf="this.layoutManager.layoutData">
             <div [innerHTML]="reworkBelowTextValue()"  [style]="textBelowStyle()"></div>
         </ng-container>
     </div>
-<!-- </div> -->
+</div>

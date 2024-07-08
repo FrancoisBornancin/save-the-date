@@ -546,7 +546,7 @@ describe('BaseBodyComponent', () => {
     component.backgroundWidth = layoutData.backgroundData.width;
     component.backgroundOpacity = layoutData.backgroundData.opacity;
 
-    const backgroundStyle: string = component.getImageBackgroundStyle()
+    const backgroundStyle: string = component.getUpperImageBackgroundStyle()
     const expectedBackgroundColor: string = "background-color: rgba(30, 144, 255, 0.005);"
 
     expect(backgroundStyle).toContain(expectedBackgroundColor);

@@ -18,13 +18,13 @@ export class ImageDaoService {
 
   isImageInDb(): boolean{
     const imageUrlFromDb = 
-      this.imageManager.bigImageTabFromDb
+      this.imageManager.upperBigImageTabFromDb
         .filter(image => image.key == this.selectedIndex.index)
         .at(0)!
         .imageUrlContent;
 
     const imageUrl = 
-      this.imageManager.bigImageTab
+      this.imageManager.upperBigImageTab
         .filter(image => image.key == this.selectedIndex.index)
         .at(0)!
         .imageUrlContent;
@@ -36,13 +36,13 @@ export class ImageDaoService {
     const userIndex: number = 0;
 
     const imageUrlFromDb = 
-      this.imageManager.bigImageTabFromDb
+      this.imageManager.upperBigImageTabFromDb
         .filter(image => image.key == userIndex)
         .at(0)!
         .imageUrlContent;
 
     const imageUrl = 
-      this.imageManager.bigImageTab
+      this.imageManager.upperBigImageTab
         .filter(image => image.key == this.selectedIndex.index)
         .at(0)!
         .imageUrlContent;
@@ -51,21 +51,30 @@ export class ImageDaoService {
   }
 
   saveImage(){
-    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.imageUrl);
+    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.upperImageUrl);
     this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, this.inMemoryRepository.upperImageFolder);
   }
 
   saveImageToUser(){
     const userIndex: number = 0;
-    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.imageUrl);
+    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.upperImageUrl);
     this.imageDataUtils.saveImageData(userIndex, imageData, this.inMemoryRepository.upperImageFolder);
   }
 
-  getImageUrl(): string{
-    return this.imageManager.bigImageTab
-    .filter(element => element.key == this.selectedIndex.index)
-    .map(element => element.imageUrlContent)
-    .at(0)!
-    ;
+  getImageUrl(prefix: string): string{
+    if(prefix == 'upper'){
+      return this.imageManager.upperBigImageTab
+      .filter(element => element.key == this.selectedIndex.index)
+      .map(element => element.imageUrlContent)
+      .at(0)!
+      ;
+    }else{
+      return this.imageManager.belowBigImageTab
+      .filter(element => element.key == this.selectedIndex.index)
+      .map(element => element.imageUrlContent)
+      .at(0)!
+      ;
+    }
+
   }
 }

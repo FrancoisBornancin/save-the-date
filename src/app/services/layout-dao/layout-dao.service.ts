@@ -27,7 +27,7 @@ export class LayoutDaoService {
     this.selectedIndex.index = index
     this.layoutManager.updateCurrentLayoutDataTab()
     this.layoutManager.setLayoutElements(index);
-    this.imageManager.imageUrl = this.imageDao.getImageUrl();
+    this.imageManager.upperImageUrl = this.imageDao.getImageUrl('upper');
   }
 
   saveLayout(){

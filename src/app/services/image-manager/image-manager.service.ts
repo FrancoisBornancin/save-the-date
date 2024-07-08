@@ -12,13 +12,16 @@ import { InMemoryRepositoryService } from '../in-memory-repository/in-memory-rep
   providedIn: 'root'
 })
 export class ImageManagerService {
-  imageUrl!: string;
+  upperImageUrl!: string;
+  belowImageUrl!: string;
   startFinalPath: string = 'image-content-';
   endFinalPath: string = '.txt'
   finalPath!: string;
   hasBeenSaved!: string;
-  bigImageTab!: BigImageData[];
-  bigImageTabFromDb!: BigImageData[];
+  upperBigImageTab!: BigImageData[];
+  upperBigImageTabFromDb!: BigImageData[];
+  belowBigImageTab!: BigImageData[];
+  belowBigImageTabFromDb!: BigImageData[];
   readonly userIndex: number = 0;
 
   constructor(
@@ -32,12 +35,12 @@ export class ImageManagerService {
 
   private updateImageDataFromDb(index: number){
     const bigImageUrl: string = 
-      this.bigImageTab
+      this.upperBigImageTab
       .filter(element => element.key == index)
       .at(0)!
       .imageUrlContent!
 
-    this.bigImageTabFromDb
+    this.upperBigImageTabFromDb
         .filter(element => element.key == index)
         .at(0)!
         .imageUrlContent = bigImageUrl;
@@ -76,10 +79,10 @@ export class ImageManagerService {
   }
 
   setImageContent(){
-    this.bigImageTab
+    this.upperBigImageTab
     .filter(element => element.key == this.selectedIndex.index)
     .at(0)!
-    .imageUrlContent = this.imageUrl
+    .imageUrlContent = this.upperImageUrl
     ;
   }
 
@@ -97,16 +100,29 @@ export class ImageManagerService {
     );
   }
 
-  fillBigImageTab(index: number, folder: string): Observable<any> {
+  fillBigImageTab(index: number, prefix: string): Observable<any> {
+    let folder = '';
+    let bigImageTab: BigImageData[]; 
+    let bigImageTabFromDb: BigImageData[]; 
+
+    prefix == 'upper' ? 
+    folder = this.inMemoryRepository.upperImageFolder : folder = this.inMemoryRepository.belowImageFolder;
+
+    prefix == 'upper' ? 
+    bigImageTab = this.upperBigImageTab : bigImageTab = this.belowBigImageTab;
+
+    prefix == 'upper' ? 
+    bigImageTabFromDb = this.upperBigImageTabFromDb : bigImageTabFromDb = this.belowBigImageTabFromDb;
+
     return this.loadImageData(index, folder).pipe(
       switchMap(response => this.getBlobContent(response)),
       map(data => {
         const imageContent = "data:image/jpeg;base64," + atob(data.content);
-        const element = this.bigImageTab.find(el => el.key === index);
+        const element = bigImageTab.find(el => el.key === index);
         if (element) {
           element.imageUrlContent = imageContent;
         }
-        const elementFromDb = this.bigImageTabFromDb.find(el => el.key === index);
+        const elementFromDb = bigImageTabFromDb.find(el => el.key === index);
         if (elementFromDb) {
           elementFromDb.imageUrlContent = imageContent;
         }
