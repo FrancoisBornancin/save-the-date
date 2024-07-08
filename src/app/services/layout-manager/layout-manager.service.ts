@@ -210,9 +210,8 @@ setLayoutForUser(response: any){
 }
 
   setLayoutDataWithoutNotUiKeys(layoutData: LayoutData){
-    this.layoutData.upperImage.backgroundData = layoutData.upperImage.backgroundData
-    this.layoutData.upperImage.borderData = layoutData.upperImage.borderData
-    this.layoutData.upperImage.textData = layoutData.upperImage.textData;
+    this.layoutData.upperImage = layoutData.upperImage
+    this.layoutData.belowImage = layoutData.belowImage
   }
 
   updateLayoutDataTab(layoutDataTab: LayoutData[], index: number, layoutData: LayoutData): LayoutData[]{
