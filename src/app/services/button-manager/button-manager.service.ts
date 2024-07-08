@@ -49,18 +49,19 @@ export class ButtonManagerService {
   ) { }
 
   initUiButtons(){
-    const menuOptionCategory: string  = 'ui';
+    const upperUi: string  = 'upper ui';
+    const belowUi: string  = 'below ui';
 
     this.upperImageUiButtons = [
-      ...this.initButton('InsideBorder', this.upperImageInsideBackgroundDataRenderedContainer, menuOptionCategory),
-      ...this.initButton('Border', this.upperImageBorderDataRenderedContainer, menuOptionCategory),
-      ...this.initButton('Text', this.upperImageTextDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('Inside Bordure', this.upperImageInsideBackgroundDataRenderedContainer, upperUi),
+      ...this.initButton('Border', this.upperImageBorderDataRenderedContainer, upperUi),
+      ...this.initButton('Text', this.upperImageTextDataRenderedContainer, upperUi),
     ]
 
     this.belowImageUiButtons = [
-      ...this.initButton('InsideBorder', this.belowImageInsideBackgroundDataRenderedContainer, menuOptionCategory),
-      ...this.initButton('Border', this.belowImageBorderDataRenderedContainer, menuOptionCategory),
-      ...this.initButton('Text', this.belowImageTextDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('Inside Bordure', this.belowImageInsideBackgroundDataRenderedContainer, belowUi),
+      ...this.initButton('Border', this.belowImageBorderDataRenderedContainer, belowUi),
+      ...this.initButton('Text', this.belowImageTextDataRenderedContainer, belowUi),
     ]
   }
 
@@ -72,9 +73,15 @@ export class ButtonManagerService {
           if(!dataRenderedContainer.dataRendered) {
             dataRenderedContainer.dataRendered = true;
 
-            if(menuOptionCategory == 'ui'){
+            if(menuOptionCategory == 'upper ui'){
               const uiButton: MenuItem =
                 this.upperImageUiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uiButton.label = '<strong>' + buttonName + '</strong>'
+            } 
+
+            if(menuOptionCategory == 'below ui'){
+              const uiButton: MenuItem =
+                this.belowImageUiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uiButton.label = '<strong>' + buttonName + '</strong>'
             } 
 
@@ -88,9 +95,15 @@ export class ButtonManagerService {
           else{
             dataRenderedContainer.dataRendered = false;
 
-            if(menuOptionCategory == 'ui'){
+            if(menuOptionCategory == 'upper ui'){
               const uiButton: MenuItem =
                 this.upperImageUiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
+              uiButton.label = buttonName
+            } 
+
+            if(menuOptionCategory == 'below ui'){
+              const uiButton: MenuItem =
+                this.belowImageUiButtons.filter(element => element.label?.includes(buttonName)).at(0)!
               uiButton.label = buttonName
             } 
 
