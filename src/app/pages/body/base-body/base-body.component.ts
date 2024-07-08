@@ -126,7 +126,7 @@ export class BaseBodyComponent implements OnInit{
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
          + "padding-top: " + this.layoutManager.upperImageBackgroundPaddingTop + "%;"
-         + "height: 100%;"
+         + "height: 60%;"
   }
 
   wrapForkJoin(imagesIndexes: number[]): Observable<any[]>{
