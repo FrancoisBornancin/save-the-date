@@ -65,6 +65,15 @@ export class BaseBodyComponent implements OnInit{
     .subscribe({
       next: (response: any) => {
         this.imageManager.upperImageUrl = response;
+        this.imageManager.loadImageForUser(this.inMemoryRepository.belowImageFolder)
+        .subscribe({
+          next: (response: any) => {
+            this.imageManager.belowImageUrl = response;
+          },
+          error: e => {
+            console.log(e);
+          },
+        });
       },
       error: e => {
         console.log(e);

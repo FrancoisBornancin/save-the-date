@@ -206,13 +206,13 @@ export class ButtonManagerService {
     }
     else {
       return [
-        { separator: true },
         {
           label: 'print layout to User',
           command: () => {
             this.layoutDao.saveLayoutToUser();
           }
         },
+        { separator: true },
       ]
     }
   }
@@ -229,6 +229,7 @@ export class ButtonManagerService {
             this.imageDao.saveImageToUser(prefix);
           }
         },
+        { separator: true },
       ]
     }
   }
@@ -242,6 +243,7 @@ export class ButtonManagerService {
             this.imageDao.saveImage(prefix);
           }
         },
+        { separator: true },
       ]
     }else return []
   }
@@ -249,7 +251,6 @@ export class ButtonManagerService {
   initSaveLayout(): MenuItem[]{
     if(!this.layoutDao.isLayoutInDb()){
       return [
-        { separator: true },
         {
           label: 'save current Layout',
           command: () => {
