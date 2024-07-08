@@ -52,13 +52,13 @@ export class ImageDaoService {
 
   saveImage(){
     const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.imageUrl);
-    this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, this.inMemoryRepository.imageFolder);
+    this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, this.inMemoryRepository.upperImageFolder);
   }
 
   saveImageToUser(){
     const userIndex: number = 0;
     const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.imageUrl);
-    this.imageDataUtils.saveImageData(userIndex, imageData, this.inMemoryRepository.imageFolder);
+    this.imageDataUtils.saveImageData(userIndex, imageData, this.inMemoryRepository.upperImageFolder);
   }
 
   getImageUrl(): string{

@@ -10,7 +10,7 @@ export class AccomodationComponent {
   constructor(
     public inMemoryRepository: InMemoryRepositoryService,
   ){
-    this.inMemoryRepository.imageFolder = 'repository/accomodation-images-repository';
+    this.inMemoryRepository.upperImageFolder = 'repository/accomodation-images-repository';
     this.inMemoryRepository.layoutJsonName = 'json-layout/accomodation-component-layout.json';
   } 
 }

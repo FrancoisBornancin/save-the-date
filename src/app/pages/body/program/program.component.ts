@@ -10,7 +10,8 @@ export class ProgramComponent{
   constructor(
     public inMemoryRepository: InMemoryRepositoryService,
   ){
-    this.inMemoryRepository.imageFolder = 'repository/program-images-repository';
+    this.inMemoryRepository.upperImageFolder = 'repository/upper-program-images-repository';
+    this.inMemoryRepository.belowImageFolder = 'repository/below-program-images-repository';
     this.inMemoryRepository.layoutJsonName = 'json-layout/program-component-layout.json';
   } 
 

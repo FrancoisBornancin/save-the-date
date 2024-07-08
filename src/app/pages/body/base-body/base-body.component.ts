@@ -60,7 +60,7 @@ export class BaseBodyComponent implements OnInit{
         console.log(e);
       },
     });
-    this.imageManager.loadImageForUser(this.inMemoryRepository.imageFolder)
+    this.imageManager.loadImageForUser(this.inMemoryRepository.upperImageFolder)
     .subscribe({
       next: (response: any) => {
         this.imageManager.imageUrl = response;
@@ -131,7 +131,7 @@ export class BaseBodyComponent implements OnInit{
 
   wrapForkJoin(imagesIndexes: number[]): Observable<any[]>{
     return forkJoin(
-      this.threadPoolExecutor.initTasks(this.inMemoryRepository.imageFolder, imagesIndexes)
+      this.threadPoolExecutor.initTasks(this.inMemoryRepository.upperImageFolder, imagesIndexes)
     )
   }
 

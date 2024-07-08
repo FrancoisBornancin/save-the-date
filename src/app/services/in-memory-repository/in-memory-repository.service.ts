@@ -8,7 +8,8 @@ import { StringContainer } from '../../model/string-container';
   providedIn: 'root'
 })
 export class InMemoryRepositoryService {
-  imageFolder!: string
+  upperImageFolder!: string
+  belowImageFolder!: string
   layoutJsonName!: string
 
   constructor() { }
