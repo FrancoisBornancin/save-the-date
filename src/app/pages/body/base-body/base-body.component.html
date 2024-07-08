@@ -106,13 +106,6 @@
         </ng-container>
     </div>
 </div>
-<!-- <div [style]="getImageUrl()"> -->
-    <div  [style]="this.getBelowImageBackgroundStyle()">
-        <ng-container *ngIf="this.layoutManager.layoutData">
-            <div [innerHTML]="reworkBelowTextValue()"  [style]="textBelowStyle()"></div>
-        </ng-container>
-    </div>
-<!-- </div> -->
 <ng-container *ngIf="this.adminManager.isAdminModeActive">
     <ng-container *ngIf="!this.adminManager.isPreviewActive">
         <p-splitButton label="actions (image basse)" [model]="buttonManager.belowImageUiButtons"></p-splitButton>
@@ -174,3 +167,10 @@
         </ng-container>
     </ng-container>
 </ng-container>
+<!-- <div [style]="getImageUrl()"> -->
+    <div  [style]="this.getBelowImageBackgroundStyle()">
+        <ng-container *ngIf="this.layoutManager.layoutData">
+            <div [innerHTML]="reworkBelowTextValue()"  [style]="textBelowStyle()"></div>
+        </ng-container>
+    </div>
+<!-- </div> -->
