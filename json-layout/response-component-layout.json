@@ -1,7 +1,7 @@
 [
     {
         "key":0,
-        "insideImage": {
+        "upperImage": {
             "backgroundData":{
                 "paddingTop":0,
                 "height":60,
@@ -45,7 +45,7 @@
     },
     {
         "key":1,
-        "insideImage": {
+        "upperImage": {
             "backgroundData":{
                 "paddingTop":0,
                 "height":60,
@@ -89,7 +89,7 @@
     },
     {
         "key":2,
-        "insideImage": {
+        "upperImage": {
             "backgroundData":{
                 "paddingTop":0,
                 "height":60,
@@ -133,7 +133,7 @@
     },
     {
         "key":3,
-        "insideImage": {
+        "upperImage": {
             "backgroundData":{
                 "paddingTop":0,
                 "height":60,
@@ -177,7 +177,7 @@
     },
     {
         "key":4,
-        "insideImage": {
+        "upperImage": {
             "backgroundData":{
                 "paddingTop":0,
                 "height":60,
@@ -221,7 +221,7 @@
     },
     {
         "key":5,
-        "insideImage": {
+        "upperImage": {
             "backgroundData":{
                 "paddingTop":0,
                 "height":60,

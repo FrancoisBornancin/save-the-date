@@ -9,15 +9,27 @@ import { LayoutManagerService } from '../layout-manager/layout-manager.service';
   providedIn: 'root'
 })
 export class ButtonManagerService {
-  insideBackgroundDataRenderedContainer: DataRenderedContainer = {
+  upperImageInsideBackgroundDataRenderedContainer: DataRenderedContainer = {
     dataRendered: false
   }
 
-  borderDataRenderedContainer: DataRenderedContainer = {
+  upperImageBorderDataRenderedContainer: DataRenderedContainer = {
     dataRendered: false
   }
 
-  textDataRenderedContainer: DataRenderedContainer = {
+  upperImageTextDataRenderedContainer: DataRenderedContainer = {
+    dataRendered: false
+  }
+
+  belowImageInsideBackgroundDataRenderedContainer: DataRenderedContainer = {
+    dataRendered: false
+  }
+
+  belowImageBorderDataRenderedContainer: DataRenderedContainer = {
+    dataRendered: false
+  }
+
+  belowImageTextDataRenderedContainer: DataRenderedContainer = {
     dataRendered: false
   }
 
@@ -39,9 +51,9 @@ export class ButtonManagerService {
     const menuOptionCategory: string  = 'ui';
 
     this.uiButtons = [
-      ...this.initButton('InsideBackground', this.insideBackgroundDataRenderedContainer, menuOptionCategory),
-      ...this.initButton('Border', this.borderDataRenderedContainer, menuOptionCategory),
-      ...this.initButton('Text', this.textDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('haute image InsideBorder', this.upperImageInsideBackgroundDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('haute image Border', this.upperImageBorderDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('haute image Text', this.upperImageTextDataRenderedContainer, menuOptionCategory),
     ]
   }
 

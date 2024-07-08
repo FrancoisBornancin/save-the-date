@@ -125,7 +125,7 @@ export class BaseBodyComponent implements OnInit{
     return "background-image: url(" + this.imageManager.imageUrl + ");"
          + "background-size: contain;"
          + "background-repeat: no-repeat;"
-         + "padding-top: " + this.layoutManager.insideImageBackgroundPaddingTop + "%;"
+         + "padding-top: " + this.layoutManager.upperImageBackgroundPaddingTop + "%;"
          + "height: 100%;"
   }
 
@@ -136,9 +136,9 @@ export class BaseBodyComponent implements OnInit{
   }
 
   textStyle(){
-    return 'color: ' + this.layoutManager.insideImageTextColor + ";"
-          + 'font-size: ' + this.layoutManager.insideImageTextSize + "px;"
-          + 'font-family: "Playwrite ' + this.layoutManager.insideImageTextPolice + '", cursive;'
+    return 'color: ' + this.layoutManager.upperImageTextColor + ";"
+          + 'font-size: ' + this.layoutManager.upperImageTextSize + "px;"
+          + 'font-family: "Playwrite ' + this.layoutManager.upperImageTextPolice + '", cursive;'
   }
 
   textBelowStyle(){
@@ -150,13 +150,13 @@ export class BaseBodyComponent implements OnInit{
   getImageBackgroundStyle(): string{
       const backgroundColor =
        "background-color: " + this.colorConvertor.addOpacity(
-        this.colorConvertor.convertToRgba(this.layoutManager.insideImageBackgroundColor),
-        (this.layoutManager.insideImageBackgroundOpacity/100)
+        this.colorConvertor.convertToRgba(this.layoutManager.upperImageBackgroundColor),
+        (this.layoutManager.upperImageBackgroundOpacity/100)
        ) + ";"
-    return "height: " + this.layoutManager.insideImageBackgroundHeight + "%;"
-         + "width: " + this.layoutManager.insideImageBackgroundWidth + "%;"
-         + "border-radius: " + this.layoutManager.insideImageBorderRadius + "%;"
-         + "border: " + this.layoutManager.insideImageBorderSize + "px solid " + this.layoutManager.insideImageBorderColor + ";"
+    return "height: " + this.layoutManager.upperImageBackgroundHeight + "%;"
+         + "width: " + this.layoutManager.upperImageBackgroundWidth + "%;"
+         + "border-radius: " + this.layoutManager.upperImageBorderRadius + "%;"
+         + "border: " + this.layoutManager.upperImageBorderSize + "px solid " + this.layoutManager.upperImageBorderColor + ";"
          + "margin: auto;"
          + backgroundColor
   }
@@ -176,7 +176,7 @@ export class BaseBodyComponent implements OnInit{
 }
 
   reworkTextValue(): SafeHtml{
-    const textReworked = this.layoutManager.insideImageTextValue.split('class="ql-align-center"')
+    const textReworked = this.layoutManager.upperImageTextValue.split('class="ql-align-center"')
                         .join('style="text-align: center;"');
 
     return this.domSanitizer.bypassSecurityTrustHtml(

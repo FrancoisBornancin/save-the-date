@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit{
   }
 
   reworkTextValue(): SafeHtml{
-    const textReworked = this.layoutManager.insideImageTextValue.split('class="ql-align-center"')
+    const textReworked = this.layoutManager.upperImageTextValue.split('class="ql-align-center"')
                         .join('style="text-align: center;"');
 
     return this.domSanitizer.bypassSecurityTrustHtml(
@@ -69,7 +69,7 @@ export class HeaderComponent implements OnInit{
 
   getButtonStyle(){
     return {
-        'color': this.layoutManager.insideImageTextColor, 
+        'color': this.layoutManager.upperImageTextColor, 
         'font-size': 2 + 'rem',
     }
   }
@@ -77,8 +77,8 @@ export class HeaderComponent implements OnInit{
   globalHeaderStyle(){
     const backgroundColorValue = 
     this.colorConvertor.addOpacity(
-      this.colorConvertor.convertToRgba(this.layoutManager.insideImageTextColor),
-      (this.layoutManager.insideImageBackgroundOpacity/100)
+      this.colorConvertor.convertToRgba(this.layoutManager.upperImageTextColor),
+      (this.layoutManager.upperImageBackgroundOpacity/100)
      )
 
     return {

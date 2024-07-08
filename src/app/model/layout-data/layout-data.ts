@@ -4,7 +4,7 @@ import { TextData } from "./text-data";
 
 export interface LayoutData {
     key: number;
-    insideImage: {
+    upperImage: {
         backgroundData: BackgroundData,
         textData: TextData,  
         borderData: BorderData,
