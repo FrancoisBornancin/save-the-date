@@ -32,46 +32,46 @@
                 <p><strong>Enjoy chaton!</strong></p>
             </div>
         </ng-container>
-            <ng-container *ngIf="buttonManager.upperImageBorderDataRenderedContainer.dataRendered">
-                <strong>Manage Border:</strong>
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <strong>Angle</strong>
-                        <p-knob [(ngModel)]="this.layoutManager.upperImageBorderRadius" [min]="0" [max]="100"></p-knob>
-                    </div>
-                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <strong>Largeur</strong>
-                        <p-knob [(ngModel)]="this.layoutManager.upperImageBorderSize" [min]="0" [max]="50"></p-knob>
-                    </div>
-                    <p-colorPicker [(ngModel)]="this.layoutManager.upperImageBorderColor"></p-colorPicker>
+        <ng-container *ngIf="buttonManager.upperImageBorderDataRenderedContainer.dataRendered">
+            <strong>Manage Border: (image haute)</strong>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Angle</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.upperImageBorderRadius" [min]="0" [max]="100"></p-knob>
                 </div>
-            </ng-container>
-            <ng-container *ngIf="buttonManager.upperImageInsideBackgroundDataRenderedContainer.dataRendered">
-                <strong>Manage InsideBackround:</strong>
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <strong>Opacity</strong>
-                        <p-knob [(ngModel)]="this.layoutManager.upperImageBackgroundOpacity" [min]="0" [max]="100"></p-knob>
-                    </div>
-                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <strong>Width</strong>
-                        <p-knob [(ngModel)]="this.layoutManager.upperImageBackgroundWidth" [min]="0" [max]="100"></p-knob>
-                    </div>
-                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <strong>Height</strong>
-                        <p-knob [(ngModel)]="this.layoutManager.upperImageBackgroundHeight" [min]="0" [max]="100"></p-knob>
-                    </div>
-                    <p-colorPicker [(ngModel)]="this.layoutManager.upperImageBackgroundColor"></p-colorPicker>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Largeur</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.upperImageBorderSize" [min]="0" [max]="50"></p-knob>
                 </div>
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <strong>Top/Down</strong>
-                        <p-knob [(ngModel)]="this.layoutManager.upperImageBackgroundPaddingTop" [min]="0"></p-knob>
-                    </div>
+                <p-colorPicker [(ngModel)]="this.layoutManager.upperImageBorderColor"></p-colorPicker>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="buttonManager.upperImageInsideBackgroundDataRenderedContainer.dataRendered">
+            <strong>Manage InsideBorder: (image basse)</strong>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Opacity</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.upperImageBackgroundOpacity" [min]="0" [max]="100"></p-knob>
                 </div>
-            </ng-container>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Width</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.upperImageBackgroundWidth" [min]="0" [max]="100"></p-knob>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Height</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.upperImageBackgroundHeight" [min]="0" [max]="100"></p-knob>
+                </div>
+                <p-colorPicker [(ngModel)]="this.layoutManager.upperImageBackgroundColor"></p-colorPicker>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Top/Down</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.upperImageBackgroundPaddingTop" [min]="0"></p-knob>
+                </div>
+            </div>
+        </ng-container>
         <ng-container *ngIf="buttonManager.upperImageTextDataRenderedContainer.dataRendered">
-            <strong>Manage TextData:</strong>
+            <strong>Manage TextData: (image haute)</strong>
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                     <strong>Police</strong>
@@ -83,7 +83,7 @@
                     <p-knob [(ngModel)]="layoutManager.upperImageTextSize" [min]="12" [max]="48">textSize</p-knob>
                 </div>
             </div>
-            <input type="text" pInputText [(ngModel)]="layoutManager.belowImageTextValue" />
+            <input type="text" pInputText [(ngModel)]="layoutManager.upperImageTextValue" />
             <div class="card">
                 <p-editor [(ngModel)]="layoutManager.upperImageTextValue" />
             </div>
@@ -113,3 +113,64 @@
         </ng-container>
     </div>
 <!-- </div> -->
+<ng-container *ngIf="this.adminManager.isAdminModeActive">
+    <ng-container *ngIf="!this.adminManager.isPreviewActive">
+        <p-splitButton label="actions (image basse)" [model]="buttonManager.belowImageUiButtons"></p-splitButton>
+        <ng-container *ngIf="buttonManager.belowImageBorderDataRenderedContainer.dataRendered">
+            <strong>Manage Border: (image basse)</strong>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Angle</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.belowImageBorderRadius" [min]="0" [max]="100"></p-knob>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Largeur</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.belowImageBorderSize" [min]="0" [max]="50"></p-knob>
+                </div>
+                <p-colorPicker [(ngModel)]="this.layoutManager.belowImageBorderColor"></p-colorPicker>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="buttonManager.belowImageInsideBackgroundDataRenderedContainer.dataRendered">
+            <strong>Manage InsideBorder: (image basse)</strong>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Opacity</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.belowImageBackgroundOpacity" [min]="0" [max]="100"></p-knob>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Width</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.belowImageBackgroundWidth" [min]="0" [max]="100"></p-knob>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Height</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.belowImageBackgroundHeight" [min]="0" [max]="100"></p-knob>
+                </div>
+                <p-colorPicker [(ngModel)]="this.layoutManager.belowImageBackgroundColor"></p-colorPicker>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Top/Down</strong>
+                    <p-knob [(ngModel)]="this.layoutManager.belowImageBackgroundPaddingTop" [min]="0"></p-knob>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="buttonManager.belowImageTextDataRenderedContainer.dataRendered">
+            <strong>Manage TextData: (image basse)</strong>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Police</strong>
+                    <p-dropdown [options]="this.policeTab" [(ngModel)]="this.layoutManager.belowImageTextPolice">Police</p-dropdown>
+                </div>
+                <p-colorPicker [(ngModel)]="layoutManager.belowImageTextColor"></p-colorPicker>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong>Taille</strong>
+                    <p-knob [(ngModel)]="layoutManager.belowImageTextSize" [min]="12" [max]="48">textSize</p-knob>
+                </div>
+            </div>
+            <input type="text" pInputText [(ngModel)]="layoutManager.belowImageTextValue" />
+            <div class="card">
+                <p-editor [(ngModel)]="layoutManager.belowImageTextValue" />
+            </div>
+        </ng-container>
+    </ng-container>
+</ng-container>

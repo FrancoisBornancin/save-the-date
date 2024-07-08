@@ -38,6 +38,7 @@ export class ButtonManagerService {
   }
 
   upperImageUiButtons!: MenuItem[];
+  belowImageUiButtons!: MenuItem[];
   saveUploadButtons!: MenuItem[];
   loadButtons!: MenuItem[];
 
@@ -54,6 +55,12 @@ export class ButtonManagerService {
       ...this.initButton('InsideBorder', this.upperImageInsideBackgroundDataRenderedContainer, menuOptionCategory),
       ...this.initButton('Border', this.upperImageBorderDataRenderedContainer, menuOptionCategory),
       ...this.initButton('Text', this.upperImageTextDataRenderedContainer, menuOptionCategory),
+    ]
+
+    this.belowImageUiButtons = [
+      ...this.initButton('InsideBorder', this.belowImageInsideBackgroundDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('Border', this.belowImageBorderDataRenderedContainer, menuOptionCategory),
+      ...this.initButton('Text', this.belowImageTextDataRenderedContainer, menuOptionCategory),
     ]
   }
 
