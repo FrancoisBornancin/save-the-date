@@ -84,15 +84,38 @@ export class ImageDaoService {
     return (imageUrl == imageUrlFromDb) ? true : false;
   }
 
-  saveImage(){
-    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.upperImageUrl);
-    this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, this.inMemoryRepository.upperImageFolder);
+  saveImage(prefix: string){
+    let folder = '';
+    let imageUrl = '';
+
+    prefix == 'upper' ? 
+    folder = this.inMemoryRepository.upperImageFolder 
+    : folder = this.inMemoryRepository.belowImageFolder   
+
+    prefix == 'upper' ? 
+    imageUrl = this.imageManager.upperImageUrl 
+    : imageUrl = this.imageManager.belowImageUrl  
+
+    const imageData: CustomImageData = this.imageDataUtils.getImageData(imageUrl);
+    this.imageDataUtils.saveImageData(this.selectedIndex.index, imageData, folder);
   }
 
-  saveImageToUser(){
+  saveImageToUser(prefix: string){
     const userIndex: number = 0;
-    const imageData: CustomImageData = this.imageDataUtils.getImageData(this.imageManager.upperImageUrl);
-    this.imageDataUtils.saveImageData(userIndex, imageData, this.inMemoryRepository.upperImageFolder);
+
+    let folder = '';
+    let imageUrl = '';
+
+    prefix == 'upper' ? 
+    folder = this.inMemoryRepository.upperImageFolder 
+    : folder = this.inMemoryRepository.belowImageFolder  
+    
+    prefix == 'upper' ? 
+    imageUrl = this.imageManager.upperImageUrl 
+    : imageUrl = this.imageManager.belowImageUrl  
+
+    const imageData: CustomImageData = this.imageDataUtils.getImageData(imageUrl);
+    this.imageDataUtils.saveImageData(userIndex, imageData, folder);
   }
 
   getImageUrl(prefix: string): string{

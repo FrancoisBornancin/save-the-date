@@ -10,7 +10,8 @@ export class HomeComponent {
   constructor(
     public inMemoryRepository: InMemoryRepositoryService,
   ){
-    this.inMemoryRepository.upperImageFolder = 'repository/home-images-repository';
+    this.inMemoryRepository.belowImageFolder = 'repository/below-home-images-repository';
+    this.inMemoryRepository.upperImageFolder = 'repository/upper-home-images-repository';
     this.inMemoryRepository.layoutJsonName = 'json-layout/home-component-layout.json';
   } 
 }

@@ -226,7 +226,7 @@ export class ButtonManagerService {
         {
           label: 'print image to User',
           command: () => {
-            // this.imageDao.saveImageToUser(prefix);
+            this.imageDao.saveImageToUser(prefix);
           }
         },
       ]
@@ -239,7 +239,7 @@ export class ButtonManagerService {
         {
           label: 'save Image',
           command: () => {
-            // this.imageDao.saveImage(prefix);
+            this.imageDao.saveImage(prefix);
           }
         },
       ]

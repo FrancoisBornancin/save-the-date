@@ -24,7 +24,8 @@ export class BaseBodyComponent implements OnInit{
 
   policeTab!: string[];
 
-  @ViewChild('fileUploader') fileUpload!: FileUpload;
+  @ViewChild('upperFileUploader') upperFileUploader!: FileUpload;
+  @ViewChild('belowFileUploader') belowFileUploader!: FileUpload;
 
   constructor(
     public inMemoryRepository: InMemoryRepositoryService,
@@ -230,7 +231,7 @@ export class BaseBodyComponent implements OnInit{
     reader.onload = (e: any) => {
       this.imageManager.upperImageUrl = e.target.result;
       this.imageManager.setImageContent('upper');
-      this.fileUpload.clear();
+      this.upperFileUploader.clear();
     };
 
     reader.readAsDataURL(file);
@@ -248,7 +249,7 @@ export class BaseBodyComponent implements OnInit{
     reader.onload = (e: any) => {
       this.imageManager.belowImageUrl = e.target.result;
       this.imageManager.setImageContent('below');
-      this.fileUpload.clear();
+      this.belowFileUploader.clear();
     };
 
     reader.readAsDataURL(file);

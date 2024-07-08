@@ -17,7 +17,8 @@ export class TransportComponent {
   constructor(
     public inMemoryRepository: InMemoryRepositoryService,
   ){
-    this.inMemoryRepository.upperImageFolder = 'repository/transport-images-repository';
+    this.inMemoryRepository.belowImageFolder = 'repository/below-transport-images-repository';
+    this.inMemoryRepository.upperImageFolder = 'repository/upper-transport-images-repository';
     this.inMemoryRepository.layoutJsonName = 'json-layout/transport-component-layout.json';
   } 
 }
